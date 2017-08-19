@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>de.chrlembeck.codegen</groupId>
+        <artifactId>codegen-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../codegen-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>codegen-example-project</artifactId>
+    <name>Codegen Beispielprojekt</name>
+    <description>Beispielprojekt zur Verwendung des Code-Generators</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.chrlembeck.codegen</groupId>
+                <artifactId>codegen-maven-plugin</artifactId>
+                <version>${codegen.version}</version>
+
+                <executions>
+                    <execution>
+                        <configuration>
+                            <templates>
+                                <template>
+                                    <templateFile>src/main/resources/codegen/template.codegen</templateFile>
+                                    <templateName>root</templateName>
+                                    <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
+                                    <modelCreatorMethod>getInstance</modelCreatorMethod>
+                                </template>
+                                <template>
+                                    <templateFile>src/main/resources/codegen/template2.codegen</templateFile>
+                                    <templateName>root2</templateName>
+                                    <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
+                                    <modelCreatorMethod>getInstance</modelCreatorMethod>
+                                    <outputPath>target/generated-sources/codegenOut2</outputPath>
+                                    <outputEncoding>UTF-8</outputEncoding>
+                                </template>
+                            </templates>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>de.chrlembeck.codegen</groupId>
+                        <artifactId>codegen-example-model</artifactId>
+                        <version>${codegen.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.chrlembeck.codegen</groupId>
+            <artifactId>codegen-generator</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

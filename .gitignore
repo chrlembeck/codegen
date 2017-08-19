@@ -1,3 +1,14 @@
 codegen-parent/.settings/org.eclipse.m2e.core.prefs
 *.project
 *.classpath
+org.eclipse.core.resources.prefs
+org.eclipse.jdt.core.prefs
+org.eclipse.m2e.core.prefs
+antlr-gui/target/
+codegen-example-model/target/
+codegen-example-project/target/
+codegen-generator/target/
+codegen-gui/codegen.log
+codegen-gui/target/
+codegen-maven-plugin/target/
+codegen-maven-plugin/.settings/org.jboss.ide.eclipse.as.core.prefs
