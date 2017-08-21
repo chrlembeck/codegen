@@ -1,4 +1,4 @@
-package de.chrlembeck.antlr.editor;
+package de.chrlembeck.codegen.generator;
 
 import java.io.Serializable;
 

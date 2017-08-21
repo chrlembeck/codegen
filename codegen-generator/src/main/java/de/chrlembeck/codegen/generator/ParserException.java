@@ -2,8 +2,6 @@ package de.chrlembeck.codegen.generator;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import de.chrlembeck.antlr.editor.Position;
-
 /**
  * Exception, die ein Problem beim Parsen einer Template-Datei beschreibt.
  * 

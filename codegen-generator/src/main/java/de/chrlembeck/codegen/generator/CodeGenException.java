@@ -1,7 +1,5 @@
 package de.chrlembeck.codegen.generator;
 
-import de.chrlembeck.antlr.editor.Position;
-
 /**
  * Oberklasse für alle im Laufe der Generierung auftretenden Exceptions. Dies können sowohl durch den Lexer erzeugte
  * Exceptions, so wie Exceptions während des Parsens oder der eigentlichen Code-Generierung sein.

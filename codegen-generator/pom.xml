@@ -51,10 +51,12 @@
 	</build>
 
 	<dependencies>
+    <!--
 	    <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
 	        <artifactId>antlr-gui</artifactId>
 	    </dependency>
+        -->
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>

@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import de.chrlembeck.antlr.editor.Position;
+import de.chrlembeck.codegen.generator.Position;
 
 /**
  * Abstrakte Oberklasse für alle Elemente, aus denen eine Template-Datei nach dem Parsen aufgebaut ist.
