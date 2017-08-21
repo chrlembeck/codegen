@@ -27,13 +27,13 @@
                                     <templateFile>src/main/resources/codegen/template.codegen</templateFile>
                                     <templateName>root</templateName>
                                     <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
-                                    <modelCreatorMethod>getInstance</modelCreatorMethod>
+                                    <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
                                 </template>
                                 <template>
                                     <templateFile>src/main/resources/codegen/template2.codegen</templateFile>
                                     <templateName>root2</templateName>
                                     <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
-                                    <modelCreatorMethod>getInstance</modelCreatorMethod>
+                                    <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
                                     <outputPath>target/generated-sources/codegenOut2</outputPath>
                                     <outputEncoding>UTF-8</outputEncoding>
                                 </template>
