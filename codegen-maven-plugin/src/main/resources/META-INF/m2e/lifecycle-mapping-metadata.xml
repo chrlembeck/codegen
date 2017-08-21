@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Autor: Christoph Lembeck -->
+<!-- Wird benötigt, um das Plugin für den Eclips m2e-Adapter kompatibel zu -->
+<!-- machen. -->
+<!-- Siehe auch: http://www.eclipse.org/m2e/documentation/m2e-making-maven-plugins-compat.html -->
+<lifecycleMappingMetadata>
+    <pluginExecutions>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                    <runOnConfiguration>true</runOnConfiguration>
+                </execute>
+            </action>
+        </pluginExecution>
+    </pluginExecutions>
+</lifecycleMappingMetadata>
