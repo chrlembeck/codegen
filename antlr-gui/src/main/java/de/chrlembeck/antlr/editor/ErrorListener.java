@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.Token;
  * Dokumentes informieren zu lassen.
  * 
  * @author Christoph Lembeck
- * @see AntlrSyntaxDocument#addErrorListener(ErrorListener)
+ * @see AntlrDocument#addErrorListener(ErrorListener)
  */
 public interface ErrorListener {
 

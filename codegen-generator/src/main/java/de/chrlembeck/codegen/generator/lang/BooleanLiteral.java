@@ -8,7 +8,7 @@ import lang.CodeGenParser.LiteralContext;
  * 
  * @author Christoph Lembeck
  */
-public final class BooleanLiteral extends AbstractTemplateMember<LiteralContext> implements Literal {
+public final class BooleanLiteral extends AbstractExpression<LiteralContext> implements Literal {
 
     /**
      * Speichert den enthaltenen Boolean Wert TRUE oder FALSE.
@@ -50,13 +50,5 @@ public final class BooleanLiteral extends AbstractTemplateMember<LiteralContext>
     @Override
     public ObjectWithType<Boolean> evaluate(final Object model, final Environment environment) {
         return new ObjectWithType<Boolean>(value, boolean.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public CallSource findCallSource(final Object model, final Environment environment) {
-        return new ObjectCallSource(evaluate(model, environment));
     }
 }
