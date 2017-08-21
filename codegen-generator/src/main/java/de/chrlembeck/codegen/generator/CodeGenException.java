@@ -39,7 +39,7 @@ public abstract class CodeGenException extends RuntimeException {
     }
 
     /**
-     * Gibt die Position innerhalb der Tamplate-Datei zurück, an der der Fehler aufgetreten ist.
+     * Gibt die Position innerhalb der Template-Datei zurück, an der der Fehler aufgetreten ist.
      * 
      * @return Position in der Template-Datei, an der der Fehler aufgetreten ist.
      */
