@@ -63,7 +63,7 @@ public class Position implements Comparable<Position>, Serializable {
     /**
      * Gibt die Position in Kurzform &lt;{@code line:column}&gt; aus.
      * 
-     * @return
+     * @return Position in Kurzform &lt;{@code line:column}&gt;.
      */
     public String toShortString() {
         return line + ":" + column;

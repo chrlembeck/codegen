@@ -7,7 +7,6 @@ import java.awt.Toolkit;
 import javax.swing.JEditorPane;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
-import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
 import org.antlr.v4.runtime.Lexer;
@@ -71,8 +70,8 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
      * {@inheritDoc}
      */
     @Override
-    public View create(final Element elem) {
-        return new AntlrSyntaxView(elem);
+    public AntlrView create(final Element elem) {
+        return new AntlrView(elem);
     }
 
     /**
@@ -84,11 +83,11 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
     }
 
     /**
-     * Erzeugt ein neues {@link AntlrSyntaxDocument}, welches in dem Editor verwendet werden soll.
+     * Erzeugt ein neues {@link AntlrDocument}, welches in dem Editor verwendet werden soll.
      */
     @Override
-    public AntlrSyntaxDocument createDefaultDocument() {
-        return new AntlrSyntaxDocument(lexer, parserClass, startRuleName);
+    public AntlrDocument createDefaultDocument() {
+        return new AntlrDocument(lexer, parserClass, startRuleName);
     }
 
     /**

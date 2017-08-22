@@ -53,6 +53,33 @@
                     </dependency>
                 </dependencies>
             </plugin>
+        
+                    <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <listener>false</listener>
+                            <visitor>false</visitor>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.antlr</groupId>
+                        <artifactId>antlr4-maven-plugin</artifactId>
+                        <version>${antlr.maven.plugin.version}</version>
+                        <type>maven-plugin</type>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
@@ -60,6 +87,11 @@
         <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
             <artifactId>codegen-generator</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.chrlembeck.codegen</groupId>
+            <artifactId>antlr-gui</artifactId>
             <scope>compile</scope>
         </dependency>
 

@@ -32,6 +32,8 @@ public interface Expression {
 
     /**
      * Sucht das Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
+     * 
+     * @return Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
      */
     public CallSource findCallSource(Object model, Environment environment);
 

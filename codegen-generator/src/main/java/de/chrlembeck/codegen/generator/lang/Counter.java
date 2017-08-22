@@ -42,6 +42,8 @@ public class Counter {
 
     /**
      * Gibt den Index des Schleifendurchlaufs beginnend mit 0 zurück.
+     * 
+     * @return Index des aktuellen Schleifendurchlaufs.
      */
     public long getIndex() {
         return index;
