@@ -1,7 +1,7 @@
 # antlr-gui
 
-'''Java
+```Java
 public void main(String... args) {
 
 }
-'''
+```
