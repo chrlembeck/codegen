@@ -102,7 +102,8 @@ public class AntlrGuiEditorExample extends JFrame {
         styles.putStyle(XMLParser.EntityRef, new TokenStyle(Color.decode("0x800000"), Font.BOLD));
         styles.putStyle(XMLParser.STRING, new TokenStyle(Color.decode("0x800080"), Font.PLAIN));
     }
-}```
+}
+```
 
 Der so erzeugte Editor sieht dann wie folgt aus:
 
