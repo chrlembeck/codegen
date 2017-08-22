@@ -31,4 +31,5 @@ public void main(String... args) {
 ```
 
 Der so erzeugte Editor sieht dann wie folgt aus:
+
 ![Editor](docs/images/editor.png)
