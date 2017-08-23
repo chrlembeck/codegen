@@ -68,8 +68,7 @@ public class UserCodeOrStatementVisitor
      */
     @Override
     public UserCodeOrStatements<?> visitCommentStatement(final CommentStatementContext ctx) {
-        final String comment = ctx.BlockComment().getText();
-        return new CommentStatement(ctx, comment);
+        return new CommentStatement(ctx);
     }
 
     /**
