@@ -1,0 +1,7 @@
+«TEMPLATE root FOR java.util.List»
+«OUTPUT "index.txt"»
+«FOREACH item FROM this»
+- «item»
+«ENDFOREACH»
+«ENDOUTPUT»
+«ENDTEMPLATE»

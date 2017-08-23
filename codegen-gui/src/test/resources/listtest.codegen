@@ -1,0 +1,22 @@
+«IMPORT a AS import.codegen»
+
+«TEMPLATE root FOR java.util.List»
+    «EXEC übersicht FOR this»
+    «EXEC entity FOREACH this»
+«ENDTEMPLATE»
+
+«TEMPLATE übersicht FOR java.util.List»
+    «OUTPUT "übersicht.txt"»
+        «FOREACH item FROM this»«item»«'\n'»«ENDFOREACH»
+        «EXEC a.imported FOREACH this»    
+    «ENDOUTPUT»
+«ENDTEMPLATE»
+
+«TEMPLATE entity FOR java.lang.String»
+«OUTPUT this + ".java"»
+public class «this» {
+
+}
+«1+2»
+«ENDOUTPUT»    
+«ENDTEMPLATE»

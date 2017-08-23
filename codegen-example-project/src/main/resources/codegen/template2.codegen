@@ -1,0 +1,8 @@
+«TEMPLATE root2 FOR java.util.List»
+«FOREACH item FROM this»
+«OUTPUT item +".java"»
+public class «item» {
+}
+«ENDOUTPUT»
+«ENDFOREACH»
+«ENDTEMPLATE»

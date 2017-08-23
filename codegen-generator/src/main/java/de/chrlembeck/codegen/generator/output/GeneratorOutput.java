@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Definiert einen Ausgabekanal für einen Generator-Lauf. Die Ausgabe des Generators erfolgt dabei in verschiedene,
- * durch die Templates vorgegebene Channels, für die der GeneratorOutput jeweils einen eigenen Writer zur Verfügung
- * stellen muss. Im Falle einer Ausgabe in Dateien sollte so ein Channel mit dem Namen "org/test/MyClass.java" einen
- * Writer bekommen, der die Ausgabe des Generator genau in die Datei MyClass.java im Verzeichnis org/test ablegt.
+ * Verwaltet die Ausgabekanäle für einen Generator-Lauf. Die Ausgabe des Generators erfolgt dabei in verschiedene, durch
+ * die Templates vorgegebene Channels, für die der GeneratorOutput jeweils einen eigenen Writer zur Verfügung stellen
+ * muss. Im Falle einer Ausgabe in Dateien sollte so ein Channel mit dem Namen "org/test/MyClass.java" einen Writer
+ * bekommen, der die Ausgabe des Generator genau in die Datei MyClass.java im Verzeichnis org/test ablegt.
  * 
  * @author Christoph Lembeck
  */

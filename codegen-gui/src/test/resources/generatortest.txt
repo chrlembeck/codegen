@@ -1,0 +1,37 @@
+«TEMPLATE root FOR de.chrlembeck.codegen.model.Model»
+  «EXEC entity FOREACH this.getSchemas()»
+«ENDTEMPLATE»
+
+
+«COMMENT»Dies ist ein Kommentar«ENDCOMMENT»
+«TEMPLATE entity FOR de.chrlembeck.codegen.model.Schema»
+  «EXEC entity FOREACH this.getEntities()»
+
+  «OUTPUT "entities.txt"»
+    «FOREACH e FROM this.getEntities() COUNTER c SEPARATOR ", "»
+    «c.getIndex()+1» «e.getJavaName()»«ENDFOREACH»
+  «ENDOUTPUT»
+«ENDTEMPLATE»
+
+«TEMPLATE entity FOR de.chrlembeck.codegen.model.Entity»
+  «OUTPUT "/out/" + this.getJavaName() + ".java"»
+    package «this.getSchema().getPackageName()»;
+    // «java.time.LocalDateTime.now()»
+    // «java.lang.System.out»
+    public class «this.getJavaName()» {
+    	«EXEC attribute FOREACH this.getAttributes()»
+    	«EXEC getter FOREACH this.getAttributes()»
+    }
+  «ENDOUTPUT»
+«ENDTEMPLATE»
+
+«TEMPLATE attribute FOR de.chrlembeck.codegen.model.Attribute»
+    «IF this.isPrimaryKeyColumn()»// PRIMARY KEY«ENDIF»
+    private «this.getJavaType()» «this.getJavaName()»;
+«ENDTEMPLATE»
+
+«TEMPLATE getter FOR de.chrlembeck.codegen.model.Attribute»
+	public «this.getJavaType()» get«de.chrlembeck.codegen.generator.Util.toFirstUpper(this.getJavaName())»() {
+	    return «this.getJavaName()»;
+	}
+«ENDTEMPLATE»

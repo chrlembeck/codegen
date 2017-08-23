@@ -56,11 +56,10 @@ public class Template {
     private String outputEncoding = "UTF-8";
 
     /**
-     * Legt fest, dass die erzeugten Dateien in als Sourcen für die Tests verwendet werden sollen. true = Sourcen weren
-     * für die Tests benötigt, false = Sourcen werden zur Laufzeit benötigt.
+     * Legt fest, zu welchem Scope die erzeugten Dateien im Build-Prozess hinzugefügt werden sollen.
      */
-    @Parameter(property = "generate.generateTestSources", defaultValue = "false")
-    private boolean generateTestSources = false;
+    @Parameter(property = "generate.artifactScope", defaultValue = "false")
+    private ArtifactScope artifactScope = ArtifactScope.COMPILE;
 
     /**
      * Gitb die Klasse zurück, mit deren Hilfe das Modell erzeugt werden kann.
@@ -89,8 +88,8 @@ public class Template {
     public String toString() {
         return getClass().getName() + "[templateFile=" + templateFile + ", templateName=" + templateName
                 + ", modelCreatorClass=" + modelCreatorClass + ", modelCreatorMethod=" + modelCreatorMethod
-                + ", outputPath=" + outputPath + ", generateTestSources="
-                + generateTestSources + "]";
+                + ", outputPath=" + outputPath + ", artifactScope="
+                + artifactScope + "]";
     }
 
     /**
@@ -139,11 +138,11 @@ public class Template {
     }
 
     /**
-     * Gibt an, ob die generierten Dateien zum test- oder compile-Scope hinzugefügt werden sollen.
+     * Gibt an, zu welchem Scope im Build-Prozess die generierten Artefakte hinzugefügt werden sollen.
      * 
-     * @return Zugehörigkeit der generierten Dateien zum test- oder compile-Scope. (true = test, false = compile)
+     * @return Zugehörigkeit der generierten Dateien zum gewünschten Scope.
      */
-    public boolean isGenerateTestSources() {
-        return generateTestSources;
+    public ArtifactScope getArtifactScope() {
+        return artifactScope;
     }
 }

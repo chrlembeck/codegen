@@ -28,6 +28,7 @@
                                     <templateName>root</templateName>
                                     <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
                                     <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
+                                    <artifactScope>COMPILE</artifactScope>
                                 </template>
                                 <template>
                                     <templateFile>src/main/resources/codegen/template2.codegen</templateFile>
@@ -36,6 +37,7 @@
                                     <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
                                     <outputPath>target/generated-sources/codegenOut2</outputPath>
                                     <outputEncoding>UTF-8</outputEncoding>
+                                    <artifactScope>TEST</artifactScope>
                                 </template>
                             </templates>
                         </configuration>

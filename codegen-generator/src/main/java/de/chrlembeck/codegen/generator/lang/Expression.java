@@ -33,6 +33,11 @@ public interface Expression {
     /**
      * Sucht das Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
      * 
+     * @param model
+     *            Modell oder Teil des Modells, welches durch das aktuelle Element verarbeitet werden soll.
+     * @param environment
+     *            Aktuelle Laufzeitumgebung mit enthaltenen Variablen etc.
+     * 
      * @return Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
      */
     public CallSource findCallSource(Object model, Environment environment);
