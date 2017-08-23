@@ -24,7 +24,7 @@ import de.chrlembeck.codegen.generator.lang.OrExpression;
 import de.chrlembeck.codegen.generator.lang.PlusMinusExpression;
 import de.chrlembeck.codegen.generator.lang.ShiftExpression;
 import de.chrlembeck.codegen.generator.lang.SignExpression;
-import de.chrlembeck.codegen.generator.lang.TypeType;
+import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.XorExpression;
 import lang.CodeGenLexer;
 import lang.CodeGenParser.ExpressionAndContext;
@@ -142,7 +142,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
      */
     @Override
     public Expression visitExpressionCast(final ExpressionCastContext ctx) {
-        final TypeType typeType = ctx.classOrPrimitiveType().accept(new TypeTypeVisitor());
+        final ClassOrPrimitiveType typeType = ctx.classOrPrimitiveType().accept(new ClassOrInterfaceTypeVisitor());
         final Expression expression = ctx.expression().accept(this);
         return new CastExpression(ctx, typeType, expression);
     }
@@ -303,7 +303,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     @Override
     public Expression visitExpressionInstanceof(final ExpressionInstanceofContext ctx) {
         final Expression expression = ctx.expression().accept(this);
-        final TypeType typeType = ctx.classOrPrimitiveType().accept(new TypeTypeVisitor());
+        final ClassOrPrimitiveType typeType = ctx.classOrPrimitiveType().accept(new ClassOrInterfaceTypeVisitor());
         return new InstanceofExpression(ctx, expression, typeType);
     }
 

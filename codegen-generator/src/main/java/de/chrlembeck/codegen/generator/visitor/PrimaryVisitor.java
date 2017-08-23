@@ -7,7 +7,7 @@ import de.chrlembeck.codegen.generator.lang.Primary;
 import de.chrlembeck.codegen.generator.lang.SuperReference;
 import de.chrlembeck.codegen.generator.lang.ThisReference;
 import de.chrlembeck.codegen.generator.lang.TypeRef;
-import de.chrlembeck.codegen.generator.lang.TypeType;
+import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.VoidRef;
 import lang.CodeGenParser.PrimaryIdentifierContext;
 import lang.CodeGenParser.PrimaryLiteralContext;
@@ -101,7 +101,7 @@ public class PrimaryVisitor extends CodeGenParserBaseVisitor<Expression> {
      */
     @Override
     public Primary visitPrimaryTypeClass(final PrimaryTypeClassContext ctx) {
-        final TypeType typeType = ctx.classOrPrimitiveType().accept(new TypeTypeVisitor());
+        final ClassOrPrimitiveType typeType = ctx.classOrPrimitiveType().accept(new ClassOrInterfaceTypeVisitor());
         return new TypeRef(ctx, typeType);
     }
 
