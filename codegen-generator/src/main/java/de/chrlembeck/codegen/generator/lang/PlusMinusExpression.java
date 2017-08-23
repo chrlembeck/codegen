@@ -94,7 +94,7 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
      *            Ausdruck für den linken Operanden.
      * @param right
      *            Ausdruck für den rechten Operanden.
-     * @param Operator
+     * @param operator
      *            Gewünschter Operator für die Funktion (Plus oder Minus).
      */
     public PlusMinusExpression(final ExpressionPlusMinusContext ctx, final Expression left, final Expression right,
