@@ -70,7 +70,7 @@ public class Generator {
      */
     public void generate(final URI templateResourceIdentifier, final String templateName, final Object model)
             throws IOException {
-        final TemplateFile templateFile = templateResolver.loadTemplateFile(templateResourceIdentifier);
+        final TemplateFile templateFile = templateResolver.getOrLoadTemplateFile(templateResourceIdentifier);
         generate(templateFile, templateName, model);
     }
 
