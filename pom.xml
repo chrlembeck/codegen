@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>codegen-parent</module>
-        <module>antlr-gui</module>
+        <module>antlr-editorkit</module>
         <module>codegen-generator</module>
         <module>codegen-gui</module>
         <module>codegen-maven-plugin</module>

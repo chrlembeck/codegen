@@ -13,3 +13,4 @@ codegen-gui/target/
 codegen-maven-plugin/target/
 codegen-maven-plugin/.settings/org.jboss.ide.eclipse.as.core.prefs
 codegen-example-project/codegenOut2/
+antlr-editorkit/target/
