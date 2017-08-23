@@ -91,7 +91,7 @@
         </dependency>
         <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
-            <artifactId>antlr-gui</artifactId>
+            <artifactId>antlr-editorkit</artifactId>
             <scope>compile</scope>
         </dependency>
 

@@ -9,8 +9,8 @@
         <relativePath>../codegen-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>antlr-gui</artifactId>
-    <name>ANTLR GUI</name>
+    <artifactId>antlr-editorkit</artifactId>
+    <name>ANTLR EditorKit</name>
     
 	<dependencies>
 		<dependency>

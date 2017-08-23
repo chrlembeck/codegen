@@ -51,7 +51,7 @@
         <dependencies>
             <dependency>
                 <groupId>de.chrlembeck.codegen</groupId>
-                <artifactId>antlr-gui</artifactId>
+                <artifactId>antlr-editorkit</artifactId>
                 <version>${codegen.version}</version>
             </dependency>
             <dependency>

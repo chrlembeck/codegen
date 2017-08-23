@@ -1,14 +1,14 @@
-# antlr-gui
+# antlr-editorkit
 
-### Über antlr-gui
+### Über antlr-editorkit
 
 ### Download und installation
 
-Um die Komponenten aus dem Projekt antlr-gui zu verwenden, reicht es aus, diese herunterzuladen, mit maven zu compilieren und in sein Projekt zu integrieren. Das geht ungefähr wie folgt:
+Um die Komponenten aus dem Projekt antlr-editorkit zu verwenden, reicht es aus, diese herunterzuladen, mit maven zu compilieren und in sein Projekt zu integrieren. Das geht ungefähr wie folgt:
 
 ```
 git clone https://github.com/chrlembeck/codegen.git
-cd antlr-gui
+cd antlr-editorkit
 mvn install
 ```
 
@@ -17,7 +17,7 @@ Danach können die Komponenten durch Hinzufügen der folgenden `dependency` in d
 ```xml
 <dependency>
     <groupId>de.chrlembeck.codegen</groupId>
-    <artifactId>antlr-gui</artifactId>
+    <artifactId>antlr-editorkit</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
@@ -45,7 +45,7 @@ import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 
 /**
- * Bispielklasse für die Verwendung des AntlrEditorKits aus dem Paket antlr-gui. Hier wird ein kleiner Editor erstellt,
+ * Bispielklasse für die Verwendung des AntlrEditorKits aus dem Paket antlr-editorkit. Hier wird ein kleiner Editor erstellt,
  * der XML-Dateien editieren kann. - Der Parser und der Lexer kann dabei für andere Sprache beliebig ausgetauscht
  * werden.
  * 

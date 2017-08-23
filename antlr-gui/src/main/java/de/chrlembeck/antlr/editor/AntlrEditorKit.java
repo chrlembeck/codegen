@@ -3,10 +3,13 @@ package de.chrlembeck.antlr.editor;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JEditorPane;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.ViewFactory;
 
 import org.antlr.v4.runtime.Lexer;
@@ -102,5 +105,21 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
         editorPane.setBackground(Color.WHITE);
         editorPane.setSelectionColor(new Color(200, 200, 255));
         editorPane.getCaret().setBlinkRate(0);
+        editorPane.addPropertyChangeListener("document", this::documentChanged);
+    }
+
+    /**
+     * Wird aufgerufen, wenn das im Editor enthaltene Dokument ausgetauscht wird. Dem neuen Dokument wird dann ein
+     * ErrorListener hinzugefügt, der das Neuzeuchnen beim Auftreten von Fehlern anstößt.
+     * 
+     * @param changeEvent
+     *            Event, welches über die Änderung des Dokuments informiert hat.
+     */
+    private void documentChanged(final PropertyChangeEvent changeEvent) {
+        final Document newDoc = (Document) changeEvent.getNewValue();
+        final JTextComponent comp = (JTextComponent) changeEvent.getSource();
+        if (newDoc instanceof AntlrDocument) {
+            ((AntlrDocument) newDoc).addErrorListener(m -> comp.repaint());
+        }
     }
 }
