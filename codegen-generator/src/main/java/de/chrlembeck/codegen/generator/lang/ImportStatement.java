@@ -57,6 +57,7 @@ public class ImportStatement extends AbstractTemplateMember<ImportStatementConte
      * 
      * @return Ressource identifier, der den Alageort der referenzierten Template-Datei beschreibt.
      * @throws URISyntaxException
+     *             Falls die im Import hinterlegte URI ungültig ist.
      */
     public URI getUri() throws URISyntaxException {
         return new URI(uri);
