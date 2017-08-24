@@ -5,7 +5,7 @@ import de.chrlembeck.codegen.generator.JavaUtil;
 import lang.CodeGenParser.ExpressionPlusMinusContext;
 
 /**
- * Repräsentiert die Konkatenation von Zeichnketten mit dem Plus-Operator oder die numerischen Operationen Plus oder
+ * Repräsentiert die Konkatenation von Zeichenketten mit dem Plus-Operator oder die numerischen Operationen Plus oder
  * Minus.
  * 
  * @author Christoph Lembeck
@@ -59,14 +59,6 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
         @Override
         public ObjectWithType<Double> apply(final double a, final double b) {
             return new ObjectWithType<Double>(Double.valueOf(this == PLUS ? a + b : a - b), double.class);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Class<?> getBinaryNumericPromotionType(final Class<?> leftType, final Class<?> rightType) {
-            return JavaUtil.getBinaryNumericPromotionType(leftType, rightType);
         }
     }
 

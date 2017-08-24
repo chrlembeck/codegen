@@ -37,14 +37,6 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
          * {@inheritDoc}
          */
         @Override
-        public Class<?> getBinaryNumericPromotionType(final Class<?> leftType, final Class<?> rightType) {
-            return JavaUtil.getBinaryNumericPromotionType(leftType, rightType);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public ObjectWithType<Integer> apply(final int a, final int b) {
             if (this == MULT) {
                 return new ObjectWithType<Integer>(Integer.valueOf(a * b), int.class);

@@ -23,7 +23,7 @@ public class ImportStatementVisitor extends CodeGenParserBaseVisitor<ImportState
     @Override
     public ImportStatement visitImportStatement(final ImportStatementContext ctx) {
         final String prefix = ctx.prefix.getText();
-        final String url = ctx.url.getText();
-        return new ImportStatement(ctx, prefix, url);
+        final String uri = ctx.uri.getText();
+        return new ImportStatement(ctx, prefix, uri);
     }
 }

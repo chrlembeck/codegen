@@ -16,7 +16,7 @@ templateFile
  * Definition eines einzelnen Import-Statements.
  */
 importStatement
-    : LEFT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK IMPORT prefix=Identifier AS url=IURL RIGHT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK
+    : LEFT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK IMPORT prefix=Identifier AS uri=IURI RIGHT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK
     ;
 
 /* 

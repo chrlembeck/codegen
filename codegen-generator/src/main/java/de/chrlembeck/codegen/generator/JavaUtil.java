@@ -80,7 +80,7 @@ public class JavaUtil {
             final PrimitiveOperations operator) {
         final Number leftNum = (Number) left.getObject();
         final Number rightNum = (Number) right.getObject();
-        final Class<?> promotionType = operator.getBinaryNumericPromotionType(left.getType(), right.getType());
+        final Class<?> promotionType = JavaUtil.getBinaryNumericPromotionType(left.getType(), right.getType());
         if (int.class.isAssignableFrom(promotionType)) {
             return operator.apply(leftNum.intValue(), rightNum.intValue());
         }
