@@ -23,6 +23,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
@@ -42,11 +43,13 @@ import org.slf4j.LoggerFactory;
  * for more information.
  * </p>
  * 
+ * @param <T>
+ *            Typ des vom Parser zurückgegebenen Kontext-Ojekts
  * @author Christoph Lembeck
  * @see AntlrEditorKit
  * @see AntlrEditorKit#createDefaultDocument()
  */
-public class AntlrDocument extends PlainDocument {
+public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
 
     /**
      * Version number of the current class.
@@ -171,10 +174,12 @@ public class AntlrDocument extends PlainDocument {
      * @param runParser
      *            true, falls auch der Parser nach Fehlern in dem Dokument suchen soll, false, falls nur der Lexer das
      *            Dokument prüfen soll.
+     * @return Vom Parser zurückgegebener RuleContext. Wird der Parser nicht aufgerufen, ist das Ergebniss null.
      */
-    public void validate(final boolean runParser) {
+    public T validate(final boolean runParser) {
         LOGGER.trace("start validating " + (runParser ? "with" : "without") + " parsing.");
         final List<Token> newTokens = new ArrayList<Token>();
+        T result = null;
         try {
             errorListener.reset();
             final String text = getText(0, getLength());
@@ -196,7 +201,7 @@ public class AntlrDocument extends PlainDocument {
 
             if (runParser) {
                 parser.reset();
-                callParser();
+                result = callParser();
             }
             for (final Entry<Integer, String> error : errorListener.getErrors().entrySet()) {
                 final int tokenIndex = TokenUtil.findTokenIndex(newTokens, error.getKey());
@@ -211,6 +216,7 @@ public class AntlrDocument extends PlainDocument {
         } finally {
             tokens = newTokens;
         }
+        return result;
     }
 
     /**
@@ -223,11 +229,15 @@ public class AntlrDocument extends PlainDocument {
 
     /**
      * Ruft den Parser zur Überprüfung des Dokumentes auf.
+     * 
+     * @return vom Parser zurückgegebener RuleContext.
      */
-    private void callParser() {
+    private T callParser() {
         try {
             final Method method = parserClass.getMethod(ruleName);
-            method.invoke(parser);
+            @SuppressWarnings("unchecked")
+            final T ruleContext = (T) method.invoke(parser);
+            return ruleContext;
         } catch (final NoSuchMethodException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException e) {
             LOGGER.error(e.getMessage(), e);
