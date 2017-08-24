@@ -22,8 +22,8 @@ public class ParserException extends CodeGenException {
     private Position position;
 
     /**
-     * Erzeugt eine neue Exceptio unter Angabe einer Fehlermeldung und des aktuellen Kontexts der ParserRule, an der das
-     * Problem aufgetreten ist.
+     * Erzeugt eine neue Exception unter Angabe einer Fehlermeldung und des aktuellen Kontexts der ParserRule, an der
+     * das Problem aufgetreten ist.
      * 
      * @param message
      *            Eine das Problem näher beschreibende Fehlermeldung.
@@ -32,6 +32,22 @@ public class ParserException extends CodeGenException {
      */
     public ParserException(final String message, final ParserRuleContext context) {
         super(message);
+        this.position = new Position(context.getStart());
+    }
+
+    /**
+     * Erzeugt eine neue Exception unter Angabe einer Fehlermeldung und des aktuellen Kontexts der ParserRule, an der
+     * das Problem aufgetreten ist.
+     * 
+     * @param message
+     *            Eine das Problem näher beschreibende Fehlermeldung.
+     * @param context
+     *            Kontext der ParserRule, an der das Problem aufgetreten ist.
+     * @param cause
+     *            Auslösender Grund der Exception.
+     */
+    public ParserException(final String message, final ParserRuleContext context, final Throwable cause) {
+        super(message, cause);
         this.position = new Position(context.getStart());
     }
 
