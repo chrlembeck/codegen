@@ -200,8 +200,4 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-    <scm>
-        <url>https://github.com/chrlembeck/codegen.git</url>
-    </scm>
 </project>

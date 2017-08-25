@@ -18,6 +18,7 @@
         <module>antlr-editorkit</module>
         <module>codegen-generator</module>
         <module>codegen-gui</module>
+        <module>codegen-modeller</module>
         <module>codegen-maven-plugin</module>
         <module>codegen-example-model</module>
         <module>codegen-example-project</module>
