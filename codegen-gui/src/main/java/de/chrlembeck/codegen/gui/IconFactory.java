@@ -49,7 +49,12 @@ public enum IconFactory {
     /**
      * Icon für das Starten des Generators.
      */
-    GENERATE_32("/icons/generate_32.png");
+    GENERATE_32("/icons/generate_32.png"),
+
+    /**
+     * Icon für das Einfügen eines Klammer-Paares
+     */
+    BRACES_32("/icons/braces_32.png");
 
     /**
      * Logger für die Klasse.

@@ -76,7 +76,7 @@ public class AntlrView extends PlainView {
         graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
         final Segment segment = getLineBuffer();
-        final AntlrDocument document = (AntlrDocument) getDocument();
+        final AntlrDocument<?> document = (AntlrDocument<?>) getDocument();
         final List<Token> tokens = document.getTokenSubList(requestedPaintStartIdx, requestedPaintEndIdx);
         try {
             for (final Token tokenToPaint : tokens) {
@@ -135,7 +135,7 @@ public class AntlrView extends PlainView {
      *            Für die Ausrichtung von Tab-Stops zu verwendender TabExpander.
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
-    protected int paintTokenSegment(final Graphics2D graphics, final AntlrDocument document, final Token token,
+    protected int paintTokenSegment(final Graphics2D graphics, final AntlrDocument<?> document, final Token token,
             final Segment segment, final int x, final int y,
             final TabExpander tabExpander) {
         final int startOffset = token.getStartIndex();

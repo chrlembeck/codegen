@@ -1,8 +1,13 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
@@ -18,6 +23,11 @@ import lang.CodeGenParser.ExecuteStatementContext;
  */
 public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementContext>
         implements UserCodeOrStatements<ExecuteStatementContext> {
+
+    /**
+     * Der Logger für die Klasse.
+     */
+    private static Logger LOGGER = LoggerFactory.getLogger(ExecuteStatement.class);
 
     /**
      * Name des auszuführenden Templates.
@@ -158,9 +168,19 @@ public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementCon
         if (forEach) {
             if (source instanceof Iterable) {
                 final Iterable<?> iterable = (Iterable<?>) source;
-                for (final Object item : iterable) {
-                    // TODO separator einfügen
+                final Iterator<?> iterator = iterable.iterator();
+                while (iterator.hasNext()) {
+                    final Object item = iterator.next();
                     generator.generate(resourceIdentifier, templateName, item);
+                    if (iterator.hasNext() && separatorExpression != null) {
+                        final Writer writer = generator.getCurrentWriter();
+                        if (writer == null) {
+                            LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
+                            throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
+                        } else {
+                            writer.write(String.valueOf(separatorExpression.evaluate(model, environment).getObject()));
+                        }
+                    }
                 }
             } else {
                 throw new RuntimeException("don't know what to do with collection " + model.getClass().getName());

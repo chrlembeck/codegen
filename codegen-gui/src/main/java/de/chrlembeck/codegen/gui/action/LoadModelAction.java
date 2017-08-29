@@ -49,7 +49,7 @@ public class LoadModelAction extends AbstractAction {
      * @param codeGenGui
      *            Referenz auf die Gui, die die Action verwenden möchte.
      * @param toolbar
-     *            {@code true,falls die Action innerhalb eine Toolba verwendet werden soll, {@code false}, falls die
+     *            {@code true}, falls die Action innerhalb einer Toolbar verwendet werden soll, {@code false}, falls die
      *            Action in einem Menü verwendet wird.
      */
     public LoadModelAction(final CodeGenGui codeGenGui, final boolean toolbar) {

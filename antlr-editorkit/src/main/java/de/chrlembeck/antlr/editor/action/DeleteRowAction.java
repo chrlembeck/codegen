@@ -27,6 +27,11 @@ public class DeleteRowAction extends AbstractAction implements Action {
     private static Logger LOGGER = LoggerFactory.getLogger(DeleteRowAction.class);
 
     /**
+     * Name der Action zum Löschen der aktuellen Zeile im Editor.
+     */
+    public static final String ACTION_DELETE_ROW = "ACTION_DELETE_ROW";
+
+    /**
      * Version number of the current class.
      * 
      * @see java.io.Serializable

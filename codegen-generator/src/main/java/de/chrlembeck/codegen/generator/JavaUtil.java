@@ -230,4 +230,16 @@ public class JavaUtil {
         return (Number.class.isAssignableFrom(type)) || (type.equals(int.class)) || (type.equals(long.class))
                 || (type.equals(float.class)) || (type.equals(double.class));
     }
+
+    /**
+     * Prüft, ob der übergebene Typ den Typen int, oder Integer entspricht. Eine erweiternde Konvertierung des Typs wird
+     * nicht vorgenommen.
+     * 
+     * @param type
+     *            Zu prüfender Typ.
+     * @return true, falls der Typ int, oder Integer ist, sonst false.
+     */
+    public static boolean isIntegerType(final Class<?> type) {
+        return int.class.isAssignableFrom(type) || Integer.class.isAssignableFrom(type);
+    }
 }

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import de.chrlembeck.codegen.gui.CodeGenGui;
+import de.chrlembeck.codegen.gui.IconFactory;
 
 /**
  * Action zum Einfügen eines Paars der doppelten spitzen Klaamern (&#x00ab;&#x00bb;) in das aktuell aktive Dokument.
@@ -34,6 +35,7 @@ public class InsertDoubleAngleQuotationMarksAction extends AbstractAction {
         this.codeGenGui = codeGenGui;
         putValue(NAME, "\\u00ab\\u00bb");
         putValue(SHORT_DESCRIPTION, "Fügt \u00ab\u00bb in das Dokument ein");
+        putValue(SMALL_ICON, IconFactory.BRACES_32.icon());
     }
 
     /**

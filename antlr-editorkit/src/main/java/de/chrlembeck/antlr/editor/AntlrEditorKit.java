@@ -3,9 +3,15 @@ package de.chrlembeck.antlr.editor;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
+import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
@@ -14,14 +20,19 @@ import javax.swing.text.ViewFactory;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
+
+import de.chrlembeck.antlr.editor.action.DeleteRowAction;
 
 /**
  * EditorKit für die Darstellung von Dokumenten, die anhand einer ANTLR-Syntax-Definition geparsed werden können. Das
  * EditorKit ist für die Verwendung in einem JEditorPane vorgesehen.
  * 
+ * @param <T>
+ *            Typ des vom Parser zurückgegebenen Kontext-Ojekts
  * @author Christoph Lembeck
  */
-public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
+public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKit implements ViewFactory {
 
     /**
      * Version number of the current class.
@@ -89,8 +100,8 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
      * Erzeugt ein neues {@link AntlrDocument}, welches in dem Editor verwendet werden soll.
      */
     @Override
-    public AntlrDocument createDefaultDocument() {
-        return new AntlrDocument(lexer, parserClass, startRuleName);
+    public AntlrDocument<T> createDefaultDocument() {
+        return new AntlrDocument<T>(lexer, parserClass, startRuleName);
     }
 
     /**
@@ -106,6 +117,22 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
         editorPane.setSelectionColor(new Color(200, 200, 255));
         editorPane.getCaret().setBlinkRate(0);
         editorPane.addPropertyChangeListener("document", this::documentChanged);
+        installActions(editorPane);
+    }
+
+    /**
+     * Initialisiert die Actions, die innerhalb des Editors verwendet werden können.
+     * 
+     * @param editorPane
+     *            EditorPane, zu dem die neuen Actions hinzugefügt werden sollen.
+     */
+    private void installActions(final JEditorPane editorPane) {
+        final ActionMap actionMap = editorPane.getActionMap();
+        actionMap.put(DeleteRowAction.ACTION_DELETE_ROW, new DeleteRowAction());
+
+        final InputMap inputMap = editorPane.getInputMap(JComponent.WHEN_FOCUSED);
+        final KeyStroke ksCtrlD = KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK);
+        inputMap.put(ksCtrlD, DeleteRowAction.ACTION_DELETE_ROW);
     }
 
     /**
@@ -119,7 +146,7 @@ public class AntlrEditorKit extends DefaultEditorKit implements ViewFactory {
         final Document newDoc = (Document) changeEvent.getNewValue();
         final JTextComponent comp = (JTextComponent) changeEvent.getSource();
         if (newDoc instanceof AntlrDocument) {
-            ((AntlrDocument) newDoc).addErrorListener(m -> comp.repaint());
+            ((AntlrDocument<?>) newDoc).addErrorListener(m -> comp.repaint());
         }
     }
 }

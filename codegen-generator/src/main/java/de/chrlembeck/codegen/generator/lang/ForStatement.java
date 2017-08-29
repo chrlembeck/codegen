@@ -95,37 +95,47 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
         if (Iterable.class.isAssignableFrom(source.getType())) {
             final Iterable<?> iterable = (Iterable<?>) source.getObject();
             final Iterator<?> iterator = iterable.iterator();
-            long index = 0;
-            Object nextItem = iterator.hasNext() ? iterator.next() : null;
-            while (nextItem != null) {
-                // neuen Frame auf dem Stack anlegen, damit die Variablen der Schleife nicht nach außen sichtbar werden
-                final Object item = nextItem;
-                nextItem = iterator.hasNext() ? iterator.next() : null;
-                environment.createFrame(true);
-                environment.addVariable(varName, item, item.getClass());
-                if (counterName != null) {
-                    environment.addVariable(counterName, new Counter(index, index == 0, nextItem == null),
-                            Counter.class);
-                }
-                for (final UserCodeOrStatements<?> cos : loopBody) {
-                    environment.execute(cos, generator, model);
-                }
-                if (separatorExpression != null && nextItem != null) {
-                    final Writer writer = generator.getCurrentWriter();
-                    if (writer == null) {
-                        LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
-                        throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
-                    } else {
-                        writer.write(String.valueOf(separatorExpression.evaluate(model, environment).getObject()));
-                    }
-                }
-                index++;
-                // Frame wieder vom Stack entfernen, damit die Umgebung nach dem Schleifendurchlauf wieder aussieht wie
-                // vorher
-                environment.dropFrame();
-            }
+            executeIterator(generator, model, environment, source, iterator);
+        } else if (source.getType().isArray()) {
+            // TODO arrays implementieren
+            // auch an primitive Arrays denken...
+            // siehe auch http://www.lambdafaq.org/how-can-i-turn-an-array-into-an-iterator/
+            throw new RuntimeException("not yet implemented");
         } else {
             throw new RuntimeException("don't know what to do with collection " + model.getClass().getName());
+        }
+    }
+
+    private void executeIterator(final Generator generator, final Object model, final Environment environment,
+            final ObjectWithType<?> source, final Iterator<?> iterator) throws IOException {
+        long index = 0;
+        Object nextItem = iterator.hasNext() ? iterator.next() : null;
+        while (nextItem != null) {
+            // neuen Frame auf dem Stack anlegen, damit die Variablen der Schleife nicht nach außen sichtbar werden
+            final Object item = nextItem;
+            nextItem = iterator.hasNext() ? iterator.next() : null;
+            environment.createFrame(true);
+            environment.addVariable(varName, item, item.getClass());
+            if (counterName != null) {
+                environment.addVariable(counterName, new Counter(index, index == 0, nextItem == null),
+                        Counter.class);
+            }
+            for (final UserCodeOrStatements<?> cos : loopBody) {
+                environment.execute(cos, generator, model);
+            }
+            if (separatorExpression != null && nextItem != null) {
+                final Writer writer = generator.getCurrentWriter();
+                if (writer == null) {
+                    LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
+                    throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
+                } else {
+                    writer.write(String.valueOf(separatorExpression.evaluate(model, environment).getObject()));
+                }
+            }
+            index++;
+            // Frame wieder vom Stack entfernen, damit die Umgebung nach dem Schleifendurchlauf wieder aussieht wie
+            // vorher
+            environment.dropFrame();
         }
     }
 }
