@@ -140,6 +140,11 @@
                 <version>${codegen.version}</version>
             </dependency>
             <dependency>
+                <groupId>de.chrlembeck.codegen</groupId>
+                <artifactId>codegen-modeller</artifactId>
+                <version>${codegen.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
                 <version>${antlr.version}</version>

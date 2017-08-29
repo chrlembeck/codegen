@@ -21,6 +21,10 @@
             <artifactId>codegen-generator</artifactId>
         </dependency>
         <dependency>
+            <groupId>de.chrlembeck.codegen</groupId>
+            <artifactId>codegen-modeller</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
         </dependency>

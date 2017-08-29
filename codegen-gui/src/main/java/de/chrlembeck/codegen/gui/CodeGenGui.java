@@ -10,6 +10,7 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.swing.Action;
@@ -36,6 +37,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import org.antlr.v4.runtime.Token;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -175,6 +179,16 @@ public class CodeGenGui extends JFrame implements TabListener {
     private DefaultTableModel errorTableModel;
 
     /**
+     * SplitPane für die Anzeige von EditorTabs und den geladenen Modellen.
+     */
+    private JSplitPane spEditorModel;
+
+    /**
+     * ScrollPane für die Anzeige der geladenen Modelle.
+     */
+    private JScrollPane spModel;
+
+    /**
      * Erstell eine neue grafische Oberfläche und öffnet diese.
      */
     public CodeGenGui() {
@@ -183,10 +197,11 @@ public class CodeGenGui extends JFrame implements TabListener {
         initMenuBar();
         initCloseMechanism();
         pack();
-        setSize(Math.max(500, getWidth()), Math.max(350, getHeight()));
+        setSize(Math.max(1200, getWidth()), Math.max(800, getHeight()));
         centerOnScreen(this);
         setVisible(true);
         spMain.setDividerLocation(0.7d);
+        spEditorModel.setDividerLocation(0.8d);
     }
 
     /**
@@ -208,7 +223,10 @@ public class CodeGenGui extends JFrame implements TabListener {
         editorTabs.addCaretPositionChangeListener(this::caretPositionChanged);
         editorTabs.addErrorListener(this::errorsChanged);
         final JTabbedPane tpBottom = new JTabbedPane();
-        spMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorTabs, tpBottom);
+        final JXTreeTable ttModel = new JXTreeTable(createModelTreeModel());
+        spModel = new JScrollPane(ttModel);
+        spEditorModel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, editorTabs, spModel);
+        spMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spEditorModel, tpBottom);
         errorTableModel = new DefaultTableModel();
         errorTableModel.setColumnCount(3);
         errorTableModel.setColumnIdentifiers(new String[] { "Zeile", "Spalte", "Problem" });
@@ -219,6 +237,17 @@ public class CodeGenGui extends JFrame implements TabListener {
         add(pnStatus, BorderLayout.SOUTH);
         add(spMain, BorderLayout.CENTER);
         editorTabs.addTabListener(this);
+    }
+
+    /**
+     * Erstellt das Datenmodell für die TreeTable zur Darstellung der geladenen Modelle.
+     * 
+     * @return Datenmodell für die Darstellung der geladenen Modelle.
+     */
+    private TreeTableModel createModelTreeModel() {
+        final DefaultTreeTableModel model = new DefaultTreeTableModel();
+        model.setColumnIdentifiers(Arrays.asList("Name", "Typ", "Inhalt"));
+        return model;
     }
 
     /**
