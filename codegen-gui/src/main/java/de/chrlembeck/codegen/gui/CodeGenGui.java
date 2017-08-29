@@ -48,6 +48,7 @@ import de.chrlembeck.codegen.gui.action.LoadTemplateAction;
 import de.chrlembeck.codegen.gui.action.NewTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
+import de.chrlembeck.codegen.gui.action.SettingsAction;
 
 /**
  * Hauptklasse der Generator-GUI.
@@ -277,16 +278,19 @@ public class CodeGenGui extends JFrame implements TabListener {
      * Initialisiert die Menüleiste.
      */
     private void initMenuBar() {
-        final JMenuItem closeApplicationItem = new JMenuItem(new CloseApplicationAction(this));
+        final JMenuItem miCloseApplication = new JMenuItem(new CloseApplicationAction(this));
         miNewTemplate = new JMenuItem(new NewTemplateAction(this, false));
         miLoadTemplate = new JMenuItem(new LoadTemplateAction(this, false));
         miSaveTemplate = new JMenuItem(new SaveTemplateAction(this, false));
         miSaveTemplateAs = new JMenuItem(new SaveTemplateAsAction(this, false));
         miLoadModel = new JMenuItem(new LoadModelAction(this, false));
+        final JMenuItem miSettings = new JMenuItem(new SettingsAction(this));
 
         final JMenu fileMenu = new JMenu("Datei");
         fileMenu.setMnemonic(KeyEvent.VK_D);
-        fileMenu.add(closeApplicationItem);
+        fileMenu.add(miSettings);
+        fileMenu.addSeparator();
+        fileMenu.add(miCloseApplication);
 
         final JMenu templateMenu = new JMenu("Template");
         templateMenu.setMnemonic(KeyEvent.VK_T);

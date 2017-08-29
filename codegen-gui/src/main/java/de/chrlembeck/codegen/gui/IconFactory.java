@@ -54,7 +54,12 @@ public enum IconFactory {
     /**
      * Icon für das Einfügen eines Klammer-Paares
      */
-    BRACES_32("/icons/braces_32.png");
+    BRACES_32("/icons/braces_32.png"),
+
+    /**
+     * Icon für das Einstellungen-Menü.
+     */
+    SETTINGS_32("/icons/settings_32.png");
 
     /**
      * Logger für die Klasse.
