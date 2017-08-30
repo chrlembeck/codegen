@@ -3,6 +3,7 @@ package de.chrlembeck.codegen.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Map;
@@ -185,6 +186,7 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
      * 
      * @return Pfad zu der Datei, aus der das Dokument zuletzt gelesen oder in die es zuletzt gespeichert wurde.
      */
+    @Override
     public Path getPath() {
         return editorPane.getPath();
     }
@@ -195,7 +197,25 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
      * 
      * @return Encoding der in dem Dokument enthaltenen Datei. {@code null}, falls die Datei noch nie gespeichert wurde.
      */
+    @Override
     public Charset getCharset() {
         return editorPane.getCharset();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean saveDocument(final Path path, final Charset charset) throws IOException {
+        getEditorPane().saveTemplatePanel(path, charset);
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addModificationListener(final ModificationListener listener) {
+        getEditorPane().addModificationListener(listener);
     }
 }

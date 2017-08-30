@@ -35,7 +35,7 @@ class TabHeader extends JPanel {
      * @param editorTabs
      *            Referenz auf das TabbedPane, in den der Reiter eingefügt wird.
      */
-    public TabHeader(final EditorTabs editorTabs) {
+    public TabHeader(final BasicTabbedPane editorTabs) {
         setOpaque(false);
         lbTitle = new JLabel();
         final JButton btClose = new JButton("x");
@@ -52,12 +52,12 @@ class TabHeader extends JPanel {
     /**
      * Wird aufgerufen, wenn der Benutzer den Button zum Schließen des Reiters angeklickt hat.
      * 
-     * @param editorTabs
-     *            Referenz auf das TabbesPane, in dem der Reiter enthalten ist.
+     * @param tabbedPane
+     *            Referenz auf das TabbedPane, in dem der Reiter enthalten ist.
      */
-    public void performCloseButtonAction(final EditorTabs editorTabs) {
-        final int idx = editorTabs.indexOfTabComponent(TabHeader.this);
-        editorTabs.performCloseTabAction(idx);
+    public void performCloseButtonAction(final BasicTabbedPane tabbedPane) {
+        final int idx = tabbedPane.indexOfTabComponent(TabHeader.this);
+        tabbedPane.performCloseTabAction(idx);
     }
 
     /**
@@ -86,7 +86,7 @@ class TabHeader extends JPanel {
      * @param path
      *            Datei, in die das Template gespeichert wurde.
      */
-    public void notifyTemplateSaved(final Path path) {
+    public void notifyDocumentSaved(final Path path) {
         if (path != null) {
             lbTitle.setText(String.valueOf(path.getFileName()));
             lbTitle.setFont(lbTitle.getFont().deriveFont(Font.PLAIN));

@@ -67,7 +67,7 @@ public class SaveTemplateAsAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (!codeGenGui.isTemplateSelected()) {
+        if (!codeGenGui.isDocumentSelected()) {
             JOptionPane.showMessageDialog(codeGenGui, "Es ist gar kein Template ausgewählt.", "Fehler",
                     JOptionPane.WARNING_MESSAGE);
             return;
@@ -91,7 +91,7 @@ public class SaveTemplateAsAction extends AbstractAction {
                     }
                 }
                 new UserSettings().setLastTemplateDirectory(file.toPath());
-                codeGenGui.saveTemplate(file.toPath(), Charset.forName("UTF-8"));
+                codeGenGui.saveDocument(file.toPath(), Charset.forName("UTF-8"));
                 // Speichern fertig
                 break;
             } else {

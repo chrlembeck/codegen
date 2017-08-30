@@ -22,6 +22,7 @@ import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
 import de.chrlembeck.codegen.generator.output.BufferedOutput;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
+import de.chrlembeck.codegen.gui.TabComponent;
 import de.chrlembeck.codegen.gui.TemplatePanel;
 import de.chrlembeck.codegen.gui.util.ToStringWrapper;
 
@@ -134,7 +135,8 @@ public class GenerateAction extends AbstractAction {
      * @return Aktuell ausgewähltes Editor-Fenster.
      */
     private TemplatePanel getSelectedTemplatePanel() {
-        return codeGenGui.getSelectedTemplatePanel();
+        final TabComponent document = codeGenGui.getSelectedDocument();
+        return document instanceof TemplatePanel ? (TemplatePanel) document : null;
     }
 
     /**

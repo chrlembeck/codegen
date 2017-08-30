@@ -67,15 +67,15 @@ public class SaveTemplateAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (!codeGenGui.isTemplateSelected()) {
+        if (!codeGenGui.isDocumentSelected()) {
             JOptionPane.showMessageDialog(codeGenGui, "Es ist gar kein Template ausgewählt.", "Fehler",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (codeGenGui.isSelectedTemplateNew()) {
+        if (codeGenGui.isSelectedDocumentNew()) {
             new SaveTemplateAsAction(codeGenGui, toolbar).actionPerformed(e);
         } else {
-            codeGenGui.saveTemplate(codeGenGui.getSelectedTemplatePath(), codeGenGui.getSelectedTemplateCharset());
+            codeGenGui.saveDocument(codeGenGui.getSelectedDocumentPath(), codeGenGui.getSelectedTemplateCharset());
         }
     }
 }

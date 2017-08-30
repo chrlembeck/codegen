@@ -447,8 +447,9 @@ public class CodeGenGui extends JFrame implements TabListener {
         btInsertBraces.setEnabled(newComponent instanceof TemplatePanel);
 
         resetErrorMessages();
-        final TemplatePanel templatePanel = getSelectedTemplatePanel();
-        if (templatePanel != null) {
+        final TabComponent comp = getSelectedDocument();
+        if (comp != null && comp instanceof TemplatePanel) {
+            final TemplatePanel templatePanel = (TemplatePanel) comp;
             final Map<Token, String> errors = templatePanel.getErrors();
             addErrorMessages(errors);
         }
@@ -515,8 +516,8 @@ public class CodeGenGui extends JFrame implements TabListener {
      * 
      * @return Aktuell ausgewähltes Editor-Fenster.
      */
-    public TemplatePanel getSelectedTemplatePanel() {
-        return editorTabs.getSelectedTemplatePanel();
+    public TabComponent getSelectedDocument() {
+        return editorTabs.getSelectedDocument();
     }
 
     /**
@@ -542,13 +543,12 @@ public class CodeGenGui extends JFrame implements TabListener {
     }
 
     /**
-     * Prüft, ob das gerade aktive Editorfenster eine Template-Datei enthält.
+     * Prüft, ob aktuell ein Dokument geöffnet ist.
      * 
-     * @return {@code true} falls das aktive Editorfenster eine Template-Datei enthält, {@code false} falls das
-     *         Editorfenster eine andere Datei enthält.
+     * @return {@code true} falls ein Tab ausgewählt ist, {@code false} falls kein Tab ausgewählt ist.
      */
-    public boolean isTemplateSelected() {
-        return editorTabs.isTemplateSelected();
+    public boolean isDocumentSelected() {
+        return editorTabs.isDocumentSelected();
     }
 
     /**
@@ -559,8 +559,8 @@ public class CodeGenGui extends JFrame implements TabListener {
      * @param charset
      *            Encoding zum Speichern der Datei.
      */
-    public void saveTemplate(final Path path, final Charset charset) {
-        editorTabs.saveTemplate(path, charset);
+    public void saveDocument(final Path path, final Charset charset) {
+        editorTabs.saveDocument(path, charset);
     }
 
     /**
@@ -569,8 +569,8 @@ public class CodeGenGui extends JFrame implements TabListener {
      * @return {@code true} falls das Dokument neu ist und noch nie gepseichert wurde, {@code false} falls das Dokument
      *         aus einer Datei gelesen oder bereits einmal gespeichert wurde.
      */
-    public boolean isSelectedTemplateNew() {
-        return editorTabs.isSelectedTemplateNew();
+    public boolean isSelectedDocumentNew() {
+        return editorTabs.isSelectedDocumentNew();
     }
 
     /**
@@ -579,8 +579,8 @@ public class CodeGenGui extends JFrame implements TabListener {
      * 
      * @return Name der Datei, aus der das aktive Dokument stammt.
      */
-    public Path getSelectedTemplatePath() {
-        return editorTabs.getSelectedTemplatePath();
+    public Path getSelectedDocumentPath() {
+        return editorTabs.getSelectedDocumentPath();
     }
 
     /**
@@ -590,7 +590,7 @@ public class CodeGenGui extends JFrame implements TabListener {
      * @return Encoding der Datei, aus der das aktive Dokument stammt.
      */
     public Charset getSelectedTemplateCharset() {
-        return editorTabs.getSelectedTemplateCharset();
+        return editorTabs.getSelectedDocumentCharset();
     }
 
     /**
