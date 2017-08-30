@@ -105,6 +105,15 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.0.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <!-- upgrade to 3.5.1 when released -->
+                    <!-- https://issues.apache.org/jira/projects/MPLUGIN?selectedItem=com.atlassian.jira.jira-projects-plugin:release-page&status=all -->
+                    <!-- https://issues.apache.org/jira/browse/MPLUGIN-324 -->
+                    <!-- danach kann javadoc wieder auf "private" gestellt werden -->    
+                    <version>3.5</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

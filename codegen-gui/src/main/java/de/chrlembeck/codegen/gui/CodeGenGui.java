@@ -599,10 +599,10 @@ public class CodeGenGui extends JFrame implements TabListener {
     /**
      * Ersetzt das für die Generierung zu verwendende Modell durch ein neues Modell.
      * 
+     * @param name
+     *            Name des neuen Modells
      * @param newModel
      *            Neues Modell für die Generierung.
-     * @param Name
-     *            Name des neuen Modells
      */
     public void setModel(final String name, final Object newModel) {
         this.model = newModel;
