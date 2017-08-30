@@ -120,42 +120,42 @@ public class BasicTabbedPane extends JTabbedPane {
      * Wird einmalig aufgerufen, wenn nach dem Neuerstellen, Laden oder Speichern eines Dokumentes ungespeicherte
      * Änderungen an dem Dokument vorgenommen werden.
      * 
-     * @param templatePanel
+     * @param tabComponent
      *            Template, an dem de Änderungen vorgenommen wurden.
      */
-    public void onTemplateWasModified(final TabComponent templatePanel) {
-        final int index = indexOfComponent((Component) templatePanel);
+    public void onTemplateWasModified(final TabComponent tabComponent) {
+        final int index = indexOfComponent((Component) tabComponent);
         final TabHeader label = (TabHeader) getTabComponentAt(index);
         label.notifyTemplateWasModified();
         // tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications((TabComponent)
         // getComponentAt(index)));
-        tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications(templatePanel));
+        tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications(tabComponent));
     }
 
     /**
      * Fügt einen neuen Template-Editor hinzu.
      * 
-     * @param templatePanel
+     * @param tabComponent
      *            Referenz auf den Editor, der hinzugefügt werden soll.
      */
-    public void addTabComponent(final TabComponent templatePanel) {
+    public void addTabComponent(final TabComponent tabComponent) {
         final int newIndex = getTabCount();
-        insertTab(null, null, (Component) templatePanel, null, newIndex);
+        insertTab(null, null, (Component) tabComponent, null, newIndex);
         setSelectedIndex(newIndex);
 
         final TabHeader pnTab = new TabHeader(this);
 
-        if (templatePanel.isNewArtifact()) {
+        if (tabComponent.isNewArtifact()) {
             pnTab.setNew(true);
         } else {
-            pnTab.notifyDocumentSaved(templatePanel.getPath());
+            pnTab.notifyDocumentSaved(tabComponent.getPath());
         }
         setTabComponentAt(newIndex, pnTab);
-        templatePanel.addModificationListener(this::onTemplateWasModified);
+        tabComponent.addModificationListener(this::onTemplateWasModified);
         if (getTabCount() == 1) {
-            tabListeners.stream().forEach(l -> l.firstTabOpened(templatePanel));
+            tabListeners.stream().forEach(l -> l.firstTabOpened(tabComponent));
         }
-        tabListeners.stream().forEach(l -> l.tabOpened(templatePanel));
+        tabListeners.stream().forEach(l -> l.tabOpened(tabComponent));
     }
 
     /**
@@ -167,9 +167,9 @@ public class BasicTabbedPane extends JTabbedPane {
      */
     protected void performCloseTabAction(final int idx) {
         final Component component = getComponentAt(idx);
-        if (component instanceof TemplatePanel) {
-            final TemplatePanel tp = (TemplatePanel) component;
-            if (tp.hasUnsavedModifications()) {
+        if (component instanceof TabComponent) {
+            final TabComponent tabComponent = (TabComponent) component;
+            if (tabComponent.hasUnsavedModifications()) {
                 final String OPTION_CLOSE = "Änderungen verwerfen";
                 final String OPTION_CANCEL = "Abbrechen";
                 final int selection = JOptionPane.showOptionDialog(this,
