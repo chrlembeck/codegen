@@ -39,7 +39,7 @@ import javax.swing.table.DefaultTableModel;
 import org.antlr.v4.runtime.Token;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
-import org.jdesktop.swingx.treetable.TreeTableModel;
+import org.jdesktop.swingx.treetable.TreeTableNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +53,7 @@ import de.chrlembeck.codegen.gui.action.NewTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
 import de.chrlembeck.codegen.gui.action.SettingsAction;
+import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
 
 /**
  * Hauptklasse der Generator-GUI.
@@ -189,6 +190,11 @@ public class CodeGenGui extends JFrame implements TabListener {
     private JScrollPane spModel;
 
     /**
+     * TreeTable für die Anzeige der geladenen Modelle.
+     */
+    private JXTreeTable ttModel;
+
+    /**
      * Erstell eine neue grafische Oberfläche und öffnet diese.
      */
     public CodeGenGui() {
@@ -212,6 +218,29 @@ public class CodeGenGui extends JFrame implements TabListener {
         final JToolBar toolBar = createToolBar();
         add(toolBar, BorderLayout.PAGE_START);
 
+        // editor tabs
+        editorTabs = new EditorTabs();
+        editorTabs.addCaretPositionChangeListener(this::caretPositionChanged);
+        editorTabs.addErrorListener(this::errorsChanged);
+        editorTabs.addTabListener(this);
+
+        // Model Tree-Table
+        ttModel = new JXTreeTable(createModelTreeModel());
+        ttModel.setRootVisible(true);
+        spModel = new JScrollPane(ttModel);
+
+        // Ausgabebereich für die Fehlermeldungen
+        errorTableModel = new DefaultTableModel();
+        errorTableModel.setColumnCount(3);
+        errorTableModel.setColumnIdentifiers(new String[] { "Zeile", "Spalte", "Problem" });
+        tbErrors = new JTable(errorTableModel);
+        final JScrollPane spErrors = new JScrollPane(tbErrors);
+
+        // Tabbed Pane für Ausgabebereich
+        final JTabbedPane tpBottom = new JTabbedPane();
+        tpBottom.addTab("Errors", spErrors);
+
+        // Panel für die Statuszeile
         final JPanel pnStatus = new JPanel();
         pnStatus.setLayout(new GridBagLayout());
         lbPosition = new JLabel(" ");
@@ -219,24 +248,14 @@ public class CodeGenGui extends JFrame implements TabListener {
         pnStatus.add(lbPosition, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
                 GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 
-        editorTabs = new EditorTabs();
-        editorTabs.addCaretPositionChangeListener(this::caretPositionChanged);
-        editorTabs.addErrorListener(this::errorsChanged);
-        final JTabbedPane tpBottom = new JTabbedPane();
-        final JXTreeTable ttModel = new JXTreeTable(createModelTreeModel());
-        spModel = new JScrollPane(ttModel);
+        // SplitPane für Editoren und Modelle
         spEditorModel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, editorTabs, spModel);
+
+        // SplitPane für Editoren und Modelle oben und Ausgabebereich unten
         spMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spEditorModel, tpBottom);
-        errorTableModel = new DefaultTableModel();
-        errorTableModel.setColumnCount(3);
-        errorTableModel.setColumnIdentifiers(new String[] { "Zeile", "Spalte", "Problem" });
-        tbErrors = new JTable(errorTableModel);
-        final JScrollPane spErrors = new JScrollPane(tbErrors);
-        tpBottom.addTab("Errors", spErrors);
 
         add(pnStatus, BorderLayout.SOUTH);
         add(spMain, BorderLayout.CENTER);
-        editorTabs.addTabListener(this);
     }
 
     /**
@@ -244,7 +263,7 @@ public class CodeGenGui extends JFrame implements TabListener {
      * 
      * @return Datenmodell für die Darstellung der geladenen Modelle.
      */
-    private TreeTableModel createModelTreeModel() {
+    private DefaultTreeTableModel createModelTreeModel() {
         final DefaultTreeTableModel model = new DefaultTreeTableModel();
         model.setColumnIdentifiers(Arrays.asList("Name", "Typ", "Inhalt"));
         return model;
@@ -574,8 +593,29 @@ public class CodeGenGui extends JFrame implements TabListener {
         return editorTabs.getSelectedTemplateCharset();
     }
 
-    public void setModel(final Object newModel) {
+    /**
+     * Ersetzt das für die Generierung zu verwendende Modell durch ein neues Modell.
+     * 
+     * @param newModel
+     *            Neues Modell für die Generierung.
+     * @param Name
+     *            Name des neuen Modells
+     */
+    public void setModel(final String name, final Object newModel) {
         this.model = newModel;
+        final ModelTreeNodeUtil nodeUtil = new ModelTreeNodeUtil();
+        final TreeTableNode rootNode = nodeUtil.createRootNode(name, newModel);
+        final DefaultTreeTableModel model = getModelTreeTableModel();
+        model.setRoot(rootNode);
+    }
+
+    /**
+     * Gibt das aktuelle Datenmodell der TreeTable zurück, die zur Anzeige der geladenen Modelle verwendet wird.
+     * 
+     * @return Datenmodell der Modell-TreeTable.
+     */
+    private DefaultTreeTableModel getModelTreeTableModel() {
+        return (DefaultTreeTableModel) ttModel.getTreeTableModel();
     }
 
     /**

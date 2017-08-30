@@ -80,8 +80,7 @@ public class LoadModelAction extends AbstractAction {
                     BufferedInputStream bufIn = new BufferedInputStream(fileIn);
                     ObjectInputStream objectIn = new ObjectInputStream(bufIn)) {
                 final Object newModel = objectIn.readObject();
-                codeGenGui.setModel(newModel);
-                JOptionPane.showMessageDialog(codeGenGui, "Modell geladen.", "Info", JOptionPane.INFORMATION_MESSAGE);
+                codeGenGui.setModel(file.getName(), newModel);
             } catch (final IOException ioe) {
                 LOGGER.info("IOException beim Laden eines Models via readObject(). " + file.getAbsolutePath(), ioe);
                 JOptionPane.showMessageDialog(codeGenGui, "IO-Fehler beim Laden des Models.", "Fehler",

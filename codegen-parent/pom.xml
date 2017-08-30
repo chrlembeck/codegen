@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -89,7 +89,7 @@
                     <dependency>
                         <groupId>org.junit.platform</groupId>
                         <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.0-M6</version>
+                        <version>1.0.0-RC3</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -155,6 +155,11 @@
                 <version>${antlr.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.swinglabs</groupId>
+                <artifactId>swingx</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
                 <version>${log4j.version}</version>
@@ -189,7 +194,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.0.0-M6</version>
+                <version>5.0.0-RC3</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
