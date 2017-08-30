@@ -26,6 +26,17 @@ public class BasicTabbedPane extends JTabbedPane {
      */
     private static final long serialVersionUID = -374367653947864618L;
 
+    /**
+     * Erzeugt einen neuen TabbedPane.
+     * 
+     * @param tabPlacement
+     *            the placement for the tabs relative to the content
+     * @param tabLayoutPolicy
+     *            the policy for laying out tabs when all tabs will not fit on one run
+     * @exception IllegalArgumentException
+     *                if tab placement or tab layout policy are not one of the above supported values
+     * @see JTabbedPane#JTabbedPane(int, int)
+     */
     public BasicTabbedPane(final int tabPlacement, final int tabLayoutPolicy) {
         super(tabPlacement, tabLayoutPolicy);
         addChangeListener(this::tabChanged);
@@ -35,7 +46,7 @@ public class BasicTabbedPane extends JTabbedPane {
      * Referenz auf den gerade ausgewählten Editor. Wird benötigt, um bei einem Wechsel der aktiven Editoren die
      * Referenz auf den jeweils vorher aktiven Editor an die Listener übermitteln zu können.
      */
-    private TabComponent selectedTabComponent;
+    private Component selectedTabComponent;
 
     /**
      * Liste der Listener für die Information über die Zustandsänderungen der einzelnen Editorfenster.
@@ -50,7 +61,7 @@ public class BasicTabbedPane extends JTabbedPane {
      *            Event, welches den Wechsel zwischen zwei Tabs angezeigt hat.
      */
     protected void tabChanged(final ChangeEvent event) {
-        final TabComponent newSelection = (TabComponent) getSelectedComponent();
+        final Component newSelection = getSelectedComponent();
         tabListeners.stream().forEach(l -> l.tabChanged(selectedTabComponent, newSelection));
         selectedTabComponent = newSelection;
     }
@@ -127,8 +138,6 @@ public class BasicTabbedPane extends JTabbedPane {
         final int index = indexOfComponent((Component) tabComponent);
         final TabHeader label = (TabHeader) getTabComponentAt(index);
         label.notifyTemplateWasModified();
-        // tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications((TabComponent)
-        // getComponentAt(index)));
         tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications(tabComponent));
     }
 
@@ -137,13 +146,16 @@ public class BasicTabbedPane extends JTabbedPane {
      * 
      * @param tabComponent
      *            Referenz auf den Editor, der hinzugefügt werden soll.
+     * @param closeable
+     *            {@code true} falls der neue Reiter einen Button zum Schließen erhalten soll, {@code false} falls der
+     *            Reiter nicht geschlossen können werden soll.
      */
-    public void addTabComponent(final TabComponent tabComponent) {
+    public void addTabComponent(final TabComponent tabComponent, final boolean closeable) {
         final int newIndex = getTabCount();
         insertTab(null, null, (Component) tabComponent, null, newIndex);
         setSelectedIndex(newIndex);
 
-        final TabHeader pnTab = new TabHeader(this);
+        final TabHeader pnTab = new TabHeader(this, closeable);
 
         if (tabComponent.isNewArtifact()) {
             pnTab.setNew(true);

@@ -1,6 +1,7 @@
 package de.chrlembeck.codegen.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
@@ -237,8 +238,8 @@ public class CodeGenGui extends JFrame implements TabListener {
         final JScrollPane spErrors = new JScrollPane(tbErrors);
 
         // Tabbed Pane für Ausgabebereich
-        final JTabbedPane tpBottom = new JTabbedPane();
-        tpBottom.addTab("Errors", spErrors);
+        final BasicTabbedPane tpOutput = new BasicTabbedPane(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
+        tpOutput.addTab("Errors", spErrors);
 
         // Panel für die Statuszeile
         final JPanel pnStatus = new JPanel();
@@ -252,7 +253,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         spEditorModel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, editorTabs, spModel);
 
         // SplitPane für Editoren und Modelle oben und Ausgabebereich unten
-        spMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spEditorModel, tpBottom);
+        spMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spEditorModel, tpOutput);
 
         add(pnStatus, BorderLayout.SOUTH);
         add(spMain, BorderLayout.CENTER);
@@ -438,12 +439,14 @@ public class CodeGenGui extends JFrame implements TabListener {
      * {@inheritDoc}
      */
     @Override
-    public void tabChanged(final TabComponent oldComponent, final TabComponent newComponent) {
+    public void tabChanged(final Component oldComponent, final Component newComponent) {
         System.out.println("tabChanged");
-        btSaveTemplate.setEnabled(newComponent != null && newComponent.hasUnsavedModifications());
-        miSaveTemplate.setEnabled(newComponent != null && newComponent.hasUnsavedModifications());
-        btSaveTemplateAs.setEnabled(newComponent != null);
-        miSaveTemplateAs.setEnabled(newComponent != null);
+        final boolean saveEnabled = newComponent instanceof TabComponent
+                && ((TabComponent) newComponent).hasUnsavedModifications();
+        btSaveTemplate.setEnabled(saveEnabled);
+        miSaveTemplate.setEnabled(saveEnabled);
+        btSaveTemplateAs.setEnabled(newComponent instanceof TabComponent);
+        miSaveTemplateAs.setEnabled(newComponent instanceof TabComponent);
         btInsertBraces.setEnabled(newComponent instanceof TemplatePanel);
 
         resetErrorMessages();

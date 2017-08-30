@@ -51,7 +51,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      */
     public void newTemplate() {
         final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"));
-        addTabComponent(templatePanel);
+        addTabComponent(templatePanel, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
     }
 
@@ -129,7 +129,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      */
     public void loadTemplate(final Path path, final Charset charset) {
         final TemplatePanel templatePanel = new TemplatePanel(path, charset);
-        addTabComponent(templatePanel);
+        addTabComponent(templatePanel, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
     }
 

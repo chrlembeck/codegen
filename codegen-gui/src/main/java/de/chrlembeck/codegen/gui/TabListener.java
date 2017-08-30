@@ -1,5 +1,7 @@
 package de.chrlembeck.codegen.gui;
 
+import java.awt.Component;
+
 /**
  * Listener für Zustandsänderungen an den im Editor verwalteten Fenstern.
  *
@@ -31,7 +33,7 @@ public interface TabListener {
      * @param newComponent
      *            Referenz auf das jetzt aktive Editorfenster oder null, wenn das letzte Fenster geschlossen wurde.
      */
-    public void tabChanged(TabComponent oldComponent, TabComponent newComponent);
+    public void tabChanged(Component oldComponent, Component newComponent);
 
     /**
      * Wird aufgerufen, wenn ein Editorfenster geöffnet wurde.

@@ -34,19 +34,24 @@ class TabHeader extends JPanel {
      * 
      * @param editorTabs
      *            Referenz auf das TabbedPane, in den der Reiter eingefügt wird.
+     * @param addCloseButton
+     *            {@code true} falls der neue Reiter einen Button zum Schließen erhalten soll, {@code false} falls der
+     *            Reiter nicht geschlossen können werden soll.
      */
-    public TabHeader(final BasicTabbedPane editorTabs) {
+    public TabHeader(final BasicTabbedPane editorTabs, final boolean addCloseButton) {
         setOpaque(false);
         lbTitle = new JLabel();
-        final JButton btClose = new JButton("x");
-        btClose.setBorder(null);
-        btClose.setFocusable(false);
         setLayout(new GridBagLayout());
         add(lbTitle, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(0, 0, 0, 0), 0, 0));
-        add(btClose, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(0, 5, 0, 0), 0, 0));
-        btClose.addActionListener(a -> performCloseButtonAction(editorTabs));
+        if (addCloseButton) {
+            final JButton btClose = new JButton("x");
+            btClose.setBorder(null);
+            btClose.setFocusable(false);
+            add(btClose, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                    new Insets(0, 5, 0, 0), 0, 0));
+            btClose.addActionListener(a -> performCloseButtonAction(editorTabs));
+        }
     }
 
     /**
