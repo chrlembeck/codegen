@@ -43,7 +43,7 @@ public class GenerateAction extends AbstractAction {
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(GenerateAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenerateAction.class);
 
     /**
      * Referenz auf die Anwendung, in der der Generator gestartet werden soll.
@@ -79,9 +79,6 @@ public class GenerateAction extends AbstractAction {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        final Path templatePath = templatePanel.getPath();
-        final URI templateResourceLocator = templatePath.toUri();
-        final SimpleTemplateResolver templateResolver = new SimpleTemplateResolver(templateResourceLocator);
 
         templatePanel.validateTemplate();
         if (templatePanel.hasErrors()) {
@@ -94,7 +91,8 @@ public class GenerateAction extends AbstractAction {
         final List<TemplateStatement> templates = templateFile.getTemplateStatements();
         @SuppressWarnings("unchecked")
         final ToStringWrapper<TemplateStatement>[] templateWrappers = templates.stream()
-                .map(t -> new ToStringWrapper<>(t, TemplateStatement::getName)).toArray(ToStringWrapper[]::new);
+                .map(templateSt -> new ToStringWrapper<>(templateSt, TemplateStatement::getName))
+                .toArray(ToStringWrapper[]::new);
         @SuppressWarnings("unchecked")
         final ToStringWrapper<TemplateStatement> selection = (ToStringWrapper<TemplateStatement>) JOptionPane
                 .showInputDialog(codeGenGui,
@@ -103,6 +101,9 @@ public class GenerateAction extends AbstractAction {
                         templateWrappers[0]);
         if (selection != null) {
             final BufferedOutput out = new BufferedOutput();
+            final Path templatePath = templatePanel.getPath();
+            final URI templateResourceLocator = templatePath.toUri();
+            final SimpleTemplateResolver templateResolver = new SimpleTemplateResolver(templateResourceLocator);
             final Generator generator = new Generator(templateResolver, out,
                     new BasicOutputPreferences());
             try {

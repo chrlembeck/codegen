@@ -13,5 +13,5 @@ public interface CaretPositionChangeListener {
      * @param event
      *            Event, welches die aktuelle Position des Cursors mit Zusazuinformationen beschreibt.
      */
-    public void caretPositionChanged(CaretPositionChangeEvent event);
+    void caretPositionChanged(CaretPositionChangeEvent event);
 }

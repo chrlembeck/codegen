@@ -36,7 +36,7 @@ public class LoadModelAction extends AbstractAction {
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(LoadModelAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadModelAction.class);
 
     /**
      * Referenz auf die Gui, die die Action verwenden möchte.
@@ -69,7 +69,7 @@ public class LoadModelAction extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         final FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Model Files", "smodel");
         final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastModelDirectory(), filter);
         final int selection = chooser.showOpenDialog(codeGenGui);

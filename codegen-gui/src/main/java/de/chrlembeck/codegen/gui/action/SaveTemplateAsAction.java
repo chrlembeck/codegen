@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
-import de.chrlembeck.codegen.gui.UserSettings;;
+import de.chrlembeck.codegen.gui.UserSettings;
 
 /**
  * Action zum Speichern einer Template-Datei aus einem Editor-Fenster in eine Datei mit neuem Dateinamen.

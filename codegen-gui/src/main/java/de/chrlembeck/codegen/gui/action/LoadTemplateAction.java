@@ -45,7 +45,8 @@ public class LoadTemplateAction extends AbstractAction {
         super();
         this.codeGenGui = codeGenGui;
         if (toolbar) {
-
+            putValue(NAME, "Template öffnen");
+            putValue(SMALL_ICON, IconFactory.OPEN_32.icon());
         } else {
             putValue(NAME, "Template öffnen");
             putValue(MNEMONIC_KEY, KeyEvent.VK_F);

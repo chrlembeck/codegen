@@ -14,5 +14,5 @@ public interface ModificationListener {
      * @param templatePanel
      *            Template, an dem de Änderungen vorgenommen wurden.
      */
-    public void documentWasModified(TemplatePanel templatePanel);
+    void documentWasModified(TemplatePanel templatePanel);
 }

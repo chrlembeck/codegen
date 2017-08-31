@@ -45,6 +45,7 @@ public class SettingsAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-
+        System.out.println(codeGenGui);
+        // TODO implementieren
     }
 }

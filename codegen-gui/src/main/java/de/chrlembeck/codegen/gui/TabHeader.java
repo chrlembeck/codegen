@@ -50,7 +50,7 @@ class TabHeader extends JPanel {
             btClose.setFocusable(false);
             add(btClose, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                     new Insets(0, 5, 0, 0), 0, 0));
-            btClose.addActionListener(a -> performCloseButtonAction(editorTabs));
+            btClose.addActionListener(action -> performCloseButtonAction(editorTabs));
         }
     }
 
@@ -60,7 +60,7 @@ class TabHeader extends JPanel {
      * @param tabbedPane
      *            Referenz auf das TabbedPane, in dem der Reiter enthalten ist.
      */
-    public void performCloseButtonAction(final BasicTabbedPane tabbedPane) {
+    public final void performCloseButtonAction(final BasicTabbedPane tabbedPane) {
         final int idx = tabbedPane.indexOfTabComponent(this);
         tabbedPane.performCloseTabAction(idx);
     }

@@ -15,7 +15,7 @@ public interface TabListener {
      * @param component
      *            Referenz auf das neue Fenster.
      */
-    public void firstTabOpened(TabComponent component);
+    void firstTabOpened(TabComponent component);
 
     /**
      * Wird aufgerufen, wenn das letzte Editorfenster geschlossen wurde.
@@ -23,7 +23,7 @@ public interface TabListener {
      * @param component
      *            Referenz auf das geschlossenen Editorfenseter.
      */
-    public void lastTabClosed(TabComponent component);
+    void lastTabClosed(TabComponent component);
 
     /**
      * Wird aufgerufen, wenn ein anderen Editorfenster aktiviert wurde.
@@ -33,7 +33,7 @@ public interface TabListener {
      * @param newComponent
      *            Referenz auf das jetzt aktive Editorfenster oder null, wenn das letzte Fenster geschlossen wurde.
      */
-    public void tabChanged(Component oldComponent, Component newComponent);
+    void tabChanged(Component oldComponent, Component newComponent);
 
     /**
      * Wird aufgerufen, wenn ein Editorfenster geöffnet wurde.
@@ -41,7 +41,7 @@ public interface TabListener {
      * @param component
      *            Referenz auf das neue Fenster.
      */
-    public void tabOpened(TabComponent component);
+    void tabOpened(TabComponent component);
 
     /**
      * Wird aufgerufen, wenn ein Editorfenster geschlossen wurde.
@@ -49,7 +49,7 @@ public interface TabListener {
      * @param component
      *            Refernez auf das geschlossene Fenster.
      */
-    public void tabClosed(TabComponent component);
+    void tabClosed(TabComponent component);
 
     /**
      * Wird aufgerufen, wenn der Inhalt des Editorfensters gespeichert wurde.
@@ -57,7 +57,7 @@ public interface TabListener {
      * @param component
      *            Referenz auf das Fenster, dessen Inhalt gespeichert wurde.
      */
-    public void tabSaved(TabComponent component);
+    void tabSaved(TabComponent component);
 
     /**
      * Wird aufgerufen, wenn die erste nicht gespeicherte Änderung an einem Fenster durchgeführt wurde.
@@ -65,5 +65,5 @@ public interface TabListener {
      * @param component
      *            Refernez auf das Fenster, das ab jetzt wieder ungespeicherte Änderungen enthält.
      */
-    public void tabContentHasUnsavedModifications(TabComponent component);
+    void tabContentHasUnsavedModifications(TabComponent component);
 }

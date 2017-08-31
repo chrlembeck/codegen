@@ -61,7 +61,7 @@ public class CloseApplicationAction extends AbstractAction implements WindowList
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         if (codeGenGui.containsUnsavedModifications()) {
             final int option = JOptionPane.showOptionDialog(codeGenGui,
                     "Wollen Sie die Anwendung wirklich beenden ohne die Änderungen zu speichern?",
@@ -79,49 +79,55 @@ public class CloseApplicationAction extends AbstractAction implements WindowList
      * {@inheritDoc}
      */
     @Override
-    public void windowOpened(final WindowEvent e) {
+    public void windowOpened(final WindowEvent event) {
+        // nothing to do here
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowClosing(final WindowEvent e) {
-        actionPerformed(new ActionEvent(e.getSource(), e.getID(), e.paramString()));
+    public void windowClosing(final WindowEvent event) {
+        actionPerformed(new ActionEvent(event.getSource(), event.getID(), event.paramString()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowClosed(final WindowEvent e) {
+    public void windowClosed(final WindowEvent event) {
+        // nothing to do here
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowIconified(final WindowEvent e) {
+    public void windowIconified(final WindowEvent event) {
+        // nothing to do here
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowDeiconified(final WindowEvent e) {
+    public void windowDeiconified(final WindowEvent event) {
+        // nothing to do here
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowActivated(final WindowEvent e) {
+    public void windowActivated(final WindowEvent event) {
+        // nothing to do here
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void windowDeactivated(final WindowEvent e) {
+    public void windowDeactivated(final WindowEvent event) {
+        // nothing to do here
     }
 }

@@ -16,7 +16,7 @@ public interface TabComponent {
      * 
      * @return true, falls das Dokument neu ist, sonst false
      */
-    public boolean isNewArtifact();
+    boolean isNewArtifact();
 
     /**
      * Gibt an, ob das Dokument in dem Tab ungespeicherte Änderungen enthält.
@@ -36,14 +36,14 @@ public interface TabComponent {
      * @throws IOException
      *             Falls beim Schreiben ein Problem auftritt.
      */
-    public boolean saveDocument(Path path, Charset charset) throws IOException;
+    boolean saveDocument(Path path, Charset charset) throws IOException;
 
     /**
      * Gibt den Pfad zu der Datei zurück, falls diese gelesen oder schon einmal gespechert wurde.
      * 
      * @return Pfad zu der Datei, aus der das Dokument zuletzt gelesen oder in die es zuletzt gespeichert wurde.
      */
-    public Path getPath();
+    Path getPath();
 
     /**
      * Fügt den übergebenen Listener zu der Liste der Listener hinzu, die über Änderungen an dem Dokument informiert
@@ -52,7 +52,7 @@ public interface TabComponent {
      * @param listener
      *            Neuer Listener für Änderungen an dem Dokument.
      */
-    public void addModificationListener(ModificationListener listener);
+    void addModificationListener(ModificationListener listener);
 
     /**
      * Gibt das Encoding der in dem Dokument enthaltenen Datei zurück, falls diese aus einer Datei geladen oder bereits
@@ -60,5 +60,5 @@ public interface TabComponent {
      * 
      * @return Encoding der in dem Dokument enthaltenen Datei. {@code null}, falls die Datei noch nie gespeichert wurde.
      */
-    public Charset getCharset();
+    Charset getCharset();
 }

@@ -64,7 +64,7 @@ public enum IconFactory {
     /**
      * Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(IconFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IconFactory.class);
 
     /**
      * Speicher den Ablageort eines Icons.

@@ -16,6 +16,7 @@ import de.chrlembeck.antlr.editor.AntlrEditorKit;
 import de.chrlembeck.antlr.editor.LineNumberComponent;
 import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
+import de.chrlembeck.codegen.antlreditor.XMLParser.DocumentContext;
 
 /**
  * Beispielklasse für die Verwendung des AntlrEditorKits aus dem Paket antlr-editorkit. Hier wird ein kleiner Editor
@@ -51,10 +52,9 @@ public class AntlrGuiEditorExample extends JFrame {
         final JEditorPane editor = new JEditorPane();
         final Lexer lexer = new XMLLexer(null);
         final String startRuleName = XMLParser.ruleNames[XMLParser.RULE_document];
-        final AntlrEditorKit editorKit = new AntlrEditorKit(lexer, XMLParser.class, startRuleName);
+        final AntlrEditorKit<DocumentContext> editorKit = new AntlrEditorKit<>(lexer, XMLParser.class, startRuleName,
+                createStyles());
         editor.setEditorKit(editorKit);
-
-        initStyles();
 
         // put it inside a scrollPane
         final JScrollPane scrollPane = new JScrollPane(editor);
@@ -74,12 +74,13 @@ public class AntlrGuiEditorExample extends JFrame {
     /**
      * Legt die Farben für die Token im Editor fest.
      */
-    private void initStyles() {
-        final TokenStyleRepository styles = TokenStyleRepository.getInstance();
+    private TokenStyleRepository createStyles() {
+        final TokenStyleRepository styles = new TokenStyleRepository();
         styles.putStyle(XMLParser.COMMENT, new TokenStyle(Color.GRAY, Font.ITALIC));
         styles.putStyle(XMLParser.Name, new TokenStyle(Color.BLUE, Font.BOLD));
         styles.putStyle(XMLParser.CharRef, new TokenStyle(Color.decode("0x008000"), Font.PLAIN));
         styles.putStyle(XMLParser.EntityRef, new TokenStyle(Color.decode("0x800000"), Font.BOLD));
         styles.putStyle(XMLParser.STRING, new TokenStyle(Color.decode("0x800080"), Font.PLAIN));
+        return styles;
     }
 }
