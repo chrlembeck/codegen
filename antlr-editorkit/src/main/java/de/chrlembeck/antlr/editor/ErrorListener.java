@@ -21,5 +21,5 @@ public interface ErrorListener {
      *            Liste der aktuell im Dokument erkannten Fehler. Die Liste enthält die Token, bei denen Probleme
      *            erkannt wurden zusammen mit einer entsprechenden Beschreibung des Problems.
      */
-    public void errorsChanged(Map<Token, String> errors);
+    void errorsChanged(Map<Token, String> errors);
 }

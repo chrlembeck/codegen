@@ -76,11 +76,11 @@ public class ShiftExpression extends AbstractExpression<ExpressionShiftContext> 
     @Override
     public ObjectWithType<?> evaluate(final Object model, final Environment environment) {
         final ObjectWithType<?> leftObj = JavaUtil.unaryNumericPromotion(left.evaluate(model, environment));
-        final ObjectWithType<?> rightObj = JavaUtil.unaryNumericPromotion(right.evaluate(model, environment));
         if (!JavaUtil.isIntegerOrLongType(leftObj.getType())) {
             throw new GeneratorException("Der linke Operand der Shift-Operation ist nicht vom Typ int oder long.",
                     this, environment);
         }
+        final ObjectWithType<?> rightObj = JavaUtil.unaryNumericPromotion(right.evaluate(model, environment));
         if (!JavaUtil.isIntegerOrLongType(rightObj.getType())) {
             throw new GeneratorException("Der rechte Operand der Shift-Operation ist nicht vom Typ int oder long.",
                     this, environment);

@@ -51,9 +51,9 @@ public class IfStatement extends AbstractTemplateMember<IfStatementContext>
         this.condition = condition;
         this.ifBlock = ifBlock;
         this.elseBlock = elseBlock;
-        ifBlock.forEach(st -> st.setParent(this));
+        ifBlock.forEach(codeOrStatement -> codeOrStatement.setParent(this));
         if (elseBlock != null) {
-            elseBlock.forEach(st -> st.setParent(this));
+            elseBlock.forEach(codeOrStatement -> codeOrStatement.setParent(this));
         }
     }
 

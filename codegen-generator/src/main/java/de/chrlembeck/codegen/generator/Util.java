@@ -5,6 +5,7 @@ package de.chrlembeck.codegen.generator;
  * 
  * @author Christoph Lembeck
  */
+@SuppressWarnings({ "PMD.UseUtilityClass" })
 public class Util {
 
     /**

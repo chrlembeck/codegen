@@ -27,21 +27,32 @@ public class LiteralVisitor extends CodeGenParserBaseVisitor<Literal> {
      */
     @Override
     public Literal visitLiteral(final LiteralContext ctx) {
-        if (ctx.IntegerLiteral() != null) {
+        if (notNull(ctx.IntegerLiteral())) {
             return new IntegerLiteral(ctx, ctx.IntegerLiteral().getText());
-        } else if (ctx.FloatingPointLiteral() != null) {
+        } else if (notNull(ctx.FloatingPointLiteral())) {
             return new FloatingPointLiteral(ctx, ctx.FloatingPointLiteral().getText());
-        } else if (ctx.CharacterLiteral() != null) {
+        } else if (notNull(ctx.CharacterLiteral())) {
             final String literal = ctx.CharacterLiteral().getText();
             return new CharacterLiteral(ctx, literal.substring(1, literal.length() - 1));
-        } else if (ctx.StringLiteral() != null) {
+        } else if (notNull(ctx.StringLiteral())) {
             return new StringLiteral(ctx, ctx.StringLiteral().getText());
-        } else if (ctx.BooleanLiteral() != null) {
+        } else if (notNull(ctx.BooleanLiteral())) {
             return new BooleanLiteral(ctx, ctx.BooleanLiteral().getText());
         } else if (ctx.getChild(0).getText().equals("null")) {
             return new NullLiteral(ctx);
         } else {
             throw new RuntimeException("not implemented");
         }
+    }
+
+    /**
+     * Prüft, ob der übergebene Wert ungleich null ist.
+     * 
+     * @param value
+     *            Wert, der mit null verglichen werden soll.
+     * @return {@code false}, falls der Wert {@code null} ist, sonst {@code true}.
+     */
+    public static boolean notNull(final Object value) {
+        return value != null;
     }
 }

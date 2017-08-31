@@ -16,5 +16,5 @@ public interface OutputPreferences {
      *            Name des Channels, dessen Encoding bestimmt werden soll.
      * @return Encoding, mit dem die Daten in den Channel geschrieben werden sollen.
      */
-    public Charset getCharsetForChannel(final String channelName);
+    Charset getCharsetForChannel(final String channelName);
 }

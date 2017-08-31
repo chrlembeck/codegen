@@ -24,10 +24,10 @@ public interface GeneratorOutput {
      * @throws IOException
      *             Falls bei der Erstellung des Writers ein Fehler aufgetreten ist.
      */
-    public Writer getWriter(String channelName, OutputPreferences prefs) throws IOException;
+    Writer getWriter(String channelName, OutputPreferences prefs) throws IOException;
 
     /**
      * Informiert alle Ausgabekanäle darüber, dass die Ausgabedatenströme geschlossen werden können.
      */
-    public void closeAll();
+    void closeAll();
 }

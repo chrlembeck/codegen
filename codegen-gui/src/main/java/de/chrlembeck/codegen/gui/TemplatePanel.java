@@ -15,11 +15,9 @@ import org.antlr.v4.runtime.Token;
 
 import de.chrlembeck.antlr.editor.AntlrDocument;
 import de.chrlembeck.antlr.editor.LineNumberComponent;
-import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.visitor.TemplateFileVisitor;
-import lang.CodeGenLexer;
 import lang.CodeGenParser.TemplateFileContext;
 
 /**
@@ -28,45 +26,6 @@ import lang.CodeGenParser.TemplateFileContext;
  * @author Christoph Lembeck
  */
 public class TemplatePanel extends JScrollPane implements TabComponent {
-
-    /**
-     * Initialisiert das Syntax-Highlighting für den Code-Editor.
-     */
-    static {
-        final TokenStyleRepository styles = TokenStyleRepository.getInstance();
-        final TokenStyle keywordStyle = new TokenStyle(new Color(127, 0, 85), Font.BOLD);
-        final TokenStyle javaPrimaryType = new TokenStyle(new Color(180, 0, 60), Font.BOLD);
-        final TokenStyle stringLiteral = new TokenStyle(new Color(42, 0, 255), Font.PLAIN);
-        final TokenStyle errorStyle = new TokenStyle(new Color(220, 0, 0), Font.ITALIC);
-        styles.putStyle(CodeGenLexer.BlockComment, new TokenStyle(new Color(63, 127, 95), Font.ITALIC));
-        styles.putStyle(CodeGenLexer.IMPORT, keywordStyle);
-        styles.putStyle(CodeGenLexer.AS, keywordStyle);
-        styles.putStyle(CodeGenLexer.TEMPLATE, keywordStyle);
-        styles.putStyle(CodeGenLexer.ENDTEMPLATE, keywordStyle);
-        styles.putStyle(CodeGenLexer.EXEC, keywordStyle);
-        styles.putStyle(CodeGenLexer.FOREACH, keywordStyle);
-        styles.putStyle(CodeGenLexer.FROM, keywordStyle);
-        styles.putStyle(CodeGenLexer.ENDFOREACH, keywordStyle);
-        styles.putStyle(CodeGenLexer.FOR, keywordStyle);
-        styles.putStyle(CodeGenLexer.OUTPUT, keywordStyle);
-        styles.putStyle(CodeGenLexer.ENDOUTPUT, keywordStyle);
-        styles.putStyle(CodeGenLexer.COUNTER, keywordStyle);
-        styles.putStyle(CodeGenLexer.SEPARATOR, keywordStyle);
-        styles.putStyle(CodeGenLexer.IF, keywordStyle);
-        styles.putStyle(CodeGenLexer.ELSE, keywordStyle);
-        styles.putStyle(CodeGenLexer.ENDIF, keywordStyle);
-        styles.putStyle(CodeGenLexer.INT, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.FLOAT, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.LONG, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.CHAR, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.SHORT, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.BOOLEAN, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.DOUBLE, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.VOID, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.NullLiteral, javaPrimaryType);
-        styles.putStyle(CodeGenLexer.StringLiteral, stringLiteral);
-        styles.putStyle(CodeGenLexer.ERR_CHAR, errorStyle);
-    }
 
     /**
      * Version number of the current class.
@@ -89,9 +48,11 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
      * @param charset
      *            Encoding der Datei, die initial in den Editor geladen werden soll oder null, falls der Editor leer
      *            sein soll.
+     * @param tokenStyles
+     *            Darstellungsregeln für die Token in den Template-Editoren.
      */
-    public TemplatePanel(final Path path, final Charset charset) {
-        editorPane = new TemplateEditorPane<TemplateFileContext>(path, charset);
+    public TemplatePanel(final Path path, final Charset charset, final TokenStyleRepository tokenStyles) {
+        editorPane = new TemplateEditorPane<TemplateFileContext>(path, charset, tokenStyles);
         setViewportView(editorPane);
         initLineNumberComponent();
     }

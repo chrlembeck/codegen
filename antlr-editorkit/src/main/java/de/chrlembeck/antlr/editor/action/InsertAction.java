@@ -31,7 +31,7 @@ public class InsertAction extends AbstractAction {
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(InsertAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InsertAction.class);
 
     /**
      * Text, der an den Beginn der aktuellen Markierung geschrieben werden soll (oder an die Cursorposition, wenn keine
@@ -83,8 +83,8 @@ public class InsertAction extends AbstractAction {
      * Fügt das Einfügen oder Erstzen durch.
      */
     @Override
-    public final void actionPerformed(final ActionEvent e) {
-        final JEditorPane editor = (JEditorPane) e.getSource();
+    public final void actionPerformed(final ActionEvent event) {
+        final JEditorPane editor = (JEditorPane) event.getSource();
         try {
             final AntlrDocument<?> document = (AntlrDocument<?>) editor.getDocument();
             System.out.println("---");
@@ -111,11 +111,11 @@ public class InsertAction extends AbstractAction {
     /**
      * Hilfsmethode, die einen null-String in einen Leer-String umwandelt.
      * 
-     * @param st
+     * @param string
      *            Zu prüfende Zeichenkette.
      * @return Leerstring, wenn die Zeichenkette null war, sonst bleibt die Zeichenkette unverändert.
      */
-    private static String toString(final String st) {
-        return st == null ? "" : st;
+    private static String toString(final String string) {
+        return string == null ? "" : string;
     }
 }

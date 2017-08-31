@@ -17,7 +17,7 @@ public class Identifier extends AbstractExpression<PrimaryIdentifierContext> imp
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(Identifier.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Identifier.class);
 
     /**
      * Erstellt eine neue Variable mit dem Namen aus dem Kontext.

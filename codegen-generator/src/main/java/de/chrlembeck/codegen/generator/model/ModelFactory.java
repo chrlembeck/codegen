@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
  * 
  * @author Christoph Lembeck
  */
+@SuppressWarnings("PMD.UseUtilityClass")
 public class ModelFactory {
 
     /**

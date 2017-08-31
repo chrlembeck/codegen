@@ -19,12 +19,12 @@ public interface ClassOrPrimitiveType {
      * @throws ClassNotFoundException
      *             Falls die gewünschte Klasse nicht geladen werden kann.
      */
-    public Class<?> getClassRef() throws ClassNotFoundException;
+    Class<?> getClassRef() throws ClassNotFoundException;
 
     /**
      * Gibt den Klassennamen zurück, so wie er in der Template-Datei steht.
      * 
      * @return Klassenname aus der Template-Datei.
      */
-    public String getClassName();
+    String getClassName();
 }

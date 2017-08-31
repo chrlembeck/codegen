@@ -58,6 +58,7 @@ public class BufferedOutput implements GeneratorOutput {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public void closeAll() {
         for (final StringWriter writer : writerMap.values()) {
             try {

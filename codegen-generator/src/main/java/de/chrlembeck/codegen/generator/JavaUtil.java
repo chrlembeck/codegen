@@ -9,6 +9,7 @@ import de.chrlembeck.codegen.generator.lang.PrimitiveOperations;
  * 
  * @author Christoph Lembeck
  */
+@SuppressWarnings("PMD.UseUtilityClass")
 public class JavaUtil {
 
     /**
@@ -214,8 +215,9 @@ public class JavaUtil {
             return Long.class;
         } else if (double.class.isAssignableFrom(type)) {
             return Double.class;
-        } else
+        } else {
             throw new IllegalArgumentException("Only primitive types do have a wrapper class.");
+        }
     }
 
     /**
@@ -227,8 +229,8 @@ public class JavaUtil {
      *         nicht entfernt werden kann.
      */
     public static boolean isNumberType(final Class<?> type) {
-        return (Number.class.isAssignableFrom(type)) || (type.equals(int.class)) || (type.equals(long.class))
-                || (type.equals(float.class)) || (type.equals(double.class));
+        return Number.class.isAssignableFrom(type) || type.equals(int.class) || type.equals(long.class)
+                || type.equals(float.class) || type.equals(double.class);
     }
 
     /**

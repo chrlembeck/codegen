@@ -60,7 +60,6 @@ public class SignExpression extends AbstractExpression<ExpressionSignContext> {
     @Override
     public ObjectWithType<?> evaluate(final Object model, final Environment environment) {
         final ObjectWithType<?> exp = expression.evaluate(model, environment);
-        final Class<?> type = exp.getType();
         final Number number = (Number) exp.getObject();
         Number result;
         if (operator == Operator.PLUS) {
@@ -76,6 +75,7 @@ public class SignExpression extends AbstractExpression<ExpressionSignContext> {
         } else {
             throw new RuntimeException("unkonwn type " + number.getClass().getName());
         }
+        final Class<?> type = exp.getType();
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final ObjectWithType<?> owt = new ObjectWithType(result, type);
         return owt;

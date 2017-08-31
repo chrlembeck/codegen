@@ -56,7 +56,8 @@ public class LoadModelAction extends AbstractAction {
         super();
         this.codeGenGui = codeGenGui;
         if (toolbar) {
-
+            putValue(NAME, "Model laden (Serializable)");
+            putValue(SHORT_DESCRIPTION, "Modell via ObjectInputStream laden");
         } else {
             putValue(NAME, "Model laden (Serializable)");
             putValue(MNEMONIC_KEY, KeyEvent.VK_L);

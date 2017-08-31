@@ -16,6 +16,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <codegen.version>0.0.1-SNAPSHOT</codegen.version>
+<!--         <pmd.rules.file>${project.parent.basedir}/build-properties/pmd-rules.xml</pmd.rules.file> -->
     </properties>
 
     <build>
@@ -94,6 +95,37 @@
                 </dependencies>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.8</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/generated/*.java</exclude>
+                    </excludes>
+                    <excludeRoots>
+                        <excludeRoot>target/generated-sources/antlr4</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>de/chrlembeck/buildtools/pmd/pmd-rules.xml</ruleset>
+                    </rulesets>
+                    <printFailingErrors>true</printFailingErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>de.chrlembeck</groupId>
+                        <artifactId>chrlembeck-build-tools</artifactId>
+                        <version>0.1-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -111,7 +143,8 @@
                     <!-- upgrade to 3.5.1 when released -->
                     <!-- https://issues.apache.org/jira/projects/MPLUGIN?selectedItem=com.atlassian.jira.jira-projects-plugin:release-page&status=all -->
                     <!-- https://issues.apache.org/jira/browse/MPLUGIN-324 -->
-                    <!-- danach kann javadoc wieder auf "private" gestellt werden -->    
+                    <!-- danach kann javadoc wieder auf "private" gestellt 
+                        werden -->
                     <version>3.5</version>
                 </plugin>
             </plugins>
@@ -127,6 +160,40 @@
                     <show>package</show>
                     <nohelp>false</nohelp>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.8</version>
+                <configuration>
+                    <linkXref>true</linkXref>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <minimumTokens>100</minimumTokens>
+                    <targetJdk>1.8</targetJdk>
+                    <excludes>
+                        <exclude>**/generated/*.java</exclude>
+                    </excludes>
+                    <excludeRoots>
+                        <excludeRoot>target/generated-sources/antlr4</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>de/chrlembeck/buildtools/pmd/pmd-rules.xml</ruleset>
+                        <!-- <ruleset>${pmd.rules.file}</ruleset> -->
+                    </rulesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
             </plugin>
         </plugins>
     </reporting>

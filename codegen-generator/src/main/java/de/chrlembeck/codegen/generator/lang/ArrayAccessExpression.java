@@ -46,12 +46,12 @@ public class ArrayAccessExpression extends AbstractExpression<ExpressionArrayAcc
     @Override
     public ObjectWithType<?> evaluate(final Object model, final Environment environment) {
         final ObjectWithType<?> src = arrayRef.evaluate(model, environment);
-        final ObjectWithType<?> idx = index.evaluate(model, environment);
         if (!src.getType().isArray()) {
             throw new GeneratorException(
                     "Array-Zugriff auf ein Objekt, welches kein Array ist. (" + src.getType().getName() + ")",
                     this, environment);
         }
+        final ObjectWithType<?> idx = index.evaluate(model, environment);
         if (!(Integer.class.isAssignableFrom(idx.getType())) && !(int.class.isAssignableFrom(idx.getType()))) {
             throw new GeneratorException("Array Index ist kein Integer. (" + idx.getObject().getClass().getName() + ")",
                     this, environment);

@@ -27,7 +27,7 @@ public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementCon
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(ExecuteStatement.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteStatement.class);
 
     /**
      * Name des auszuführenden Templates.
@@ -153,7 +153,6 @@ public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementCon
     @Override
     public void execute(final Generator generator, final Object model, final Environment environment)
             throws IOException {
-        final Object source = valueExpression.evaluate(model, environment).getObject();
         URI resourceIdentifier;
         if (prefix == null) {
             resourceIdentifier = getTemplateFile().getResourceIdentifier();
@@ -165,6 +164,7 @@ public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementCon
             }
         }
 
+        final Object source = valueExpression.evaluate(model, environment).getObject();
         if (forEach) {
             if (source instanceof Iterable) {
                 final Iterable<?> iterable = (Iterable<?>) source;

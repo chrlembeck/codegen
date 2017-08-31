@@ -31,5 +31,5 @@ public interface TemplateResolver {
      * @throws IOException
      *             Falls beim Lesen der Tamplate-Datei ein Fehler aufgetreten ist.
      */
-    public TemplateFile getOrLoadTemplateFile(URI templateResourceIdentifier) throws MalformedURLException, IOException;
+    TemplateFile getOrLoadTemplateFile(URI templateResourceIdentifier) throws MalformedURLException, IOException;
 }

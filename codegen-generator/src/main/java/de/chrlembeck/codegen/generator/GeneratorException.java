@@ -11,7 +11,7 @@ import de.chrlembeck.codegen.generator.lang.Executable;
  *
  * @author Christoph Lembeck
  */
-public class GeneratorException extends CodeGenException {
+public class GeneratorException extends AbstractCodeGenException {
 
     /**
      * Version number of the current class.
@@ -100,16 +100,16 @@ public class GeneratorException extends CodeGenException {
      * @return Text-Repreäsentation des Aufruf-Stacks.
      */
     public String printGeneratorStack() {
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         final List<Executable<?>> stack = getGeneratorStack();
         for (int i = stack.size() - 1; i >= 0; i--) {
             final Executable<?> executable = stack.get(i);
-            sb.append(executable.getTemplateFile().getResourceIdentifier());
-            sb.append(' ');
-            sb.append(executable.getClass().getName());
-            sb.append(' ');
-            sb.append(executable.getStartPosition().toShortString());
+            builder.append(executable.getTemplateFile().getResourceIdentifier());
+            builder.append(' ');
+            builder.append(executable.getClass().getName());
+            builder.append(' ');
+            builder.append(executable.getStartPosition().toShortString());
         }
-        return sb.toString();
+        return builder.toString();
     }
 }

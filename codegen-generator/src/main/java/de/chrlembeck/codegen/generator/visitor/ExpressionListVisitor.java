@@ -26,6 +26,7 @@ public class ExpressionListVisitor extends CodeGenParserBaseVisitor<List<Express
     @Override
     public List<Expression> visitExpressionList(final ExpressionListContext ctx) {
         final ExpressionVisitor eVisitor = new ExpressionVisitor();
-        return ctx.expression().stream().map(e -> e.accept(eVisitor)).collect(Collectors.toList());
+        return ctx.expression().stream().map(expressionCtx -> expressionCtx.accept(eVisitor))
+                .collect(Collectors.toList());
     }
 }

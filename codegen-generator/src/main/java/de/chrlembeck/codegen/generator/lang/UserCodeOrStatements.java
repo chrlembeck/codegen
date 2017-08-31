@@ -19,5 +19,5 @@ public interface UserCodeOrStatements<T extends ParserRuleContext> extends Execu
      * @param templateMember
      *            Parent-Objekt nach obiger Beschreibung.
      */
-    public void setParent(AbstractTemplateMember<?> templateMember);
+    void setParent(AbstractTemplateMember<?> templateMember);
 }

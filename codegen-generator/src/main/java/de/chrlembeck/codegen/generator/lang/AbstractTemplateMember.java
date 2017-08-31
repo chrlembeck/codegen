@@ -12,6 +12,7 @@ import de.chrlembeck.codegen.generator.Position;
  * @param <T>
  *            Typ des ParserRuleContextes, wie er vom ANTLR-Parser für das Element erzeugt wird.
  */
+@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class AbstractTemplateMember<T extends ParserRuleContext> {
 
     /**
@@ -30,7 +31,7 @@ public abstract class AbstractTemplateMember<T extends ParserRuleContext> {
      * @param ctx
      *            ParserRuleKontext, wie er von ANTLR zu diesem Element zurückgegeben wurde.
      */
-    public AbstractTemplateMember(final T ctx) {
+    protected AbstractTemplateMember(final T ctx) {
         this.context = ctx;
     }
 

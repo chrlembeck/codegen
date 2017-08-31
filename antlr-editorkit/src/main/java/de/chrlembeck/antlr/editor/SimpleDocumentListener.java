@@ -34,23 +34,23 @@ public class SimpleDocumentListener implements DocumentListener {
      * {@inheritDoc}
      */
     @Override
-    public void insertUpdate(final DocumentEvent e) {
-        eventConsumer.accept(e);
+    public void insertUpdate(final DocumentEvent documentEvent) {
+        eventConsumer.accept(documentEvent);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeUpdate(final DocumentEvent e) {
-        eventConsumer.accept(e);
+    public void removeUpdate(final DocumentEvent documentEvent) {
+        eventConsumer.accept(documentEvent);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void changedUpdate(final DocumentEvent e) {
-        eventConsumer.accept(e);
+    public void changedUpdate(final DocumentEvent documentEvent) {
+        eventConsumer.accept(documentEvent);
     }
 }

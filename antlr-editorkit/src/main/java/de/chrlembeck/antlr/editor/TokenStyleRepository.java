@@ -15,46 +15,23 @@ import org.antlr.v4.runtime.Token;
  * 
  * @author Christoph Lembeck
  */
-public final class TokenStyleRepository {
+public class TokenStyleRepository {
 
     /**
      * Darstellungsform von Token, für die kein spezieller Style definiert ist.
      */
-    private static final TokenStyle DEFAULT = new TokenStyle(Color.BLACK, Font.PLAIN);
+    public static final TokenStyle DEFAULT = new TokenStyle(Color.BLACK, Font.PLAIN);
 
     /**
      * Darstellungsform von Text, zu dem kein Token ermittelt werden kann. (Dies sollte bei guten Lexern nicht
      * auftreten.)
      */
-    private static final TokenStyle NO_TOKEN_STYLE = new TokenStyle(Color.GRAY, Font.PLAIN);
-
-    /**
-     * Einzige Instanz der Klasse (Singleton).
-     */
-    private static TokenStyleRepository instance;
-
-    /**
-     * Gibt das zu verwendende Repository-Objekt zurück und erstellt eins, falls noch keins existiert.
-     * 
-     * @return Zu verwendendes Repository.
-     */
-    public static TokenStyleRepository getInstance() {
-        if (instance == null) {
-            instance = new TokenStyleRepository();
-        }
-        return instance;
-    }
+    public static final TokenStyle NO_TOKEN_STYLE = new TokenStyle(Color.GRAY, Font.PLAIN);
 
     /**
      * Beinhaltet die Zuordnung von Token-Typen zu deren Darstellungsform.
      */
     private final Map<Integer, TokenStyle> styles = new TreeMap<>();
-
-    /**
-     * Erstellt ein neues Repository.
-     */
-    private TokenStyleRepository() {
-    }
 
     /**
      * Gibt die Darstellungsform zu dem übergebenen Token anhand dessen Typ zurück. Ist für den Tokentyp keine spezielle
@@ -65,9 +42,9 @@ public final class TokenStyleRepository {
      * @return Stil, in dem das Token gezeichnet werden soll.
      * @see TokenStyleRepository#DEFAULT
      */
-    public final TokenStyle getStyle(final Token token) {
+    public TokenStyle getStyle(final Token token) {
         final TokenStyle style = styles.get(token.getType());
-        return style == null ? DEFAULT : style;
+        return style == null ? getDefaultStyle() : style;
     }
 
     /**
@@ -76,7 +53,7 @@ public final class TokenStyleRepository {
      * @return Standarddarstellungsform.
      * @see #DEFAULT
      */
-    public final TokenStyle getDefaultStype() {
+    public TokenStyle getDefaultStyle() {
         return DEFAULT;
     }
 
@@ -86,7 +63,7 @@ public final class TokenStyleRepository {
      * 
      * @return Stil für Text, der keinem Token zugeordnet werden kann.
      */
-    TokenStyle getNoTokenStyle() {
+    public TokenStyle getNoTokenStyle() {
         return NO_TOKEN_STYLE;
     }
 

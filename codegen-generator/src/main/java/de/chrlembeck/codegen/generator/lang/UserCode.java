@@ -22,7 +22,7 @@ public class UserCode extends AbstractTemplateMember<UserCodeContext> implements
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(UserCode.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCode.class);
 
     /**
      * Text, der in die generierten Artefkate hineingeschrieben werden soll.

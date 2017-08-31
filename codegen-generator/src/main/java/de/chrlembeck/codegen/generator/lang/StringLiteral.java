@@ -25,21 +25,21 @@ public class StringLiteral extends AbstractExpression<LiteralContext> implements
      */
     public StringLiteral(final LiteralContext ctx, String input) {
         super(ctx);
-        if (!input.startsWith("\"") || !input.endsWith("\"")) {
-            throw new IllegalStateException("A string literal always has to begin and end withl '\"'.");
-        } else {
+        if (input.startsWith("\"") && input.endsWith("\"")) {
             input = input.substring(1, input.length() - 1);
+        } else {
+            throw new IllegalStateException("A string literal always has to begin and end withl '\"'.");
         }
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         boolean escaped = false;
         for (int i = 0; i < input.length(); i++) {
-            final char ch = input.charAt(i);
+            final char character = input.charAt(i);
             if (escaped) {
                 // escaped
-                if (ch >= '0' && ch <= '9') {
+                if (character >= '0' && character <= '9') {
                     // octal escape
-                    String num = Character.toString(ch);
+                    String num = Character.toString(character);
                     if (i + 1 < input.length() && input.charAt(i + 1) >= '0' && input.charAt(i + 1) <= '9') {
                         num += input.charAt(i + 1);
                         i++;
@@ -49,37 +49,37 @@ public class StringLiteral extends AbstractExpression<LiteralContext> implements
                         num += input.charAt(i + 1);
                         i++;
                     }
-                    sb.append((char) Integer.parseInt(num, 8));
+                    builder.append((char) Integer.parseInt(num, 8));
                 } else {
 
-                    switch (ch) {
+                    switch (character) {
                         case 'b':
-                            sb.append('\b');
+                            builder.append('\b');
                             break;
                         case 't':
-                            sb.append('\t');
+                            builder.append('\t');
                             break;
                         case 'n':
-                            sb.append('\n');
+                            builder.append('\n');
                             break;
                         case 'f':
-                            sb.append('\f');
+                            builder.append('\f');
                             break;
                         case 'r':
-                            sb.append('\r');
+                            builder.append('\r');
                             break;
                         case '\'':
-                            sb.append('\'');
+                            builder.append('\'');
                             break;
                         case '\"':
-                            sb.append('\"');
+                            builder.append('\"');
                             break;
                         case '\\':
-                            sb.append('\\');
+                            builder.append('\\');
                             break;
                         case 'u':
                             final String next4 = input.substring(i + 1, i + 5);
-                            sb.append((char) Integer.parseInt(next4, 16));
+                            builder.append((char) Integer.parseInt(next4, 16));
                             i += 4;
                             break;
                         default:
@@ -89,17 +89,17 @@ public class StringLiteral extends AbstractExpression<LiteralContext> implements
                 escaped = false;
             } else {
                 // not escaped
-                if (ch == '\\') {
+                if (character == '\\') {
                     escaped = true;
                 } else {
-                    sb.append(ch);
+                    builder.append(character);
                 }
             }
         }
         if (escaped) {
             throw new IllegalArgumentException("string ends with open escape (" + input + ")");
         }
-        value = sb.toString();
+        value = builder.toString();
     }
 
     /**

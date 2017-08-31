@@ -10,6 +10,7 @@ import de.chrlembeck.codegen.generator.lang.AndExpression;
 import de.chrlembeck.codegen.generator.lang.ArrayAccessExpression;
 import de.chrlembeck.codegen.generator.lang.AttributeExpression;
 import de.chrlembeck.codegen.generator.lang.CastExpression;
+import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.CompareExpression;
 import de.chrlembeck.codegen.generator.lang.ConditionalAndExpression;
 import de.chrlembeck.codegen.generator.lang.ConditionalExpression;
@@ -24,7 +25,6 @@ import de.chrlembeck.codegen.generator.lang.OrExpression;
 import de.chrlembeck.codegen.generator.lang.PlusMinusExpression;
 import de.chrlembeck.codegen.generator.lang.ShiftExpression;
 import de.chrlembeck.codegen.generator.lang.SignExpression;
-import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.XorExpression;
 import lang.CodeGenLexer;
 import lang.CodeGenParser.ExpressionAndContext;
@@ -56,6 +56,7 @@ import lang.CodeGenParserBaseVisitor;
  * 
  * Christoph Lembeck
  */
+@SuppressWarnings("PMD.GodClass")
 public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
 
     /**
@@ -87,12 +88,14 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     }
 
     @Override
+    @SuppressWarnings("PMD.CommentRequired")
     public Expression visitExpressionThis(final ExpressionThisContext ctx) {
         // TODO implement
         throw new RuntimeException("not yet implemented");
     }
 
     @Override
+    @SuppressWarnings("PMD.CommentRequired")
     public Expression visitExpressionSuper(final ExpressionSuperContext ctx) {
         // TODO implement
         throw new RuntimeException("not yet implemented");
@@ -158,10 +161,11 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     @Override
     public Expression visitExpressionSign(final ExpressionSignContext ctx) {
         final Expression expr = ctx.expression().accept(this);
-        if (ctx.getToken(CodeGenLexer.ADD, 0) != null) {
+        final Token operator = ctx.operator;
+        if (operator != null && operator.getType() == CodeGenLexer.ADD) {
             // PLUS
             return new SignExpression(ctx, SignExpression.Operator.PLUS, expr);
-        } else if (ctx.getToken(CodeGenLexer.SUB, 0) != null) {
+        } else if (operator != null && operator.getType() == CodeGenLexer.SUB) {
             // MINUS
             return new SignExpression(ctx, SignExpression.Operator.MINUS, expr);
         } else {
@@ -180,14 +184,16 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     @Override
     public Expression visitExpressionNeg(final ExpressionNegContext ctx) {
         final Expression expr = ctx.expression().accept(this);
-        if (ctx.getToken(CodeGenLexer.BANG, 0) != null) {
+        final Token operator = ctx.operator;
+        if (operator != null && operator.getType() == CodeGenLexer.BANG) {
             // Boolean negation
             return new NegationExpression(ctx, NegationExpression.Operator.BOOLEAN_NEGATION, expr);
-        } else if (ctx.getToken(CodeGenLexer.TILDE, 0) != null) {
+        } else if (operator != null && operator.getType() == CodeGenLexer.TILDE) {
             // Numeric negation
             return new NegationExpression(ctx, NegationExpression.Operator.NUMERIC_NEGATION, expr);
-        } else
+        } else {
             throw new IllegalStateException();
+        }
     }
 
     /**
@@ -270,8 +276,6 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
      */
     @Override
     public Expression visitExpressionCompare(final ExpressionCompareContext ctx) {
-        final Expression left = ctx.expression(0).accept(this);
-        final Expression right = ctx.expression(1).accept(this);
         CompareExpression.Operator operator;
         switch (ctx.operator.getType()) {
             case CodeGenLexer.LT:
@@ -289,6 +293,8 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
             default:
                 throw new ParserException("Unerwarteter Vergleichsoperator: " + ctx.operator.getText(), ctx);
         }
+        final Expression left = ctx.expression(0).accept(this);
+        final Expression right = ctx.expression(1).accept(this);
         return new CompareExpression(ctx, left, right, operator);
     }
 
@@ -427,7 +433,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
      *            Liste der zu prüfenden Token.
      * @return true, falls die Liste genau nur die Token für den Left-Shift-Operator enthält, sonst false.
      */
-    private static final boolean isLeftShift(final List<Token> tokens) {
+    private static boolean isLeftShift(final List<Token> tokens) {
         return tokens.size() == 2
                 && tokens.get(0).getType() == CodeGenLexer.LT
                 && tokens.get(1).getType() == CodeGenLexer.LT;
@@ -441,7 +447,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
      *            Liste der zu prüfenden Token.
      * @return true, falls die Liste genau nur die Token für den Signed-Right-Operator enthält, sonst false.
      */
-    private static final boolean isSignedRightShift(final List<Token> tokens) {
+    private static boolean isSignedRightShift(final List<Token> tokens) {
         return tokens.size() == 2
                 && tokens.get(0).getType() == CodeGenLexer.GT
                 && tokens.get(1).getType() == CodeGenLexer.GT;
@@ -455,7 +461,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
      *            Liste der zu prüfenden Token.
      * @return true, falls die Liste genau nur die Token für den Unsigned-Right-Shift-Operator enthält, sonst false.
      */
-    private static final boolean isUnsignedRightShift(final List<Token> tokens) {
+    private static boolean isUnsignedRightShift(final List<Token> tokens) {
         return tokens.size() == 3
                 && tokens.get(0).getType() == CodeGenLexer.GT
                 && tokens.get(1).getType() == CodeGenLexer.GT

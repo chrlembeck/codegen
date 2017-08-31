@@ -16,7 +16,7 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
      * 
      * @author Christoph Lembeck
      */
-    public static enum Operator implements PrimitiveOperations {
+    public enum Operator implements PrimitiveOperations {
 
         /**
          * Multipliziert einen numerischen Wert mit einem anderen.
@@ -37,13 +37,13 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Integer> apply(final int a, final int b) {
+        public ObjectWithType<Integer> apply(final int leftOperand, final int rightOperand) {
             if (this == MULT) {
-                return new ObjectWithType<Integer>(Integer.valueOf(a * b), int.class);
+                return new ObjectWithType<Integer>(Integer.valueOf(leftOperand * rightOperand), int.class);
             } else if (this == DIV) {
-                return new ObjectWithType<Integer>(Integer.valueOf(a / b), int.class);
+                return new ObjectWithType<Integer>(Integer.valueOf(leftOperand / rightOperand), int.class);
             } else {
-                return new ObjectWithType<Integer>(Integer.valueOf(a % b), int.class);
+                return new ObjectWithType<Integer>(Integer.valueOf(leftOperand % rightOperand), int.class);
             }
         }
 
@@ -51,13 +51,13 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Long> apply(final long a, final long b) {
+        public ObjectWithType<Long> apply(final long leftOperand, final long rightOperand) {
             if (this == MULT) {
-                return new ObjectWithType<Long>(Long.valueOf(a * b), long.class);
+                return new ObjectWithType<Long>(Long.valueOf(leftOperand * rightOperand), long.class);
             } else if (this == DIV) {
-                return new ObjectWithType<Long>(Long.valueOf(a / b), long.class);
+                return new ObjectWithType<Long>(Long.valueOf(leftOperand / rightOperand), long.class);
             } else {
-                return new ObjectWithType<Long>(Long.valueOf(a % b), long.class);
+                return new ObjectWithType<Long>(Long.valueOf(leftOperand % rightOperand), long.class);
             }
         }
 
@@ -65,13 +65,13 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Float> apply(final float a, final float b) {
+        public ObjectWithType<Float> apply(final float leftOperand, final float rightOperand) {
             if (this == MULT) {
-                return new ObjectWithType<Float>(Float.valueOf(a * b), float.class);
+                return new ObjectWithType<Float>(Float.valueOf(leftOperand * rightOperand), float.class);
             } else if (this == DIV) {
-                return new ObjectWithType<Float>(Float.valueOf(a / b), float.class);
+                return new ObjectWithType<Float>(Float.valueOf(leftOperand / rightOperand), float.class);
             } else {
-                return new ObjectWithType<Float>(Float.valueOf(a % b), float.class);
+                return new ObjectWithType<Float>(Float.valueOf(leftOperand % rightOperand), float.class);
             }
         }
 
@@ -79,13 +79,13 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Double> apply(final double a, final double b) {
+        public ObjectWithType<Double> apply(final double leftOperand, final double rightOperand) {
             if (this == MULT) {
-                return new ObjectWithType<Double>(Double.valueOf(a * b), double.class);
+                return new ObjectWithType<Double>(Double.valueOf(leftOperand * rightOperand), double.class);
             } else if (this == DIV) {
-                return new ObjectWithType<Double>(Double.valueOf(a / b), double.class);
+                return new ObjectWithType<Double>(Double.valueOf(leftOperand / rightOperand), double.class);
             } else {
-                return new ObjectWithType<Double>(Double.valueOf(a % b), double.class);
+                return new ObjectWithType<Double>(Double.valueOf(leftOperand % rightOperand), double.class);
             }
         }
     }
@@ -166,13 +166,13 @@ public class MultDivModExpression extends AbstractExpression<ExpressionMultDivMo
     @Override
     public ObjectWithType<?> evaluate(final Object model, final Environment environment) {
         final ObjectWithType<?> leftObj = JavaUtil.unaryNumericPromotion(left.evaluate(model, environment));
-        final ObjectWithType<?> rightObj = JavaUtil
-                .unaryNumericPromotion(right.evaluate(model, environment));
         final Class<?> leftType = leftObj.getType();
         if (!JavaUtil.isNumberType(leftType)) {
             throw new RuntimeException("I can not use the " + operator + " operator to an "
                     + leftType.getName() + ". (" + left.getStartPosition() + ")");
         }
+        final ObjectWithType<?> rightObj = JavaUtil
+                .unaryNumericPromotion(right.evaluate(model, environment));
         final Class<?> rightType = rightObj.getType();
         if (!JavaUtil.isNumberType(rightType)) {
             throw new RuntimeException("I can not use the " + operator + " operator to an "

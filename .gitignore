@@ -16,3 +16,4 @@ codegen-example-project/codegenOut2/
 antlr-editorkit/target/
 target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml
 target/
+*.eclipse-pmd

@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
  * 
  * @author Christoph Lembeck
  */
-public class ParserException extends CodeGenException {
+public class ParserException extends AbstractCodeGenException {
 
     /**
      * Version number of the current class.

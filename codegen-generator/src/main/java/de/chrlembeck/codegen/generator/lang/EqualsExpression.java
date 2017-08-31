@@ -30,11 +30,11 @@ public class EqualsExpression extends AbstractExpression<ExpressionEqualsContext
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final int a, final int b) {
+        public ObjectWithType<Boolean> apply(final int leftOperand, final int rightOperand) {
             if (this == EQUAL) {
-                return new ObjectWithType<Boolean>(a == b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand == rightOperand, boolean.class);
             } else {
-                return new ObjectWithType<Boolean>(a != b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand != rightOperand, boolean.class);
             }
         }
 
@@ -42,11 +42,11 @@ public class EqualsExpression extends AbstractExpression<ExpressionEqualsContext
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final float a, final float b) {
+        public ObjectWithType<Boolean> apply(final float leftOperand, final float rightOperand) {
             if (this == EQUAL) {
-                return new ObjectWithType<Boolean>(a == b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand == rightOperand, boolean.class);
             } else {
-                return new ObjectWithType<Boolean>(a != b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand != rightOperand, boolean.class);
             }
         }
 
@@ -54,11 +54,11 @@ public class EqualsExpression extends AbstractExpression<ExpressionEqualsContext
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final long a, final long b) {
+        public ObjectWithType<Boolean> apply(final long leftOperand, final long rightOperand) {
             if (this == EQUAL) {
-                return new ObjectWithType<Boolean>(a == b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand == rightOperand, boolean.class);
             } else {
-                return new ObjectWithType<Boolean>(a != b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand != rightOperand, boolean.class);
             }
         }
 
@@ -66,11 +66,11 @@ public class EqualsExpression extends AbstractExpression<ExpressionEqualsContext
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final double a, final double b) {
+        public ObjectWithType<Boolean> apply(final double leftOperand, final double rightOperand) {
             if (this == EQUAL) {
-                return new ObjectWithType<Boolean>(a == b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand == rightOperand, boolean.class);
             } else {
-                return new ObjectWithType<Boolean>(a != b, boolean.class);
+                return new ObjectWithType<Boolean>(leftOperand != rightOperand, boolean.class);
             }
         }
     }

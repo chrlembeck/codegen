@@ -31,32 +31,36 @@ public class AntlrView extends PlainView {
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(AntlrView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AntlrView.class);
 
     /**
      * Referenz auf das Repository welches die Farben und Schriftschnitte für die einzelnen Token-Typen beinhaltet.
      */
-    private TokenStyleRepository styleRepository = TokenStyleRepository.getInstance();
+    private TokenStyleRepository styleRepository;
 
     /**
      * Erstellt eine neue View zu dem übergebenen Element für die Verwendung im AntlrEditorKit.
      * 
      * @param element
      *            Durch die View zu zeichnendes Element.
+     * @param styleRepository
+     *            Referenz auf das Repository welches die Farben und Schriftschnitte für die einzelnen Token-Typen
+     *            beinhaltet.
      */
-    AntlrView(final Element element) {
+    AntlrView(final Element element, final TokenStyleRepository styleRepository) {
         super(element);
+        this.styleRepository = styleRepository;
     }
 
     /**
      * Zeichnet die Token aus dem ausgewählten Textbereich mit den jeweiligen im TokenStyleRepository festgelegten
      * Farben und Schriftschnitten.
      * 
-     * @param g
+     * @param grfx
      *            Zum Zeichnen zu verwendendes Graphics-Object.
-     * @param x
+     * @param xPos
      *            Horizontale Startposition zum Zeichnen des Textes.
-     * @param y
+     * @param yPos
      *            Vertikale Startposition zum Zeichnen des Textes.
      * @param requestedPaintStartIdx
      *            Index des ersten zu Zeichnenden Buchstabens (inclusive) beginnend bei 0.
@@ -65,9 +69,10 @@ public class AntlrView extends PlainView {
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
     @Override
-    protected final int drawUnselectedText(final Graphics g, int x, final int y, final int requestedPaintStartIdx,
+    protected final int drawUnselectedText(final Graphics grfx, int xPos, final int yPos,
+            final int requestedPaintStartIdx,
             final int requestedPaintEndIdx) {
-        final Graphics2D graphics = (Graphics2D) g.create();
+        final Graphics2D graphics = (Graphics2D) grfx.create();
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
@@ -84,12 +89,12 @@ public class AntlrView extends PlainView {
                 final int textLength = Math.min(tokenToPaint.getStopIndex(), requestedPaintEndIdx - 1)
                         - textBegin + 1;
                 document.getText(textBegin, textLength, segment);
-                x = paintTokenSegment(graphics, document, tokenToPaint, segment, x, y, this);
+                xPos = paintTokenSegment(graphics, document, tokenToPaint, segment, xPos, yPos, this);
             }
         } catch (final BadLocationException ex) {
             LOGGER.error("Requested: " + ex.offsetRequested(), ex);
         }
-        return x;
+        return xPos;
     }
 
     /**
@@ -97,11 +102,11 @@ public class AntlrView extends PlainView {
      * {@link #drawUnselectedText(Graphics, int, int, int, int)}, da das Zeichnen der Selektion durch Highlighter
      * erledigt wird.
      * 
-     * @param g
+     * @param gfraphics
      *            Zum Zeichnen zu verwendendes Graphics-Object.
-     * @param x
+     * @param xPos
      *            Horizontale Startposition zum Zeichnen des Textes.
-     * @param y
+     * @param yPos
      *            Vertikale Startposition zum Zeichnen des Textes.
      * @param requestedPaintStartIdx
      *            Index des ersten zu Zeichnenden Buchstabens (inclusive) beginnend bei 0.
@@ -110,10 +115,11 @@ public class AntlrView extends PlainView {
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
     @Override
-    protected int drawSelectedText(final Graphics g, final int x, final int y, final int requestedPaintStartIdx,
+    protected int drawSelectedText(final Graphics gfraphics, final int xPos, final int yPos,
+            final int requestedPaintStartIdx,
             final int requestedPaintEndIdx)
             throws BadLocationException {
-        return drawUnselectedText(g, x, y, requestedPaintStartIdx, requestedPaintEndIdx);
+        return drawUnselectedText(gfraphics, xPos, yPos, requestedPaintStartIdx, requestedPaintEndIdx);
     }
 
     /**
@@ -127,16 +133,16 @@ public class AntlrView extends PlainView {
      *            Token, welches komplett oder in Teilen gezeichnet werden soll.
      * @param segment
      *            Teil des Tokens, der gezeichnet werden soll.
-     * @param x
+     * @param xPos
      *            X-Koordinate für den Beginn des Zeichnens.
-     * @param y
+     * @param yPos
      *            Y-Koordinate für den Beginn des Zeichnens.
      * @param tabExpander
      *            Für die Ausrichtung von Tab-Stops zu verwendender TabExpander.
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
     protected int paintTokenSegment(final Graphics2D graphics, final AntlrDocument<?> document, final Token token,
-            final Segment segment, final int x, final int y,
+            final Segment segment, final int xPos, final int yPos,
             final TabExpander tabExpander) {
         final int startOffset = token.getStartIndex();
         final TokenStyle style = styleRepository.getStyle(token);
@@ -145,12 +151,12 @@ public class AntlrView extends PlainView {
         final int ascent = fontMetrics.getAscent();
         final int lineHeight = ascent + fontMetrics.getDescent();
         final int textWidht = Utilities.getTabbedTextWidth(segment, fontMetrics, 0, tabExpander, startOffset);
-        final Rectangle2D border = new Rectangle2D.Float(x - 1, y - ascent + 1, textWidht + 2, lineHeight);
+        final Rectangle2D border = new Rectangle2D.Float(xPos - 1, yPos - ascent + 1, textWidht + 2, lineHeight);
         if (document.hasError(token)) {
             graphics.setColor(Color.RED);
             graphics.draw(border);
         }
         graphics.setColor(style.getColor());
-        return Utilities.drawTabbedText(segment, x, y, graphics, tabExpander, startOffset);
+        return Utilities.drawTabbedText(segment, xPos, yPos, graphics, tabExpander, startOffset);
     }
 }

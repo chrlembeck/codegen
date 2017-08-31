@@ -20,13 +20,13 @@ public class Environment {
      * einen neuen Variablen-Scope benötigen und daher einen neuen Frame auf den Stack legen. Die Statements sind dann
      * selbst in der Verantwortung, diese Frames auch passend wieder zu entfernen.
      */
-    private Stack<Frame> frameStack = new Stack<>();
+    private final Stack<Frame> frameStack = new Stack<>();
 
     /**
      * Speichert den aktuellen Aufrufstack. Anhand des Stacks kann zurückverfolgt werden, woher letztendlich der Aufruf
      * der aktuellen Komponente kommt und welche Template-Definitionen zwischenzeitlich aufgerufen wurden.
      */
-    private Stack<Executable<?>> generatorStack = new Stack<>();
+    private final Stack<Executable<?>> generatorStack = new Stack<>();
 
     /**
      * Legt einen neuen Frame auf den Stack und verknüpft ihn, falls gewünscht, mit dem vorangegangenen Frame. Eine

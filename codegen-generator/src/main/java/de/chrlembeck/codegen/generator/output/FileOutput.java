@@ -24,7 +24,7 @@ public class FileOutput implements GeneratorOutput {
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(FileOutput.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileOutput.class);
 
     /**
      * Root-Verzeichnis, unterhalb dessen alle Ausgaben erstellt werden.

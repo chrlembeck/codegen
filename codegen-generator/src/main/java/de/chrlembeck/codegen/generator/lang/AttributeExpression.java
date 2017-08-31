@@ -18,7 +18,7 @@ public class AttributeExpression extends AbstractExpression<ExpressionAttributeC
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(AttributeExpression.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AttributeExpression.class);
 
     /**
      * Expression, die das Objekt oder die Klasse enthält, aus dem oder der das Attribut gelesen werden soll.

@@ -61,7 +61,7 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(AntlrDocument.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AntlrDocument.class);
 
     /**
      * Aktuelle Liste der vom Lexer erkannten Token. Wird bei jeder Eingabe neu berechnet.
@@ -224,7 +224,7 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      * hat.
      */
     private void fireErrorsChangedEvent() {
-        errorListeners.stream().forEach(l -> l.errorsChanged(this.errors));
+        errorListeners.stream().forEach(listener -> listener.errorsChanged(this.errors));
     }
 
     /**
@@ -250,8 +250,8 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      * Token für das Doument erzeugt und das Dokument nach Syntaxfehlern durchsucht.
      */
     @Override
-    protected void fireChangedUpdate(final DocumentEvent e) {
-        super.fireChangedUpdate(e);
+    protected void fireChangedUpdate(final DocumentEvent documentEvent) {
+        super.fireChangedUpdate(documentEvent);
         validate(true);
     }
 
@@ -260,8 +260,8 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      * die neuen Token für das Doument erzeugt und das Dokument nach Syntaxfehlern durchsucht.
      */
     @Override
-    protected void fireInsertUpdate(final DocumentEvent e) {
-        super.fireInsertUpdate(e);
+    protected void fireInsertUpdate(final DocumentEvent documentEvent) {
+        super.fireInsertUpdate(documentEvent);
         validate(true);
     }
 
@@ -270,8 +270,8 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      * Token für das Doument erzeugt und das Dokument nach Syntaxfehlern durchsucht.
      */
     @Override
-    protected void fireRemoveUpdate(final DocumentEvent e) {
-        super.fireRemoveUpdate(e);
+    protected void fireRemoveUpdate(final DocumentEvent documentEvent) {
+        super.fireRemoveUpdate(documentEvent);
         validate(true);
     }
 
@@ -333,7 +333,7 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
          */
         @Override
         public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line,
-                final int charPositionInLine, final String msg, final RecognitionException e) {
+                final int charPositionInLine, final String msg, final RecognitionException exception) {
             final int startIndex = getIndexFromLineAndPositionInLine(line - 1, charPositionInLine);
             errors.put(startIndex, msg);
         }
@@ -463,9 +463,9 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      */
     public void removeLineAtIndex(final int index)
             throws BadLocationException {
-        final Element e = getParagraphElement(index);
-        final int startOffset = e.getStartOffset();
-        remove(startOffset, Math.min(getLength(), e.getEndOffset() - startOffset));
+        final Element element = getParagraphElement(index);
+        final int startOffset = element.getStartOffset();
+        remove(startOffset, Math.min(getLength(), element.getEndOffset() - startOffset));
     }
 
     /**

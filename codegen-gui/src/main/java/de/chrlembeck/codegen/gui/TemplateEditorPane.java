@@ -41,6 +41,7 @@ import de.chrlembeck.antlr.editor.AntlrDocument;
 import de.chrlembeck.antlr.editor.AntlrEditorKit;
 import de.chrlembeck.antlr.editor.ErrorListener;
 import de.chrlembeck.antlr.editor.SimpleDocumentListener;
+import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.antlr.editor.action.InsertAction;
 import de.chrlembeck.codegen.generator.Position;
 import lang.CodeGenLexer;
@@ -134,8 +135,10 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      *            neu erzeut wurde.
      * @param charset
      *            Encoding der zu bearbeitenden Datei, falls dies bekannt ist.
+     * @param tokenStyles
+     *            Zuordnung der Token zu ihren Darstellungseigenschaften.
      */
-    public TemplateEditorPane(final Path path, final Charset charset) {
+    public TemplateEditorPane(final Path path, final Charset charset, final TokenStyleRepository tokenStyles) {
         super();
         this.path = path;
         this.charset = charset;
@@ -146,7 +149,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
         setForeground(Color.BLACK);
         final Lexer lexer = new CodeGenLexer(null);
         final String startRuleName = CodeGenParser.ruleNames[CodeGenParser.RULE_templateFile];
-        final AntlrEditorKit<T> editorKit = new AntlrEditorKit<T>(lexer, CodeGenParser.class, startRuleName);
+        final AntlrEditorKit<T> editorKit = new AntlrEditorKit<T>(lexer, CodeGenParser.class, startRuleName,
+                tokenStyles);
         setEditorKit(editorKit);
         initActions();
         if (path != null) {

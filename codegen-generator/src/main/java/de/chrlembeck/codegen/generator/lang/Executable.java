@@ -30,26 +30,26 @@ public interface Executable<T extends ParserRuleContext> {
      * @throws IOException
      *             Falls beim Schreiben der Ausgabe ein Fehler auftritt.
      */
-    public void execute(Generator generator, Object model, Environment environment) throws IOException;
+    void execute(Generator generator, Object model, Environment environment) throws IOException;
 
     /**
      * Gibt den ParserRuleContext zu dem Statement zurück.
      * 
      * @return ParserRuleContext, so wie der Parser ihn bei der Erkennung des Elements erzeugt hat.
      */
-    public T getContext();
+    T getContext();
 
     /**
      * Gibt die Position des ersten Zeichens innerhalb der Template-Datei zurück, das zu diesem Statement gehört.
      * 
      * @return Position des erten Zeichens des Statements in der Template-Datei.
      */
-    public Position getStartPosition();
+    Position getStartPosition();
 
     /**
      * Gibt die Referenz auf das TemplateFile zurück, in dem das Statement enthalten ist.
      * 
      * @return TemplateFile, in dem dieses Element enthalten ist.
      */
-    public TemplateFile getTemplateFile();
+    TemplateFile getTemplateFile();
 }

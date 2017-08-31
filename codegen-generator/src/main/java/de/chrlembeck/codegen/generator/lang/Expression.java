@@ -21,14 +21,14 @@ public interface Expression {
      *            Aktuelle Ausführungsumgebung.
      * @return Ergebnis der Auswertung des Ausdrucks.
      */
-    public ObjectWithType<?> evaluate(Object model, Environment environment);
+    ObjectWithType<?> evaluate(Object model, Environment environment);
 
     /**
      * Gibt die Position innerhalb der Template-Datei zurück, an der das Element beginnt.
      * 
      * @return Startposition des Elements innerhalb der Template-Datei aus der es gelesen wurde.
      */
-    public Position getStartPosition();
+    Position getStartPosition();
 
     /**
      * Sucht das Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
@@ -40,12 +40,12 @@ public interface Expression {
      * 
      * @return Objekt, auf welchem eine Methode aufgerufen oder dessen Attribut ausgelesen werden soll.
      */
-    public CallSource findCallSource(Object model, Environment environment);
+    CallSource findCallSource(Object model, Environment environment);
 
     /**
      * Gibt den ursprünglichen Kontext des Parsers zurück, der das Element gefunden hat.
      * 
      * @return Kontext des Parser der zur Erzeugung des Elements geführt hat.
      */
-    public ParserRuleContext getContext();
+    ParserRuleContext getContext();
 }

@@ -17,7 +17,7 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
      * 
      * @author Christoph Lembeck
      */
-    public static enum Operator implements PrimitiveOperations {
+    public enum Operator implements PrimitiveOperations {
 
         /**
          * Verknüpft zwei Zeichenketten oder Addiert zwei numerische Werte.
@@ -33,32 +33,32 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Integer> apply(final int a, final int b) {
-            return new ObjectWithType<Integer>(Integer.valueOf(this == PLUS ? a + b : a - b), int.class);
+        public ObjectWithType<Integer> apply(final int leftOperand, final int rightOperand) {
+            return new ObjectWithType<Integer>(Integer.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), int.class);
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Long> apply(final long a, final long b) {
-            return new ObjectWithType<Long>(Long.valueOf(this == PLUS ? a + b : a - b), long.class);
+        public ObjectWithType<Long> apply(final long leftOperand, final long rightOperand) {
+            return new ObjectWithType<Long>(Long.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), long.class);
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Float> apply(final float a, final float b) {
-            return new ObjectWithType<Float>(Float.valueOf(this == PLUS ? a + b : a - b), float.class);
+        public ObjectWithType<Float> apply(final float leftOperand, final float rightOperand) {
+            return new ObjectWithType<Float>(Float.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), float.class);
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Double> apply(final double a, final double b) {
-            return new ObjectWithType<Double>(Double.valueOf(this == PLUS ? a + b : a - b), double.class);
+        public ObjectWithType<Double> apply(final double leftOperand, final double rightOperand) {
+            return new ObjectWithType<Double>(Double.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), double.class);
         }
     }
 
@@ -149,11 +149,11 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
             leftObj = JavaUtil.unaryNumericPromotion(leftObj);
             rightObj = JavaUtil.unaryNumericPromotion(rightObj);
             final Class<?> leftType = leftObj.getType();
-            final Class<?> rightType = rightObj.getType();
             if (!JavaUtil.isNumberType(leftType)) {
                 throw new RuntimeException("I can not use the " + operator + " operator to an "
                         + leftType.getName() + ". (" + left.getStartPosition() + ")");
             }
+            final Class<?> rightType = rightObj.getType();
             if (!JavaUtil.isNumberType(rightType)) {
                 throw new RuntimeException("I can not use the " + operator + " operator to an "
                         + rightType.getName() + ". (" + left.getStartPosition() + ")");

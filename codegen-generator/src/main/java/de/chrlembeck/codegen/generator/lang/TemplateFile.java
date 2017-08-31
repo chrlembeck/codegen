@@ -50,7 +50,7 @@ public class TemplateFile extends AbstractTemplateMember<TemplateFileContext> {
         this.resourceIdentifier = resourceIdentifier;
         this.importStatements = imports;
         this.templates = templates;
-        templates.stream().forEach(t -> t.setParent(this));
+        templates.stream().forEach(templateStatement -> templateStatement.setParent(this));
     }
 
     /**

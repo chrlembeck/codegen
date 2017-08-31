@@ -55,6 +55,11 @@ public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKi
     private Class<? extends Parser> parserClass;
 
     /**
+     * Referenz auf das Repository welches die Farben und Schriftschnitte für die einzelnen Token-Typen beinhaltet.
+     */
+    private TokenStyleRepository styleRepository;
+
+    /**
      * Name der Start-Rule. Dies ist die ParserRule, die das komplette Dokument definiert und welche zur Validierung der
      * kompletten Eingabe in den Editor verwendet werden soll.
      */
@@ -69,15 +74,20 @@ public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKi
      *            Name der Parser-Klasse, die zur Validierung des Dokumentes benutzt werden kann.
      * @param startRuleName
      *            Name der Parser-Rule, die bei der Validierung der Eingabe verwendet werden soll.
+     * @param styleRepository
+     *            Referenz auf das Repository welches die Farben und Schriftschnitte für die einzelnen Token-Typen
+     *            beinhaltet.
      * @see #lexer
      * @see #parserClass
      * @see #startRuleName
      * @see JEditorPane
      */
-    public AntlrEditorKit(final Lexer lexer, final Class<? extends Parser> parserClass, final String startRuleName) {
+    public AntlrEditorKit(final Lexer lexer, final Class<? extends Parser> parserClass, final String startRuleName,
+            final TokenStyleRepository styleRepository) {
         this.lexer = lexer;
         this.parserClass = parserClass;
         this.startRuleName = startRuleName;
+        this.styleRepository = styleRepository;
     }
 
     /**
@@ -85,7 +95,7 @@ public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKi
      */
     @Override
     public AntlrView create(final Element elem) {
-        return new AntlrView(elem);
+        return new AntlrView(elem, styleRepository);
     }
 
     /**
@@ -146,7 +156,7 @@ public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKi
         final Document newDoc = (Document) changeEvent.getNewValue();
         final JTextComponent comp = (JTextComponent) changeEvent.getSource();
         if (newDoc instanceof AntlrDocument) {
-            ((AntlrDocument<?>) newDoc).addErrorListener(m -> comp.repaint());
+            ((AntlrDocument<?>) newDoc).addErrorListener(errorMap -> comp.repaint());
         }
     }
 }

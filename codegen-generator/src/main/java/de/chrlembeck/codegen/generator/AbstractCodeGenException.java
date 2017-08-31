@@ -6,7 +6,7 @@ package de.chrlembeck.codegen.generator;
  * 
  * @author Christoph Lembeck
  */
-public abstract class CodeGenException extends RuntimeException {
+public abstract class AbstractCodeGenException extends RuntimeException {
 
     /**
      * Version number of the current class.
@@ -24,7 +24,7 @@ public abstract class CodeGenException extends RuntimeException {
      * @param cause
      *            Ursprüngliche Exception, die zu diesem Fehler geführt hat.
      */
-    public CodeGenException(final String message, final Throwable cause) {
+    public AbstractCodeGenException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -34,7 +34,7 @@ public abstract class CodeGenException extends RuntimeException {
      * @param message
      *            Fehlermeldung, die das Problem genauer beschreibt.
      */
-    public CodeGenException(final String message) {
+    public AbstractCodeGenException(final String message) {
         super(message);
     }
 

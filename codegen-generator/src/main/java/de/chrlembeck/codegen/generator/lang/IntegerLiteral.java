@@ -38,7 +38,7 @@ public class IntegerLiteral extends AbstractExpression<LiteralContext> implement
         } else if (literal.startsWith("0x") || literal.startsWith("0X")) {
             // hex
             literal = literal.substring(2);
-            if (literal.startsWith("_") || literal.endsWith("_")) {
+            if (literal.charAt(0) == '_' || literal.endsWith("_")) {
                 throw new NumberFormatException("illegal integer literal (" + literal + ")");
             }
             value = isLong ? (Number) Long.parseUnsignedLong(literal.replaceAll("_", ""), 16)
@@ -46,7 +46,7 @@ public class IntegerLiteral extends AbstractExpression<LiteralContext> implement
         } else if (literal.startsWith("0b") || literal.startsWith("0B")) {
             // binary
             value = parse(literal.substring(2), 2, isLong);
-        } else if (literal.startsWith("0") || literal.startsWith("0")) {
+        } else if (literal.charAt(0) == '0') {
             // octal
             value = parse(literal.substring(1), 8, isLong);
         } else {
@@ -70,7 +70,7 @@ public class IntegerLiteral extends AbstractExpression<LiteralContext> implement
      * @see Integer#valueOf(String, int)
      */
     private Number parse(final String literal, final int radix, final boolean isLong) {
-        if (literal.startsWith("_") || literal.endsWith("_")) {
+        if (literal.charAt(0) == '_' || literal.endsWith("_")) {
             throw new NumberFormatException("illegal integer literal (" + literal + ")");
         }
         return isLong ? (Number) Long.valueOf(literal.replaceAll("_", ""), radix)

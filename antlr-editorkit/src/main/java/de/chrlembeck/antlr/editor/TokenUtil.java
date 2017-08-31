@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.Token;
  * 
  * @author Christoph Lembeck
  */
+@SuppressWarnings("PMD.UseUtilityClass")
 public class TokenUtil {
 
     /**
@@ -39,9 +40,10 @@ public class TokenUtil {
                 return center; // Das Token startet genau an der Position
             }
         }
-        if (currentToken.getStopIndex() >= position)
+        if (currentToken.getStopIndex() >= position) {
             return left - 1;
-        else
+        } else {
             return left;
+        }
     }
 }

@@ -126,8 +126,8 @@ public class SimpleTemplateResolver implements TemplateResolver {
      */
     private TemplateFile loadAndParseTemplateFile(final URI templateResourceIdentifier,
             final ANTLRErrorListener additionalErrorListener) throws IOException {
-        try (InputStream in = templateResourceIdentifier.toURL().openStream()) {
-            final CodeGenLexer lexer = new CodeGenLexer(CharStreams.fromStream(in));
+        try (InputStream input = templateResourceIdentifier.toURL().openStream()) {
+            final CodeGenLexer lexer = new CodeGenLexer(CharStreams.fromStream(input));
             final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             final CodeGenParser parser = new CodeGenParser(tokenStream);
             final ErrorListener errorListener = new ErrorListener();
@@ -175,7 +175,7 @@ public class SimpleTemplateResolver implements TemplateResolver {
         @Override
         public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line,
                 final int charPositionInLine,
-                final String msg, final RecognitionException e) {
+                final String msg, final RecognitionException exception) {
             errors.put(new Position(line, charPositionInLine), msg);
         }
 

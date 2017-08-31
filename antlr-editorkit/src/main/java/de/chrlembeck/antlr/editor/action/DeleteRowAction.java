@@ -24,7 +24,7 @@ public class DeleteRowAction extends AbstractAction implements Action {
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(DeleteRowAction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteRowAction.class);
 
     /**
      * Name der Action zum Löschen der aktuellen Zeile im Editor.
@@ -42,8 +42,8 @@ public class DeleteRowAction extends AbstractAction implements Action {
      * Löscht die Zeile, inder der Cursor gerade steht und ggf. auch die Zeilen, die zusätzlich markiert sind.
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        final JEditorPane editor = (JEditorPane) e.getSource();
+    public void actionPerformed(final ActionEvent event) {
+        final JEditorPane editor = (JEditorPane) event.getSource();
         final AntlrDocument<?> doc = (AntlrDocument<?>) editor.getDocument();
         final int selectionStart = editor.getSelectionStart();
         int selectionEnd = editor.getSelectionEnd();

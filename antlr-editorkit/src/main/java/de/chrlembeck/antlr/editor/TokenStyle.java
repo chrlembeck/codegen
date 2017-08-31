@@ -14,12 +14,12 @@ public class TokenStyle {
     /**
      * Farbe, in der das Token im Editor dargestellt werden soll.
      */
-    private Color color;
+    private final Color color;
 
     /**
      * Schriftschnitt, mit dem das Token gezeichnet werden soll.
      */
-    private int fontStyle;
+    private final int fontStyle;
 
     /**
      * Legt eine neue Formatierung für Token mit Farbe und Schriftschnitt an.

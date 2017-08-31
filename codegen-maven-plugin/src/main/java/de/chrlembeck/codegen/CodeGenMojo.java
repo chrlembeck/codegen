@@ -18,7 +18,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-import de.chrlembeck.codegen.generator.CodeGenException;
+import de.chrlembeck.codegen.generator.AbstractCodeGenException;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.SimpleTemplateResolver;
 import de.chrlembeck.codegen.generator.TemplateResolver;
@@ -90,7 +90,7 @@ public class CodeGenMojo extends AbstractMojo {
             final Generator generator = new Generator(resolver, generatorOutput, preferences);
             try {
                 generator.generate(rootResourceIdentifier, template.getTemplateName(), model);
-            } catch (IOException | CodeGenException e) {
+            } catch (IOException | AbstractCodeGenException e) {
                 fail("Bei der Codegenerierung ist ein Fehler aufgetreten.", e);
             }
         }

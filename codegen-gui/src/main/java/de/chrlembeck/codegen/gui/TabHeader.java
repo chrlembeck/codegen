@@ -61,7 +61,7 @@ class TabHeader extends JPanel {
      *            Referenz auf das TabbedPane, in dem der Reiter enthalten ist.
      */
     public void performCloseButtonAction(final BasicTabbedPane tabbedPane) {
-        final int idx = tabbedPane.indexOfTabComponent(TabHeader.this);
+        final int idx = tabbedPane.indexOfTabComponent(this);
         tabbedPane.performCloseTabAction(idx);
     }
 

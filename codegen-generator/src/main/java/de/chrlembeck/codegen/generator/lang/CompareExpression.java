@@ -4,6 +4,11 @@ import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.JavaUtil;
 import lang.CodeGenParser.ExpressionCompareContext;
 
+/**
+ * Symbolisiert die Vergleichsoperationen auf numerischen Datentypen.
+ *
+ * @author Christoph Lembeck
+ */
 public class CompareExpression extends AbstractExpression<ExpressionCompareContext> {
 
     /**
@@ -37,16 +42,16 @@ public class CompareExpression extends AbstractExpression<ExpressionCompareConte
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final int a, final int b) {
+        public ObjectWithType<Boolean> apply(final int leftOperand, final int rightOperand) {
             switch (this) {
                 case LESS_THAN:
-                    return new ObjectWithType<Boolean>(a < b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand < rightOperand, boolean.class);
                 case LESS_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a <= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand <= rightOperand, boolean.class);
                 case GREATER_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a >= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand >= rightOperand, boolean.class);
                 case GREATER_THAN:
-                    return new ObjectWithType<Boolean>(a > b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand > rightOperand, boolean.class);
                 default:
                     throw new IllegalStateException("unexpected operator: " + this);
             }
@@ -56,16 +61,16 @@ public class CompareExpression extends AbstractExpression<ExpressionCompareConte
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final float a, final float b) {
+        public ObjectWithType<Boolean> apply(final float leftOperand, final float rightOperand) {
             switch (this) {
                 case LESS_THAN:
-                    return new ObjectWithType<Boolean>(a < b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand < rightOperand, boolean.class);
                 case LESS_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a <= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand <= rightOperand, boolean.class);
                 case GREATER_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a >= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand >= rightOperand, boolean.class);
                 case GREATER_THAN:
-                    return new ObjectWithType<Boolean>(a > b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand > rightOperand, boolean.class);
                 default:
                     throw new IllegalStateException("unexpected operator: " + this);
             }
@@ -75,16 +80,16 @@ public class CompareExpression extends AbstractExpression<ExpressionCompareConte
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final long a, final long b) {
+        public ObjectWithType<Boolean> apply(final long leftOperand, final long rightOperand) {
             switch (this) {
                 case LESS_THAN:
-                    return new ObjectWithType<Boolean>(a < b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand < rightOperand, boolean.class);
                 case LESS_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a <= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand <= rightOperand, boolean.class);
                 case GREATER_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a >= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand >= rightOperand, boolean.class);
                 case GREATER_THAN:
-                    return new ObjectWithType<Boolean>(a > b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand > rightOperand, boolean.class);
                 default:
                     throw new IllegalStateException("unexpected operator: " + this);
             }
@@ -94,16 +99,16 @@ public class CompareExpression extends AbstractExpression<ExpressionCompareConte
          * {@inheritDoc}
          */
         @Override
-        public ObjectWithType<Boolean> apply(final double a, final double b) {
+        public ObjectWithType<Boolean> apply(final double leftOperand, final double rightOperand) {
             switch (this) {
                 case LESS_THAN:
-                    return new ObjectWithType<Boolean>(a < b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand < rightOperand, boolean.class);
                 case LESS_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a <= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand <= rightOperand, boolean.class);
                 case GREATER_OR_EQUAL:
-                    return new ObjectWithType<Boolean>(a >= b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand >= rightOperand, boolean.class);
                 case GREATER_THAN:
-                    return new ObjectWithType<Boolean>(a > b, boolean.class);
+                    return new ObjectWithType<Boolean>(leftOperand > rightOperand, boolean.class);
                 default:
                     throw new IllegalStateException("unexpected operator: " + this);
             }
@@ -151,12 +156,12 @@ public class CompareExpression extends AbstractExpression<ExpressionCompareConte
     @Override
     public ObjectWithType<?> evaluate(final Object model, final Environment environment) {
         final ObjectWithType<?> leftObj = JavaUtil.unaryNumericPromotion(left.evaluate(model, environment));
-        final ObjectWithType<?> rightObj = JavaUtil.unaryNumericPromotion(right.evaluate(model, environment));
         final Class<?> leftType = leftObj.getType();
         if (!JavaUtil.isNumberType(leftType)) {
             throw new RuntimeException("I can not use the " + operator + " operator to an "
                     + leftType.getName() + ". (" + left.getStartPosition() + ")");
         }
+        final ObjectWithType<?> rightObj = JavaUtil.unaryNumericPromotion(right.evaluate(model, environment));
         final Class<?> rightType = rightObj.getType();
         if (!JavaUtil.isNumberType(rightType)) {
             throw new RuntimeException("I can not use the " + operator + " operator to an "

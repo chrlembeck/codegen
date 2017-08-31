@@ -26,7 +26,7 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(ForStatement.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForStatement.class);
 
     /**
      * Name der im Code-Block sictbaren Variable, aus der das aktuelle Element des Schleifendurchlaufs ausgelesen werden
@@ -82,7 +82,7 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
         this.counterName = counterName;
         this.separatorExpression = separatorExpression;
         this.loopBody = loopBody;
-        this.loopBody.forEach(st -> st.setParent(this));
+        this.loopBody.forEach(codeOrStatement -> codeOrStatement.setParent(this));
     }
 
     /**
@@ -95,7 +95,7 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
         if (Iterable.class.isAssignableFrom(source.getType())) {
             final Iterable<?> iterable = (Iterable<?>) source.getObject();
             final Iterator<?> iterator = iterable.iterator();
-            executeIterator(generator, model, environment, source, iterator);
+            executeIterator(generator, model, environment, iterator);
         } else if (source.getType().isArray()) {
             // TODO arrays implementieren
             // auch an primitive Arrays denken...
@@ -107,7 +107,7 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
     }
 
     private void executeIterator(final Generator generator, final Object model, final Environment environment,
-            final ObjectWithType<?> source, final Iterator<?> iterator) throws IOException {
+            final Iterator<?> iterator) throws IOException {
         long index = 0;
         Object nextItem = iterator.hasNext() ? iterator.next() : null;
         while (nextItem != null) {

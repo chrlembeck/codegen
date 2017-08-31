@@ -1,6 +1,8 @@
 package de.chrlembeck.codegen.gui;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,6 +15,9 @@ import javax.swing.event.ChangeEvent;
 import org.antlr.v4.runtime.Token;
 
 import de.chrlembeck.antlr.editor.ErrorListener;
+import de.chrlembeck.antlr.editor.TokenStyle;
+import de.chrlembeck.antlr.editor.TokenStyleRepository;
+import lang.CodeGenLexer;
 
 /**
  * TabbedPane, welche die Fenster der Editoren für die Template-Dateien verwaltet und anzeigt.
@@ -40,6 +45,11 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
     /**
+     * Formatierungsregeln für die Template-Editoren.
+     */
+    private TokenStyleRepository tokenStyles = createTokenStyles();
+
+    /**
      * Erstellt das Objekt und initialisiert es.
      */
     public EditorTabs() {
@@ -47,10 +57,50 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     }
 
     /**
+     * Initialisiert das Syntax-Highlighting für den Code-Editor.
+     */
+    public TokenStyleRepository createTokenStyles() {
+        final TokenStyleRepository styles = new TokenStyleRepository();
+        final TokenStyle keywordStyle = new TokenStyle(new Color(127, 0, 85), Font.BOLD);
+        final TokenStyle javaPrimaryType = new TokenStyle(new Color(180, 0, 60), Font.BOLD);
+        final TokenStyle stringLiteral = new TokenStyle(new Color(42, 0, 255), Font.PLAIN);
+        final TokenStyle errorStyle = new TokenStyle(new Color(220, 0, 0), Font.ITALIC);
+        styles.putStyle(CodeGenLexer.BlockComment, new TokenStyle(new Color(63, 127, 95), Font.ITALIC));
+        styles.putStyle(CodeGenLexer.IMPORT, keywordStyle);
+        styles.putStyle(CodeGenLexer.AS, keywordStyle);
+        styles.putStyle(CodeGenLexer.TEMPLATE, keywordStyle);
+        styles.putStyle(CodeGenLexer.ENDTEMPLATE, keywordStyle);
+        styles.putStyle(CodeGenLexer.EXEC, keywordStyle);
+        styles.putStyle(CodeGenLexer.FOREACH, keywordStyle);
+        styles.putStyle(CodeGenLexer.FROM, keywordStyle);
+        styles.putStyle(CodeGenLexer.ENDFOREACH, keywordStyle);
+        styles.putStyle(CodeGenLexer.FOR, keywordStyle);
+        styles.putStyle(CodeGenLexer.OUTPUT, keywordStyle);
+        styles.putStyle(CodeGenLexer.ENDOUTPUT, keywordStyle);
+        styles.putStyle(CodeGenLexer.COUNTER, keywordStyle);
+        styles.putStyle(CodeGenLexer.SEPARATOR, keywordStyle);
+        styles.putStyle(CodeGenLexer.IF, keywordStyle);
+        styles.putStyle(CodeGenLexer.ELSE, keywordStyle);
+        styles.putStyle(CodeGenLexer.ENDIF, keywordStyle);
+        styles.putStyle(CodeGenLexer.INT, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.FLOAT, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.LONG, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.CHAR, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.SHORT, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.BOOLEAN, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.DOUBLE, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.VOID, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.NullLiteral, javaPrimaryType);
+        styles.putStyle(CodeGenLexer.StringLiteral, stringLiteral);
+        styles.putStyle(CodeGenLexer.ERR_CHAR, errorStyle);
+        return styles;
+    }
+
+    /**
      * Öffnet einen neuen, leeren Template-Editor.
      */
     public void newTemplate() {
-        final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"));
+        final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"), tokenStyles);
         addTabComponent(templatePanel, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
     }
@@ -128,7 +178,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      *            Encoding, mit dem die Datei gelesen werden soll.
      */
     public void loadTemplate(final Path path, final Charset charset) {
-        final TemplatePanel templatePanel = new TemplatePanel(path, charset);
+        final TemplatePanel templatePanel = new TemplatePanel(path, charset, tokenStyles);
         addTabComponent(templatePanel, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
     }

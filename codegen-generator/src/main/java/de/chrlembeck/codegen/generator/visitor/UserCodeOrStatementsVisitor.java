@@ -26,6 +26,7 @@ public class UserCodeOrStatementsVisitor extends CodeGenParserBaseVisitor<List<U
     @Override
     public List<UserCodeOrStatements<?>> visitUserCodeOrStatements(final UserCodeOrStatementsContext ctx) {
         final UserCodeOrStatementVisitor visitor = new UserCodeOrStatementVisitor();
-        return ctx.children.stream().map(c -> (UserCodeOrStatements<?>) c.accept(visitor)).collect(Collectors.toList());
+        return ctx.children.stream().map(parseTree -> (UserCodeOrStatements<?>) parseTree.accept(visitor))
+                .collect(Collectors.toList());
     }
 }

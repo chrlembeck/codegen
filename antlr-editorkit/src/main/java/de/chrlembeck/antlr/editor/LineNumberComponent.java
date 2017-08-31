@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.CaretEvent;
-import javax.swing.event.DocumentEvent;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
@@ -42,7 +41,7 @@ public class LineNumberComponent extends JPanel {
     /**
      * Abstand zwischen Zeilennummern und Rändern.
      */
-    private final int BORDER_PADDING = 5;
+    private static final int BORDER_PADDING = 5;
 
     /**
      * Text-Komponente, die im Scrollpane dargestellt werden soll, und an der sich die Zeilennummerierung ausrichten
@@ -87,7 +86,7 @@ public class LineNumberComponent extends JPanel {
         setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY),
                 BorderFactory.createEmptyBorder(0, BORDER_PADDING, 0, BORDER_PADDING)));
         setCurrentLineForeground(Color.RED);
-        component.getDocument().addDocumentListener(new SimpleDocumentListener(this::documentChanged));
+        component.getDocument().addDocumentListener(new SimpleDocumentListener(event -> documentChanged()));
         component.addCaretListener(this::caretMoved);
         component.addPropertyChangeListener("font", this::fontChanged);
     }
@@ -107,7 +106,7 @@ public class LineNumberComponent extends JPanel {
      * @param currentLineForeground
      *            Farbe für die Zeilennummerierung der Zeile mit dem Cursor.
      */
-    public void setCurrentLineForeground(final Color currentLineForeground) {
+    public final void setCurrentLineForeground(final Color currentLineForeground) {
         this.currentLineForeground = currentLineForeground;
     }
 
@@ -127,43 +126,43 @@ public class LineNumberComponent extends JPanel {
             final Insets insets = getInsets();
             final int preferredWidth = insets.left + insets.right + width;
 
-            final Dimension d = getPreferredSize();
-            d.setSize(preferredWidth, Integer.MAX_VALUE - 1000000);
-            setPreferredSize(d);
-            setSize(d);
+            final Dimension preferredSize = getPreferredSize();
+            preferredSize.setSize(preferredWidth, Integer.MAX_VALUE - 1000000);
+            setPreferredSize(preferredSize);
+            setSize(preferredSize);
         }
     }
 
     /**
      * Zeichnet die Zeilennummern.
      * 
-     * @param g
+     * @param graphics
      *            Zum Zeichnen zu verwendendes Graphics-Objekt.
      */
     @Override
-    public void paintComponent(final Graphics g) {
-        super.paintComponent(g);
+    public void paintComponent(final Graphics graphics) {
+        super.paintComponent(graphics);
 
         final FontMetrics fontMetrics = component.getFontMetrics(component.getFont());
         final Insets insets = getInsets();
         final int availableWidth = getSize().width - insets.left - insets.right;
 
-        final Rectangle clip = g.getClipBounds();
+        final Rectangle clip = graphics.getClipBounds();
         int rowStartOffset = component.viewToModel(new Point(0, clip.y));
         final int endOffset = component.viewToModel(new Point(0, clip.y + clip.height));
 
         while (rowStartOffset <= endOffset) {
             try {
                 if (isCurrentLine(rowStartOffset)) {
-                    g.setColor(getCurrentLineForeground());
+                    graphics.setColor(getCurrentLineForeground());
                 } else {
-                    g.setColor(getForeground());
+                    graphics.setColor(getForeground());
                 }
                 final String lineNumber = getTextLineNumber(rowStartOffset);
                 final int stringWidth = fontMetrics.stringWidth(lineNumber);
-                final int x = availableWidth - stringWidth + insets.left;
-                final int y = getOffsetY(rowStartOffset, fontMetrics);
-                g.drawString(lineNumber, x, y);
+                final int xPos = availableWidth - stringWidth + insets.left;
+                final int yPos = getOffsetY(rowStartOffset, fontMetrics);
+                graphics.drawString(lineNumber, xPos, yPos);
 
                 rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
             } catch (final Exception e) {
@@ -220,12 +219,12 @@ public class LineNumberComponent extends JPanel {
     private int getOffsetY(final int rowStartOffset, final FontMetrics fontMetrics)
             throws BadLocationException {
 
-        final Rectangle r = component.modelToView(rowStartOffset);
+        final Rectangle rect = component.modelToView(rowStartOffset);
         final int lineHeight = fontMetrics.getHeight();
-        final int y = r.y + r.height;
+        final int yPos = rect.y + rect.height;
         int descent = 0;
 
-        if (r.height == lineHeight) {
+        if (rect.height == lineHeight) {
             descent = fontMetrics.getDescent();
         } else {
             if (fontMetricsCache == null) {
@@ -238,23 +237,23 @@ public class LineNumberComponent extends JPanel {
 
             for (int i = 0; i < line.getElementCount(); i++) {
                 final Element child = line.getElement(i);
-                final AttributeSet as = child.getAttributes();
-                final String fontFamily = (String) as.getAttribute(StyleConstants.FontFamily);
-                final Integer fontSize = (Integer) as.getAttribute(StyleConstants.FontSize);
+                final AttributeSet attributeSet = child.getAttributes();
+                final String fontFamily = (String) attributeSet.getAttribute(StyleConstants.FontFamily);
+                final Integer fontSize = (Integer) attributeSet.getAttribute(StyleConstants.FontSize);
                 final String key = fontFamily + fontSize;
 
-                FontMetrics fm = fontMetricsCache.get(key);
+                FontMetrics individualFontMetrics = fontMetricsCache.get(key);
 
-                if (fm == null) {
+                if (individualFontMetrics == null) {
                     final Font font = new Font(fontFamily, Font.PLAIN, fontSize);
-                    fm = component.getFontMetrics(font);
-                    fontMetricsCache.put(key, fm);
+                    individualFontMetrics = component.getFontMetrics(font);
+                    fontMetricsCache.put(key, individualFontMetrics);
                 }
 
-                descent = Math.max(descent, fm.getDescent());
+                descent = Math.max(descent, individualFontMetrics.getDescent());
             }
         }
-        return y - descent;
+        return yPos - descent;
     }
 
     /**
@@ -278,16 +277,15 @@ public class LineNumberComponent extends JPanel {
      * Wird aufgerufen, wenn es eine Änderung am Textdokument gegeben hat. Hier wird dann geprüft, ob die
      * Zeilennummerierung ggf. angepasst werden muss.
      * 
-     * @param documentEvent
-     *            Event, welches über die Änderung im Dokument informiert.
      */
-    private void documentChanged(final DocumentEvent documentEvent) {
+    private void documentChanged() {
         SwingUtilities.invokeLater(this::updateLineNumbers);
     }
 
     /**
      * Stößt, falls erfordertlich, ein Neuzeichnen der Zeilennummern an.
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     protected void updateLineNumbers() {
         try {
             final int endPos = component.getDocument().getLength();

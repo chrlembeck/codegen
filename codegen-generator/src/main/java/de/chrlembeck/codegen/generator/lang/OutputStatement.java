@@ -42,7 +42,7 @@ public class OutputStatement extends AbstractTemplateMember<OutputStatementConte
         super(ctx);
         this.nameExpression = nameExpression;
         this.codeOrStatements = cos;
-        this.codeOrStatements.forEach(st -> st.setParent(this));
+        this.codeOrStatements.forEach(codeOrStatement -> codeOrStatement.setParent(this));
     }
 
     /**

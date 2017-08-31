@@ -15,13 +15,13 @@ class Frame {
     /**
      * Verknüpft im Frame definierte Variablennamen mit den ihnen zugewiesenen Werten.
      */
-    private Map<String, ObjectWithType<?>> variables = new TreeMap<>();
+    private final Map<String, ObjectWithType<?>> variables = new TreeMap<>();
 
     /**
      * Verknüpfung des Frames mit dem vorangegangenen Frame, falls dieser Frame auf die Daten des Vorgängers Zugriff
      * haben soll.
      */
-    private Frame parent;
+    private final Frame parent;
 
     /**
      * Erstell einen neuen Frame und hinterlegt die Referenz auf den Vorgänger.
@@ -83,10 +83,10 @@ class Frame {
     public ObjectWithType<?> lookupVariable(final String varName) {
         if (variables.containsKey(varName)) {
             return variables.get(varName);
-        } else if (parent != null) {
-            return parent.lookupVariable(varName);
-        } else {
+        } else if (parent == null) {
             throw new RuntimeException("Variable '" + varName + "' could not be found.");
+        } else {
+            return parent.lookupVariable(varName);
         }
     }
 }

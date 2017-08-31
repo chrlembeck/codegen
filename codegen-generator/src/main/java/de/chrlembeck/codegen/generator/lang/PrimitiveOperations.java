@@ -10,44 +10,44 @@ public interface PrimitiveOperations {
     /**
      * Führt die Operation auf zwei int-Werten aus.
      * 
-     * @param a
+     * @param leftOperand
      *            Erster Operand der Operation.
-     * @param b
+     * @param rightOperand
      *            Zweiter Operand der Operation.
      * @return Ergebnis der Berechnung.
      */
-    public ObjectWithType<?> apply(int a, int b);
+    ObjectWithType<?> apply(int leftOperand, int rightOperand);
 
     /**
      * Führt die Operation auf zwei float-Werten aus.
      * 
-     * @param a
+     * @param leftOperand
      *            Erster Operand der Operation.
-     * @param b
+     * @param rightOperand
      *            Zweiter Operand der Operation.
      * @return Ergebnis der Berechnung.
      */
-    public ObjectWithType<?> apply(float a, float b);
+    ObjectWithType<?> apply(float leftOperand, float rightOperand);
 
     /**
      * Führt die Operation auf zwei long-Werten aus.
      * 
-     * @param a
+     * @param leftOperand
      *            Erster Operand der Operation.
-     * @param b
+     * @param rightOperand
      *            Zweiter Operand der Operation.
      * @return Ergebnis der Berechnung.
      */
-    public ObjectWithType<?> apply(long a, long b);
+    ObjectWithType<?> apply(long leftOperand, long rightOperand);
 
     /**
      * Führt die Operation auf zwei double-Werten aus.
      * 
-     * @param a
+     * @param leftOperand
      *            Erster Operand der Operation.
-     * @param b
+     * @param rightOperand
      *            Zweiter Operand der Operation.
      * @return Ergebnis der Berechnung.
      */
-    public ObjectWithType<?> apply(double a, double b);
+    ObjectWithType<?> apply(double leftOperand, double rightOperand);
 }

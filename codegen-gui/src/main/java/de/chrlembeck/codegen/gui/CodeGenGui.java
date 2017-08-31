@@ -66,7 +66,7 @@ public class CodeGenGui extends JFrame implements TabListener {
     /**
      * Der Logger für diese Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(CodeGenGui.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenGui.class);
 
     /**
      * Version number of the current class.

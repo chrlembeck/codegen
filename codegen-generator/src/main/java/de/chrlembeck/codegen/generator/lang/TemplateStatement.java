@@ -52,7 +52,7 @@ public class TemplateStatement extends AbstractTemplateMember<TemplateStatementC
         this.name = name;
         this.type = type;
         this.codeOrStatements = cos;
-        this.codeOrStatements.forEach(st -> st.setParent(this));
+        this.codeOrStatements.forEach(codeOrStatement -> codeOrStatement.setParent(this));
     }
 
     /**

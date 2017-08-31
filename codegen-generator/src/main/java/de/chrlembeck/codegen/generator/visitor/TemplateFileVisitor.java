@@ -50,7 +50,7 @@ public class TemplateFileVisitor extends CodeGenParserBaseVisitor<TemplateFile> 
                 .collect(Collectors.toList());
         final List<TemplateStatement> templates = ctx.templateStatement()
                 .stream()
-                .map(t -> t.accept(new TemplateStatementVisitor()))
+                .map(templateStatementCtx -> templateStatementCtx.accept(new TemplateStatementVisitor()))
                 .collect(Collectors.toList());
         final TemplateFile templateFile = new TemplateFile(resourceIdentifier, ctx, imports, templates);
         return templateFile;

@@ -23,7 +23,7 @@ public class ExpressionStatement extends AbstractTemplateMember<ExpressionStatem
     /**
      * Der Logger für die Klasse.
      */
-    private static Logger LOGGER = LoggerFactory.getLogger(ExpressionStatement.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExpressionStatement.class);
 
     /**
      * Expression, die beim Generieren ausgewertet und in die Ausgabe kopiert werden soll.
