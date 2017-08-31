@@ -17,10 +17,6 @@
         <exclude name="LongVariable" />
         <exclude name="ShortClassName"/>
     </rule>
-    <rule ref="rulesets/java/comments.xml">
-        <exclude name="CommentSize" />
-        <exclude name="CommentDefaultAccessModifier" />
-    </rule>
     <rule ref="rulesets/java/design.xml">
         <exclude name="ImmutableField" />
         <exclude name="UnnecessaryLocalBeforeReturn" />

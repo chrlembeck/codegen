@@ -44,7 +44,7 @@ public class SettingsAction extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         System.out.println(codeGenGui);
         // TODO implementieren
     }

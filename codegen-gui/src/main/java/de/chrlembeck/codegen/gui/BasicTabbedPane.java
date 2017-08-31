@@ -27,6 +27,17 @@ public class BasicTabbedPane extends JTabbedPane {
     private static final long serialVersionUID = -374367653947864618L;
 
     /**
+     * Referenz auf den gerade ausgewählten Editor. Wird benötigt, um bei einem Wechsel der aktiven Editoren die
+     * Referenz auf den jeweils vorher aktiven Editor an die Listener übermitteln zu können.
+     */
+    private Component selectedTabComponent;
+
+    /**
+     * Liste der Listener für die Information über die Zustandsänderungen der einzelnen Editorfenster.
+     */
+    private List<TabListener> tabListeners = new ArrayList<>();
+
+    /**
      * Erzeugt einen neuen TabbedPane.
      * 
      * @param tabPlacement
@@ -43,17 +54,6 @@ public class BasicTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Referenz auf den gerade ausgewählten Editor. Wird benötigt, um bei einem Wechsel der aktiven Editoren die
-     * Referenz auf den jeweils vorher aktiven Editor an die Listener übermitteln zu können.
-     */
-    private Component selectedTabComponent;
-
-    /**
-     * Liste der Listener für die Information über die Zustandsänderungen der einzelnen Editorfenster.
-     */
-    private List<TabListener> tabListeners = new ArrayList<>();
-
-    /**
      * Wird aufgerufen, wenn ein anderer Tab aktiviert wird. Informiert danach die eingetragenen TabListener über dieses
      * Event.
      * 
@@ -62,7 +62,7 @@ public class BasicTabbedPane extends JTabbedPane {
      */
     protected void tabChanged(final ChangeEvent event) {
         final Component newSelection = getSelectedComponent();
-        tabListeners.stream().forEach(l -> l.tabChanged(selectedTabComponent, newSelection));
+        tabListeners.stream().forEach(listener -> listener.tabChanged(selectedTabComponent, newSelection));
         selectedTabComponent = newSelection;
     }
 
@@ -73,9 +73,9 @@ public class BasicTabbedPane extends JTabbedPane {
     public void removeTabAt(final int index) {
         final TabComponent tabComponent = (TabComponent) getSelectedComponent();
         super.removeTabAt(index);
-        tabListeners.stream().forEach(l -> l.tabClosed(tabComponent));
+        tabListeners.stream().forEach(listener -> listener.tabClosed(tabComponent));
         if (getTabCount() == 0) {
-            tabListeners.stream().forEach(l -> l.lastTabClosed(tabComponent));
+            tabListeners.stream().forEach(listener -> listener.lastTabClosed(tabComponent));
         }
     }
 
@@ -90,14 +90,14 @@ public class BasicTabbedPane extends JTabbedPane {
     public void saveDocument(final Path path, final Charset charset) {
         final Component comp = getSelectedComponent();
         if (comp instanceof TabComponent) {
-            final TabComponent tp = (TabComponent) comp;
+            final TabComponent tabComponent = (TabComponent) comp;
             try {
-                final boolean success = tp.saveDocument(path, charset);
+                final boolean success = tabComponent.saveDocument(path, charset);
                 if (success) {
                     final int idx = getSelectedIndex();
                     final TabHeader tabLabel = (TabHeader) getTabComponentAt(idx);
                     tabLabel.notifyDocumentSaved(path);
-                    tabListeners.stream().forEach(l -> l.tabSaved(tp));
+                    tabListeners.stream().forEach(listener -> listener.tabSaved(tabComponent));
                 }
             } catch (final IOException ioe) {
                 JOptionPane.showMessageDialog(this, ioe.getLocalizedMessage());
@@ -138,7 +138,7 @@ public class BasicTabbedPane extends JTabbedPane {
         final int index = indexOfComponent((Component) tabComponent);
         final TabHeader label = (TabHeader) getTabComponentAt(index);
         label.notifyTemplateWasModified();
-        tabListeners.stream().forEach(l -> l.tabContentHasUnsavedModifications(tabComponent));
+        tabListeners.stream().forEach(listener -> listener.tabContentHasUnsavedModifications(tabComponent));
     }
 
     /**
@@ -165,9 +165,9 @@ public class BasicTabbedPane extends JTabbedPane {
         setTabComponentAt(newIndex, pnTab);
         tabComponent.addModificationListener(this::onTemplateWasModified);
         if (getTabCount() == 1) {
-            tabListeners.stream().forEach(l -> l.firstTabOpened(tabComponent));
+            tabListeners.stream().forEach(listener -> listener.firstTabOpened(tabComponent));
         }
-        tabListeners.stream().forEach(l -> l.tabOpened(tabComponent));
+        tabListeners.stream().forEach(listener -> listener.tabOpened(tabComponent));
     }
 
     /**
@@ -241,8 +241,8 @@ public class BasicTabbedPane extends JTabbedPane {
         for (int i = 0; i < getTabCount(); i++) {
             final Component component = getComponentAt(i);
             if (component instanceof TabComponent) {
-                final TabComponent tp = (TabComponent) component;
-                if (tp.hasUnsavedModifications()) {
+                final TabComponent tabComponent = (TabComponent) component;
+                if (tabComponent.hasUnsavedModifications()) {
                     return true;
                 }
             }

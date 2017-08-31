@@ -58,7 +58,7 @@ public class LoadTemplateAction extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         final FileNameExtensionFilter filter = new FileNameExtensionFilter("Template Files", "codegen");
 
         final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastTemplateDirectory(),

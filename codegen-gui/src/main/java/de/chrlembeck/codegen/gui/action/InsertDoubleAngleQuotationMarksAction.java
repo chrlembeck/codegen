@@ -42,7 +42,7 @@ public class InsertDoubleAngleQuotationMarksAction extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         codeGenGui.insertBraces();
     }
 }

@@ -66,7 +66,7 @@ public class SaveTemplateAsAction extends AbstractAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         if (!codeGenGui.isDocumentSelected()) {
             JOptionPane.showMessageDialog(codeGenGui, "Es ist gar kein Template ausgewählt.", "Fehler",
                     JOptionPane.WARNING_MESSAGE);

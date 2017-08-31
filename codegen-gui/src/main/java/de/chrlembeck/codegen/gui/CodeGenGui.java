@@ -76,31 +76,6 @@ public class CodeGenGui extends JFrame implements TabListener {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Startet den Editor und Zeigt ihn auf dem Bildschirm an.
-     * 
-     * @param args
-     *            Werden nicht verwendet.
-     */
-    public static void main(final String... args) {
-        setSystemLookAndFeel();
-        SwingUtilities.invokeLater(CodeGenGui::new);
-    }
-
-    /**
-     * Setzt das Look And Feel des Betriebssystems.
-     */
-    private static void setSystemLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        } catch (final UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
-                | IllegalAccessException e) {
-            LOGGER.error(e.getLocalizedMessage());
-            System.exit(-1);
-        }
-    }
-
-    /**
      * Panel, in dem die einzelnene Editor-Fenster geöffnet werden.
      */
     private EditorTabs editorTabs;
@@ -194,6 +169,31 @@ public class CodeGenGui extends JFrame implements TabListener {
      * TreeTable für die Anzeige der geladenen Modelle.
      */
     private JXTreeTable ttModel;
+
+    /**
+     * Startet den Editor und Zeigt ihn auf dem Bildschirm an.
+     * 
+     * @param args
+     *            Werden nicht verwendet.
+     */
+    public static void main(final String... args) {
+        setSystemLookAndFeel();
+        SwingUtilities.invokeLater(CodeGenGui::new);
+    }
+
+    /**
+     * Setzt das Look And Feel des Betriebssystems.
+     */
+    private static void setSystemLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (final UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
+                | IllegalAccessException e) {
+            LOGGER.error(e.getLocalizedMessage());
+            System.exit(-1);
+        }
+    }
 
     /**
      * Erstell eine neue grafische Oberfläche und öffnet diese.
@@ -451,7 +451,7 @@ public class CodeGenGui extends JFrame implements TabListener {
 
         resetErrorMessages();
         final TabComponent comp = getSelectedDocument();
-        if (comp != null && comp instanceof TemplatePanel) {
+        if (comp instanceof TemplatePanel) {
             final TemplatePanel templatePanel = (TemplatePanel) comp;
             final Map<Token, String> errors = templatePanel.getErrors();
             addErrorMessages(errors);

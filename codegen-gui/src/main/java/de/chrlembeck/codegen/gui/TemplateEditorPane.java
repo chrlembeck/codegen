@@ -46,7 +46,7 @@ import de.chrlembeck.antlr.editor.action.InsertAction;
 import de.chrlembeck.codegen.generator.Position;
 import lang.CodeGenLexer;
 import lang.CodeGenParser;
-import lang.CodeGenParser.TemplateFileContext;;
+import lang.CodeGenParser.TemplateFileContext;
 
 /**
  * Editor für Template-Dateien.
@@ -103,7 +103,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      * {@code true} falls das Dokument Änderungen enthält, die noch nicht gespeichert wurden, {@code false} falls das
      * Dokument neu und unverändert oder frisch gelesen oder gespeichert wurde.
      */
-    private boolean unsavedChanges = false;
+    private boolean unsavedChanges;
 
     /**
      * Pfad zu der Datei, aus der das Dokument zuletzt gelesen oder in die es zuletzt gespeichert wurde.
@@ -156,7 +156,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
         if (path != null) {
             loadTemplate(path, charset);
         }
-        addCaretListener(e -> fireStatusEvent(e.getDot()));
+        addCaretListener(event -> fireStatusEvent(event.getDot()));
     }
 
     /**
@@ -225,7 +225,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
         for (final Map.Entry<Token, String> entry : errors.entrySet()) {
             System.out.println(" - " + new Position(entry.getKey()).toShortString() + ": " + entry.getValue());
         }
-        errorListeners.forEach(l -> l.errorsChanged(errors));
+        errorListeners.forEach(listener -> listener.errorsChanged(errors));
     }
 
     /**
@@ -240,7 +240,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
         final Token token = doc.getTokenFromIndex(dot);
         final CaretPositionChangeEvent statusEvent = new CaretPositionChangeEvent(pos, token,
                 doc.getErrorMessage(token));
-        caretPositionChangeListeners.stream().forEach(li -> li.caretPositionChanged(statusEvent));
+        caretPositionChangeListeners.stream().forEach(listener -> listener.caretPositionChanged(statusEvent));
     }
 
     /**
@@ -333,7 +333,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
             }
             if (parent instanceof TemplatePanel) {
                 final TemplatePanel panel = (TemplatePanel) parent;
-                modificationListeners.stream().forEach(l -> l.documentWasModified(panel));
+                modificationListeners.stream().forEach(listener -> listener.documentWasModified(panel));
             }
         }
     }

@@ -114,11 +114,11 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
         for (int i = 0; i < getTabCount(); i++) {
             final Component comp = getComponentAt(i);
             if (comp instanceof TemplatePanel) {
-                final TemplatePanel tp = (TemplatePanel) comp;
-                tp.getEditorPane().removeCaretPositionChangeListener(this);
+                final TemplatePanel templatePanel = (TemplatePanel) comp;
+                templatePanel.getEditorPane().removeCaretPositionChangeListener(this);
                 if (i == getSelectedIndex()) {
-                    tp.getEditorPane().addCaretPositionChangeListener(this);
-                    tp.getEditorPane().fireStatusEvent();
+                    templatePanel.getEditorPane().addCaretPositionChangeListener(this);
+                    templatePanel.getEditorPane().fireStatusEvent();
                 }
             }
         }
@@ -192,7 +192,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      *            erkannt wurden zusammen mit einer entsprechenden Beschreibung des Problems.
      */
     private void errorsChanged(final Map<Token, String> errors) {
-        errorListeners.forEach(l -> l.errorsChanged(errors));
+        errorListeners.forEach(listener -> listener.errorsChanged(errors));
     }
 
     /**
@@ -200,7 +200,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      */
     public void insertBraces() {
         final TabComponent comp = getSelectedDocument();
-        if (comp != null && comp instanceof TemplatePanel) {
+        if (comp instanceof TemplatePanel) {
             final TemplatePanel templatePanel = (TemplatePanel) comp;
             templatePanel.getEditorPane().performInsertBraces();
         } else {
