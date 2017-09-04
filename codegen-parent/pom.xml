@@ -16,7 +16,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <codegen.version>0.0.1-SNAPSHOT</codegen.version>
-<!--         <pmd.rules.file>${project.parent.basedir}/build-properties/pmd-rules.xml</pmd.rules.file> -->
+        <dependency.locations.enabled>false</dependency.locations.enabled>
     </properties>
 
     <build>
@@ -26,6 +26,15 @@
                 <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
                 <version>4.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>instrument</goal>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Source-jar beim Packen mit erzeugen -->
@@ -107,6 +116,9 @@
                     </excludes>
                     <excludeRoots>
                         <excludeRoot>target/generated-sources/antlr4</excludeRoot>
+                    </excludeRoots>
+                    <excludeRoots>
+                        <excludeRoot>target/clover</excludeRoot>
                     </excludeRoots>
                     <rulesets>
                         <ruleset>de/chrlembeck/buildtools/pmd/pmd-rules.xml</ruleset>
@@ -196,6 +208,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.9</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <generateHtml>true</generateHtml>
+                    <generatePdf>true</generatePdf>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
@@ -287,5 +309,11 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+
+        <site>
+            <id>chrlembeck.web.site</id>
+            <name>chrlembeck web site</name>
+            <url>scp://chrlembeck.de/javadoc</url>
+        </site>
     </distributionManagement>
 </project>

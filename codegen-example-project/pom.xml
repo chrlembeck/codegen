@@ -29,6 +29,7 @@
                                     <modelCreatorClass>de.chrlembeck.codegen.example.model.ModelCreator</modelCreatorClass>
                                     <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
                                     <artifactScope>COMPILE</artifactScope>
+                                    <overwritePreferences>OVERWRITE</overwritePreferences>
                                 </template>
                                 <template>
                                     <templateFile>src/main/resources/codegen/template2.codegen</templateFile>
@@ -38,6 +39,7 @@
                                     <outputPath>target/generated-sources/codegenOut2</outputPath>
                                     <outputEncoding>UTF-8</outputEncoding>
                                     <artifactScope>TEST</artifactScope>
+                                    <overwritePreferences>OVERWRITE</overwritePreferences>
                                 </template>
                             </templates>
                         </configuration>

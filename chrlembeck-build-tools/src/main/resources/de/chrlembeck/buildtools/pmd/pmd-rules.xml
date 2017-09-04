@@ -15,12 +15,13 @@
     <rule ref="rulesets/java/braces.xml" />
     <rule ref="rulesets/java/naming.xml">
         <exclude name="LongVariable" />
-        <exclude name="ShortClassName"/>
+        <exclude name="ShortClassName" />
     </rule>
     <rule ref="rulesets/java/design.xml">
         <exclude name="ImmutableField" />
         <exclude name="UnnecessaryLocalBeforeReturn" />
         <exclude name="AvoidReassigningParameters" />
+        <exclude name="EmptyMethodInAbstractClassShouldBeAbstract" />
     </rule>
     <rule ref="rulesets/java/optimizations.xml">
         <exclude name="UseStringBufferForStringAppends" />
