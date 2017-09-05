@@ -31,7 +31,7 @@ public class CharacterLiteral extends AbstractExpression<LiteralContext> impleme
         }
 
         if (literal.startsWith("\\")) {
-            if (literal.charAt(1) >= '0' && literal.charAt(1) <= '9') {
+            if (literal.charAt(1) >= '0' && literal.charAt(1) <= '7') {
                 final int code = Integer.parseInt(literal.substring(1), 8);
                 if (code > 255) {
                     throw new IllegalArgumentException("illegal octal character (" + literal + ")");
@@ -83,5 +83,14 @@ public class CharacterLiteral extends AbstractExpression<LiteralContext> impleme
     @Override
     public ObjectWithType<Character> evaluate(final Object model, final Environment environment) {
         return new ObjectWithType<Character>(Character.valueOf(character), char.class);
+    }
+
+    /**
+     * Gibt den enthaltenen char zurück.
+     * 
+     * @return Zeichen, dass durch dieses Element dargestellt wird.
+     */
+    public char getCharacter() {
+        return character;
     }
 }

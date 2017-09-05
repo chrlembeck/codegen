@@ -28,15 +28,24 @@
                 <version>4.2.0</version>
                 <configuration>
                     <includesAllSourceRoots>false</includesAllSourceRoots>
+                    <includesTestSourceRoots>false</includesTestSourceRoots>
                     <excludes>
-                        <exclude>de/chrlembeck/codegen/grammar/*</exclude>
+                        <exclude>**/CodeGenLexer</exclude>
                     </excludes>
+                    <copyExcludedFiles>false</copyExcludedFiles>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>cloversetup</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>setup</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>cloveraggregate</id>
                         <phase>pre-site</phase>
                         <goals>
-                            <goal>instrument</goal>
                             <goal>aggregate</goal>
                         </goals>
                     </execution>
@@ -122,8 +131,6 @@
                     </excludes>
                     <excludeRoots>
                         <excludeRoot>target/generated-sources/antlr4</excludeRoot>
-                    </excludeRoots>
-                    <excludeRoots>
                         <excludeRoot>target/clover</excludeRoot>
                     </excludeRoots>
                     <rulesets>
@@ -220,6 +227,10 @@
                 <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
                 <configuration>
+                    <includesAllSourceRoots>false</includesAllSourceRoots>
+                    <excludes>
+                        <exclude>**/de/chrlembeck/codegen/grammar/**</exclude>
+                    </excludes>
                     <charset>UTF-8</charset>
                     <generateHtml>true</generateHtml>
                     <generatePdf>true</generatePdf>

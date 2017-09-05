@@ -28,7 +28,7 @@ public class StringLiteral extends AbstractExpression<LiteralContext> implements
         if (input.startsWith("\"") && input.endsWith("\"")) {
             input = input.substring(1, input.length() - 1);
         } else {
-            throw new IllegalStateException("A string literal always has to begin and end withl '\"'.");
+            throw new IllegalArgumentException("A string literal always has to begin and end withl '\"'.");
         }
 
         final StringBuilder builder = new StringBuilder();
