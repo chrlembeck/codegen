@@ -17,49 +17,64 @@ import org.slf4j.LoggerFactory;
 public enum IconFactory {
 
     /**
+     * Icon für das Einfügen eines Klammer-Paares
+     */
+    BRACES_32("braces_32.png"),
+
+    CANCEL_22("cancel_22.png"),
+
+    CANCEL_32("cancel_32.png"),
+
+    ERROR_32("warning_32.png"),
+
+    EXIT_22("exit_22.png"),
+
+    /**
      * Icon für das Beenden der Anwendung.
      */
-    EXIT_32("/icons/exit_32.png"),
+    EXIT_32("exit_32.png"),
 
-    /**
-     * Icon für die ERstellung eines neuen Templates.
-     */
-    NEW_32("/icons/new_32.png"),
-
-    /**
-     * Icon für das Laden von Dateien.
-     */
-    OPEN_32("/icons/open_32.png"),
-
-    /**
-     * Icon für das Speichern von Dateien.
-     */
-    SAVE_32("/icons/save_32.png"),
-
-    /**
-     * Icon für das Speichern von Dateien unter neuem Dateinamen.
-     */
-    SAVE_AS_32("/icons/save_as_32.png"),
-
-    /**
-     * Icon für das Speichern aller geöffneten Dateien.
-     */
-    SAVE_ALL_32("/icons/save_all_32.png"),
+    FOLDER_16("folder_16.png"),
 
     /**
      * Icon für das Starten des Generators.
      */
-    GENERATE_32("/icons/generate_32.png"),
+    GENERATE_32("generate_32.png"),
 
     /**
-     * Icon für das Einfügen eines Klammer-Paares
+     * Icon für die ERstellung eines neuen Templates.
      */
-    BRACES_32("/icons/braces_32.png"),
+    NEW_32("new_32.png"),
+
+    OK_22("ok_22.png"),
+
+    OK_32("ok_32.png"),
+
+    /**
+     * Icon für das Laden von Dateien.
+     */
+    OPEN_32("open_32.png"),
+
+    /**
+     * Icon für das Speichern von Dateien.
+     */
+    SAVE_32("save_32.png"),
+
+    /**
+     * Icon für das Speichern aller geöffneten Dateien.
+     */
+    SAVE_ALL_32("save_all_32.png"),
+
+    /**
+     * Icon für das Speichern von Dateien unter neuem Dateinamen.
+     */
+    SAVE_AS_32("save_as_32.png"),
 
     /**
      * Icon für das Einstellungen-Menü.
      */
-    SETTINGS_32("/icons/settings_32.png");
+    SETTINGS_32("settings_32.png"), WARNING_32(
+            "warning_32.png"), WARNING_48("warning_48.png");
 
     /**
      * Logger für die Klasse.
@@ -67,14 +82,14 @@ public enum IconFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(IconFactory.class);
 
     /**
-     * Speicher den Ablageort eines Icons.
-     */
-    private String iconLocation;
-
-    /**
      * Referenz auf ein eventuell schon einmal geladenes Icon.
      */
     private SoftReference<Icon> iconCache;
+
+    /**
+     * Speichert den Ablageort eines Icons.
+     */
+    private String iconName;
 
     /**
      * Erstell eine neue Referenz auf ein Icon.
@@ -83,16 +98,16 @@ public enum IconFactory {
      *            Ablageort des hinterlegten Icons.
      */
     private IconFactory(final String iconLocation) {
-        this.iconLocation = iconLocation;
+        this.iconName = iconLocation;
     }
 
     /**
-     * Gibt den Ort zurück, an dem das Icon abgelegt ist.
+     * Gibt den Namen zurück, unter dem das Icon abgelegt ist.
      * 
-     * @return Ablageort des Icons.
+     * @return Name der Icon-Datei.
      */
-    public String getIconLocation() {
-        return iconLocation;
+    public String getIconName() {
+        return iconName;
     }
 
     /**
@@ -103,9 +118,9 @@ public enum IconFactory {
     public Icon icon() {
         Icon icon = iconCache == null ? null : iconCache.get();
         if (icon == null) {
-            final URL location = getClass().getResource(iconLocation);
+            final URL location = getClass().getResource("/icons/" + iconName);
             if (location == null) {
-                LOGGER.error("Icon '" + this.name() + "' konnte nicht gefunden werden: '" + getIconLocation() + "'.");
+                LOGGER.error("Icon '" + this.name() + "' konnte nicht gefunden werden: '" + getIconName() + "'.");
             } else {
                 icon = new ImageIcon(location);
                 iconCache = new SoftReference<Icon>(icon);
@@ -113,5 +128,4 @@ public enum IconFactory {
         }
         return icon;
     }
-
 }

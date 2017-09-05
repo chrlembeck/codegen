@@ -150,12 +150,12 @@ public class BasicTabbedPane extends JTabbedPane {
      *            {@code true} falls der neue Reiter einen Button zum Schließen erhalten soll, {@code false} falls der
      *            Reiter nicht geschlossen können werden soll.
      */
-    public void addTabComponent(final TabComponent tabComponent, final boolean closeable) {
+    public void addTabComponent(final TabComponent tabComponent, final String name, final boolean closeable) {
         final int newIndex = getTabCount();
         insertTab(null, null, (Component) tabComponent, null, newIndex);
         setSelectedIndex(newIndex);
 
-        final TabHeader pnTab = new TabHeader(this, closeable);
+        final TabHeader pnTab = new TabHeader(this, name, closeable);
 
         if (tabComponent.isNewArtifact()) {
             pnTab.setNew(true);

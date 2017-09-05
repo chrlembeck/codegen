@@ -7,11 +7,12 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
+import de.chrlembeck.codegen.gui.dialog.AbstractDialog;
+import de.chrlembeck.codegen.gui.dialog.CloseApplicationConfirmDialog;
 
 /**
  * Action zum behandeln der {@code Beenden}-Funktionalität der Anwendung.
@@ -19,16 +20,6 @@ import de.chrlembeck.codegen.gui.IconFactory;
  * @author Christoph Lembeck
  */
 public class CloseApplicationAction extends AbstractAction implements WindowListener {
-
-    /**
-     * Text der Schaltfläche zum Abbrechen der Aktion.
-     */
-    private static final String OPTION_CANCEL = "Abbrechen";
-
-    /**
-     * Text der Schaltfläche zum Beenden des Editors ohne Speichern der ungespeicherten Änderungen.
-     */
-    private static final String OPTION_CLOSE_WITHOUT_SAVE = "Beenden ohne Speichern";
 
     /**
      * Version number of the current class.
@@ -63,11 +54,9 @@ public class CloseApplicationAction extends AbstractAction implements WindowList
     @Override
     public void actionPerformed(final ActionEvent event) {
         if (codeGenGui.containsUnsavedModifications()) {
-            final int option = JOptionPane.showOptionDialog(codeGenGui,
-                    "Wollen Sie die Anwendung wirklich beenden ohne die Änderungen zu speichern?",
-                    "Beenden ohne Speichern?", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-                    new String[] { OPTION_CLOSE_WITHOUT_SAVE, OPTION_CANCEL }, OPTION_CANCEL);
-            if (option == 0) {
+            final CloseApplicationConfirmDialog dialog = new CloseApplicationConfirmDialog(codeGenGui);
+            dialog.setVisible(true);
+            if (dialog.getResult() == AbstractDialog.RESULT_OK) {
                 codeGenGui.dispose();
             }
         } else {

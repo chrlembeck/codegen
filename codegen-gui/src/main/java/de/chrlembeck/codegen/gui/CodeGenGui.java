@@ -2,12 +2,9 @@ package de.chrlembeck.codegen.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.DisplayMode;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -17,25 +14,31 @@ import java.util.Map;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.event.CaretEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 
 import org.antlr.v4.runtime.Token;
 import org.jdesktop.swingx.JXTreeTable;
@@ -54,6 +57,7 @@ import de.chrlembeck.codegen.gui.action.NewTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
 import de.chrlembeck.codegen.gui.action.SettingsAction;
+import de.chrlembeck.codegen.gui.util.SwingUtil;
 import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
 
 /**
@@ -62,6 +66,8 @@ import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
  * @author Christoph Lembeck
  */
 public class CodeGenGui extends JFrame implements TabListener {
+
+    private static final String CLIENT_PROPERTY_OUTPUT_PANEL = "CLIENT_PROPERTY_OUTPUT_PANEL";
 
     /**
      * Der Logger für diese Klasse.
@@ -170,6 +176,8 @@ public class CodeGenGui extends JFrame implements TabListener {
      */
     private JXTreeTable ttModel;
 
+    private BasicTabbedPane tpOutput;
+
     /**
      * Startet den Editor und Zeigt ihn auf dem Bildschirm an.
      * 
@@ -184,7 +192,7 @@ public class CodeGenGui extends JFrame implements TabListener {
     /**
      * Setzt das Look And Feel des Betriebssystems.
      */
-    private static void setSystemLookAndFeel() {
+    public static void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -205,7 +213,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         initCloseMechanism();
         pack();
         setSize(Math.max(1200, getWidth()), Math.max(800, getHeight()));
-        centerOnScreen(this);
+        SwingUtil.centerOnScreen(this);
         setVisible(true);
         spMain.setDividerLocation(0.7d);
         spEditorModel.setDividerLocation(0.8d);
@@ -237,8 +245,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         tbErrors = new JTable(errorTableModel);
         final JScrollPane spErrors = new JScrollPane(tbErrors);
 
-        // Tabbed Pane für Ausgabebereich
-        final BasicTabbedPane tpOutput = new BasicTabbedPane(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
+        tpOutput = new BasicTabbedPane(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
         tpOutput.addTab("Errors", spErrors);
 
         // Panel für die Statuszeile
@@ -381,19 +388,6 @@ public class CodeGenGui extends JFrame implements TabListener {
     }
 
     /**
-     * Positioniert das übergebene Anwendungsfenster auf der Mitte des Bildschirms.
-     * 
-     * @param window
-     *            Fenster, welches ausgerichtet werden soll.
-     */
-    public static void centerOnScreen(final Window window) {
-        final GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        final DisplayMode displayMode = graphicsEnvironment.getDefaultScreenDevice().getDisplayMode();
-        window.setLocation((displayMode.getWidth() - window.getWidth()) / 2,
-                (displayMode.getHeight() - window.getHeight()) / 2);
-    }
-
-    /**
      * Öffnet einen neuen, leeren Template-Editor.
      */
     public void newTemplate() {
@@ -411,6 +405,7 @@ public class CodeGenGui extends JFrame implements TabListener {
      */
     public static JFileChooser createFileChooser(final Path directory, final FileNameExtensionFilter filter) {
         final JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setFileFilter(filter);
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(directory.toFile());
@@ -638,5 +633,41 @@ public class CodeGenGui extends JFrame implements TabListener {
      */
     public void insertBraces() {
         editorTabs.insertBraces();
+    }
+
+    public void showErrorMessage(final String message, final String title) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE, IconFactory.ERROR_32.icon());
+    }
+
+    public void removeAllOutputPanels() {
+        for (int i = tpOutput.getTabCount() - 1; i >= 0; i--) {
+            final Component comp = tpOutput.getComponentAt(i);
+            if (comp instanceof JComponent) {
+                final JComponent jComponent = (JComponent) comp;
+                if (jComponent.getClientProperty(CLIENT_PROPERTY_OUTPUT_PANEL) == Boolean.TRUE) {
+                    tpOutput.removeTabAt(i);
+                }
+            }
+        }
+    }
+
+    public JTextComponent createOutputPanel(final String name) {
+        final JTextArea taOutput = new JTextArea();
+        final UnmodifiableTabComponent tabComponent = new UnmodifiableTabComponent(taOutput);
+        tabComponent.putClientProperty(CLIENT_PROPERTY_OUTPUT_PANEL, Boolean.TRUE);
+
+        tpOutput.addTabComponent(tabComponent, name, true);
+        taOutput.addCaretListener(this::outputCaretChanged);
+
+        return taOutput;
+    }
+
+    public void outputCaretChanged(final CaretEvent event) {
+        final JTextComponent textComp = (JTextComponent) event.getSource();
+        final Element rootElement = textComp.getDocument().getDefaultRootElement();
+        final int line = rootElement.getElementIndex(event.getDot());
+        final Element element = rootElement.getElement(line);
+        final int column = event.getDot() - element.getStartOffset();
+        lbPosition.setText(new Position(line + 1, column + 1).toShortString());
     }
 }

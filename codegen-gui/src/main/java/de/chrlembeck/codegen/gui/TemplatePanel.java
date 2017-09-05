@@ -113,7 +113,8 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
     public TemplateFile getTemplateFile() {
         final AntlrDocument<TemplateFileContext> antlrDocument = editorPane.getAntlrDocument();
         final TemplateFileContext fileContext = antlrDocument.validate(true);
-        final TemplateFile templateFile = fileContext.accept(new TemplateFileVisitor(getPath().toUri()));
+        final TemplateFile templateFile = fileContext
+                .accept(new TemplateFileVisitor(getPath() == null ? null : getPath().toUri()));
         return templateFile;
     }
 

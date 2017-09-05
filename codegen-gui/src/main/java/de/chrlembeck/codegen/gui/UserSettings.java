@@ -24,6 +24,11 @@ public class UserSettings {
     private static final String LAST_MODEL_DIRECTORY = "lastModelDirectory";
 
     /**
+     * Name der Einstellung für das Verzeichnis, in das zuletzt generierte Artefakte geschrieben wurden.
+     */
+    private static final String LAST_OUTPUT_DIRECTORY = "lastOutputDirectory";
+
+    /**
      * Gibt das Verzeichnis zurück, aus dem die letzte Template-Datei gelesen wurde.
      * 
      * @return Verzeichnis des letzten Zugriffs auf eine Template-Datei.
@@ -51,6 +56,36 @@ public class UserSettings {
         if (path != null) {
             preferences.put(LAST_TEMPLATE_DIRECTORY, path.toString());
         }
+    }
+
+    /**
+     * Setzt das Verzeichnis, welches gerade für die Ausgabe eines Generatorlaufs verwendet wurde.
+     * 
+     * @param path
+     *            Verzeichnis der Ausgabe des Generatorlaufs.
+     */
+    public void setLastOutputDirectory(final Path path) {
+        if (path != null) {
+            if (!Files.isDirectory(path)) {
+                throw new IllegalArgumentException("Path is not a directory: " + path);
+            }
+            final Preferences preferences = Preferences.userNodeForPackage(CodeGenGui.class);
+            preferences.put(LAST_OUTPUT_DIRECTORY, path.toString());
+        }
+    }
+
+    /**
+     * Gibt das Verzeichnis zurück, in das zuletzt Artefakte generiert wurden.
+     * 
+     * @return Verzeichnis der letzten Generator-Ausgabe.
+     */
+    public Path getLastOutputDirectory() {
+        final Preferences preferences = Preferences.userNodeForPackage(CodeGenGui.class);
+        final String dir = preferences.get(LAST_OUTPUT_DIRECTORY, null);
+        if (dir != null) {
+            return FileSystems.getDefault().getPath(dir);
+        }
+        return FileSystems.getDefault().getPath(System.getProperty("java.io.tmpdir"));
     }
 
     /**

@@ -34,13 +34,15 @@ class TabHeader extends JPanel {
      * 
      * @param editorTabs
      *            Referenz auf das TabbedPane, in den der Reiter eingefügt wird.
+     * @param name
+     *            Anzuzeigender Name für den Reiter.
      * @param addCloseButton
      *            {@code true} falls der neue Reiter einen Button zum Schließen erhalten soll, {@code false} falls der
      *            Reiter nicht geschlossen können werden soll.
      */
-    public TabHeader(final BasicTabbedPane editorTabs, final boolean addCloseButton) {
+    public TabHeader(final BasicTabbedPane editorTabs, final String name, final boolean addCloseButton) {
         setOpaque(false);
-        lbTitle = new JLabel();
+        lbTitle = new JLabel(name);
         setLayout(new GridBagLayout());
         add(lbTitle, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(0, 0, 0, 0), 0, 0));
