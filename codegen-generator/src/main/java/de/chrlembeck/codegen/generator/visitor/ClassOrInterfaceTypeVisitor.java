@@ -5,9 +5,10 @@ import java.lang.reflect.Array;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import de.chrlembeck.codegen.generator.Util;
 import de.chrlembeck.codegen.generator.lang.ClassOrInterfaceType;
-import de.chrlembeck.codegen.generator.lang.PrimitiveType;
 import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
+import de.chrlembeck.codegen.generator.lang.PrimitiveType;
 import lang.CodeGenParser.TypeClassOrInterfaceContext;
 import lang.CodeGenParser.TypePrimitiveContext;
 import lang.CodeGenParserBaseVisitor;
@@ -51,7 +52,7 @@ public class ClassOrInterfaceTypeVisitor extends CodeGenParserBaseVisitor<ClassO
     @Override
     public ClassOrPrimitiveType visitTypePrimitive(final TypePrimitiveContext ctx) {
         Class<?> classRef = ctx.primitiveType().accept(new PrimitiveTypeVisitor());
-        if (ctx.arr != null) {
+        if (!Util.isNullOrEmpty(ctx.arr)) {
             for (@SuppressWarnings("unused")
             final Token token : ctx.arr) {
                 final Object array = Array.newInstance(classRef, 0);

@@ -67,7 +67,7 @@ public class UserCodeOrStatementVisitor
      * @return Zum Kontext-Objekt passendes und vom Generator verarbeitbares Element der Template-Datei.
      */
     @Override
-    public UserCodeOrStatements<?> visitCommentStatement(final CommentStatementContext ctx) {
+    public CommentStatement visitCommentStatement(final CommentStatementContext ctx) {
         return new CommentStatement(ctx);
     }
 

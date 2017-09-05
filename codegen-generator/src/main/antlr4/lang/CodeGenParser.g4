@@ -194,7 +194,7 @@ primary
     | SUPER                                            # primarySuperReference
     | literal                                          # primaryLiteral
     | Identifier                                       # primaryIdentifier
-    | classOrPrimitiveType DOT CLASS                               # primaryTypeClass
+    | classOrPrimitiveType DOT CLASS                   # primaryTypeClass
     | VOID DOT CLASS                                   # primaryVoidClass 
     ;
 

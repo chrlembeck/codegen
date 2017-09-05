@@ -38,10 +38,14 @@ public class LiteralVisitor extends CodeGenParserBaseVisitor<Literal> {
             return new StringLiteral(ctx, ctx.StringLiteral().getText());
         } else if (notNull(ctx.BooleanLiteral())) {
             return new BooleanLiteral(ctx, ctx.BooleanLiteral().getText());
+            /// CLOVER:OFF
         } else if (ctx.getChild(0).getText().equals("null")) {
+            /// CLOVER:ON
             return new NullLiteral(ctx);
         } else {
+            /// CLOVER:OFF
             throw new RuntimeException("not implemented");
+            /// CLOVER:ON
         }
     }
 

@@ -40,8 +40,10 @@ public class PrimitiveTypeVisitor extends CodeGenParserBaseVisitor<Class<?>> {
                 return long.class;
             case CodeGenLexer.DOUBLE:
                 return double.class;
+            /// CLOVER:OFF
             default:
                 throw new ParserException("Unerwarteter primitiver typ: " + ctx.type, ctx);
+                /// CLOVER:ON
         }
     }
 }

@@ -162,14 +162,17 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     public Expression visitExpressionSign(final ExpressionSignContext ctx) {
         final Expression expr = ctx.expression().accept(this);
         final Token operator = ctx.operator;
-        if (operator != null && operator.getType() == CodeGenLexer.ADD) {
-            // PLUS
-            return new SignExpression(ctx, SignExpression.Operator.PLUS, expr);
-        } else if (operator != null && operator.getType() == CodeGenLexer.SUB) {
-            // MINUS
-            return new SignExpression(ctx, SignExpression.Operator.MINUS, expr);
-        } else {
-            throw new IllegalStateException();
+        switch (operator.getType()) {
+            case CodeGenLexer.ADD:
+                // PLUS
+                return new SignExpression(ctx, SignExpression.Operator.PLUS, expr);
+            case CodeGenLexer.SUB:
+                // MINUS
+                return new SignExpression(ctx, SignExpression.Operator.MINUS, expr);
+            /// CLOVER:OFF
+            default:
+                throw new IllegalStateException();
+                /// CLOVER:ON
         }
     }
 
@@ -185,14 +188,17 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     public Expression visitExpressionNeg(final ExpressionNegContext ctx) {
         final Expression expr = ctx.expression().accept(this);
         final Token operator = ctx.operator;
-        if (operator != null && operator.getType() == CodeGenLexer.BANG) {
-            // Boolean negation
-            return new NegationExpression(ctx, NegationExpression.Operator.BOOLEAN_NEGATION, expr);
-        } else if (operator != null && operator.getType() == CodeGenLexer.TILDE) {
-            // Numeric negation
-            return new NegationExpression(ctx, NegationExpression.Operator.NUMERIC_NEGATION, expr);
-        } else {
-            throw new IllegalStateException();
+        switch (operator.getType()) {
+            case CodeGenLexer.BANG:
+                // Boolean negation
+                return new NegationExpression(ctx, NegationExpression.Operator.BOOLEAN_NEGATION, expr);
+            case CodeGenLexer.TILDE:
+                // Numeric negation
+                return new NegationExpression(ctx, NegationExpression.Operator.NUMERIC_NEGATION, expr);
+            /// CLOVER:OFF
+            default:
+                throw new IllegalStateException();
+                /// CLOVER:ON
         }
     }
 
@@ -208,14 +214,17 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     public Expression visitExpressionMultDivMod(final ExpressionMultDivModContext ctx) {
         final Expression left = ctx.expression(0).accept(this);
         final Expression right = ctx.expression(1).accept(this);
-        if (ctx.operator.getType() == CodeGenLexer.MUL) {
-            return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.MULT);
-        } else if (ctx.operator.getType() == CodeGenLexer.DIV) {
-            return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.DIV);
-        } else if (ctx.operator.getType() == CodeGenLexer.MOD) {
-            return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.MOD);
-        } else {
-            throw new RuntimeException("unknown operator");
+        switch (ctx.operator.getType()) {
+            case CodeGenLexer.MUL:
+                return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.MULT);
+            case CodeGenLexer.DIV:
+                return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.DIV);
+            case CodeGenLexer.MOD:
+                return new MultDivModExpression(ctx, left, right, MultDivModExpression.Operator.MOD);
+            /// CLOVER:OFF
+            default:
+                throw new RuntimeException("unknown operator");
+                /// CLOVER:ON
         }
     }
 
@@ -231,12 +240,15 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     public Expression visitExpressionPlusMinus(final ExpressionPlusMinusContext ctx) {
         final Expression left = ctx.expression(0).accept(this);
         final Expression right = ctx.expression(1).accept(this);
-        if (ctx.operator.getType() == CodeGenLexer.ADD) {
-            return new PlusMinusExpression(ctx, left, right, PlusMinusExpression.Operator.PLUS);
-        } else if (ctx.operator.getType() == CodeGenLexer.SUB) {
-            return new PlusMinusExpression(ctx, left, right, PlusMinusExpression.Operator.MINUS);
-        } else {
-            throw new RuntimeException("unknown operator");
+        switch (ctx.operator.getType()) {
+            case CodeGenLexer.ADD:
+                return new PlusMinusExpression(ctx, left, right, PlusMinusExpression.Operator.PLUS);
+            case CodeGenLexer.SUB:
+                return new PlusMinusExpression(ctx, left, right, PlusMinusExpression.Operator.MINUS);
+            /// CLOVER:OFF
+            default:
+                throw new RuntimeException("unknown operator");
+                /// CLOVER:ON
         }
     }
 
@@ -290,8 +302,10 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
             case CodeGenLexer.GT:
                 operator = CompareExpression.Operator.GREATER_THAN;
                 break;
+            /// CLOVER:OFF
             default:
                 throw new ParserException("Unerwarteter Vergleichsoperator: " + ctx.operator.getText(), ctx);
+                /// CLOVER:ON
         }
         final Expression left = ctx.expression(0).accept(this);
         final Expression right = ctx.expression(1).accept(this);
@@ -325,12 +339,15 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     public Expression visitExpressionEquals(final ExpressionEqualsContext ctx) {
         final Expression left = ctx.expression(0).accept(this);
         final Expression right = ctx.expression(1).accept(this);
-        if (ctx.operator.getType() == CodeGenLexer.EQUAL) {
-            return new EqualsExpression(ctx, left, right, EqualsExpression.Operator.EQUAL);
-        } else if (ctx.operator.getType() == CodeGenLexer.NOTEQUAL) {
-            return new EqualsExpression(ctx, left, right, EqualsExpression.Operator.NOT_EQUAL);
-        } else {
-            throw new IllegalStateException("Unexpected operator: " + ctx.operator);
+        switch (ctx.operator.getType()) {
+            case CodeGenLexer.EQUAL:
+                return new EqualsExpression(ctx, left, right, EqualsExpression.Operator.EQUAL);
+            case CodeGenLexer.NOTEQUAL:
+                return new EqualsExpression(ctx, left, right, EqualsExpression.Operator.NOT_EQUAL);
+            /// CLOVER:OFF
+            default:
+                throw new IllegalStateException("Unexpected operator: " + ctx.operator);
+                /// CLOVER:ON
         }
     }
 

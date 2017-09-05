@@ -2,6 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.chrlembeck.codegen.generator.TemplateResolver;
@@ -31,6 +32,12 @@ public class TemplateFile extends AbstractTemplateMember<TemplateFileContext> {
     private List<TemplateStatement> templates;
 
     /**
+     * Liste aller in der Datei enthaltenen Imports, TemplateStatements und CommentStatements in der Reihenfolge ihres
+     * Vorkommens.
+     */
+    private List<AbstractTemplateMember<?>> members;
+
+    /**
      * Erstellt eine Template-Datei aus den übergebenen Daten.
      * 
      * @param resourceIdentifier
@@ -38,18 +45,24 @@ public class TemplateFile extends AbstractTemplateMember<TemplateFileContext> {
      * @param ctx
      *            Resource identifier zur Spezifikation des ablageortes des Templates. ANTLR-Kontext, wie er vom Parser
      *            beim Lesen des Dokumentes erzeugt wurde.
-     * @param imports
-     *            Liste der in der Datei enthaltenen Imports anderer Template-Dateien.
-     * @param templates
-     *            Liste der in der Datei enthaltenen Template-Definitionen.
+     * @param members
+     *            Liste aller in der Datei enthaltenen Imports, TemplateStatements und CommentStatements in der
+     *            Reihenfolge ihres Vorkommens.
      */
     public TemplateFile(final URI resourceIdentifier, final TemplateFileContext ctx,
-            final List<ImportStatement> imports,
-            final List<TemplateStatement> templates) {
+            final List<AbstractTemplateMember<?>> members) {
         super(ctx);
         this.resourceIdentifier = resourceIdentifier;
-        this.importStatements = imports;
-        this.templates = templates;
+        this.members = members;
+        this.importStatements = new ArrayList<>();
+        this.templates = new ArrayList<>();
+        for (final AbstractTemplateMember<?> member : members) {
+            if (member instanceof ImportStatement) {
+                importStatements.add((ImportStatement) member);
+            } else if (member instanceof TemplateStatement) {
+                templates.add((TemplateStatement) member);
+            }
+        }
         templates.stream().forEach(templateStatement -> templateStatement.setParent(this));
     }
 
@@ -132,5 +145,16 @@ public class TemplateFile extends AbstractTemplateMember<TemplateFileContext> {
             }
         }
         return null;
+    }
+
+    /**
+     * Gibt eine Liste aller in der Template-Datei-Definition enthaltenen Kommentare, Imports und Templates in der
+     * Reihenfolge ihres Vorkommens zurück.
+     * 
+     * @return Liste aller in der Datei enthaltenen Imports, TemplateStatements und CommentStatements in der Reihenfolge
+     *         ihres Vorkommens.
+     */
+    public List<AbstractTemplateMember<?>> getMembers() {
+        return members;
     }
 }

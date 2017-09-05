@@ -1,13 +1,19 @@
 package de.chrlembeck.codegen.generator.visitor;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import de.chrlembeck.codegen.generator.lang.ImportStatement;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import de.chrlembeck.codegen.generator.ParserException;
+import de.chrlembeck.codegen.generator.lang.AbstractTemplateMember;
+import de.chrlembeck.codegen.generator.lang.CommentStatement;
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
-import de.chrlembeck.codegen.generator.lang.TemplateStatement;
+import lang.CodeGenParser.CommentStatementContext;
+import lang.CodeGenParser.ImportStatementContext;
 import lang.CodeGenParser.TemplateFileContext;
+import lang.CodeGenParser.TemplateStatementContext;
 import lang.CodeGenParserBaseVisitor;
 
 /**
@@ -44,15 +50,23 @@ public class TemplateFileVisitor extends CodeGenParserBaseVisitor<TemplateFile> 
     @Override
     public TemplateFile visitTemplateFile(final TemplateFileContext ctx) {
         final ImportStatementVisitor impVisitor = new ImportStatementVisitor();
-        final List<ImportStatement> imports = ctx.importStatement()
-                .stream()
-                .map(imp -> imp.accept(impVisitor))
-                .collect(Collectors.toList());
-        final List<TemplateStatement> templates = ctx.templateStatement()
-                .stream()
-                .map(templateStatementCtx -> templateStatementCtx.accept(new TemplateStatementVisitor()))
-                .collect(Collectors.toList());
-        final TemplateFile templateFile = new TemplateFile(resourceIdentifier, ctx, imports, templates);
+        final List<AbstractTemplateMember<?>> statements = new ArrayList<>();
+        final UserCodeOrStatementVisitor commentVisitor = new UserCodeOrStatementVisitor();
+        final TemplateStatementVisitor templateStatementVisitor = new TemplateStatementVisitor();
+        for (int idx = 0; idx < ctx.getChildCount(); idx++) {
+            final ParseTree child = ctx.getChild(idx);
+            if (child instanceof CommentStatementContext) {
+                statements.add((CommentStatement) child.accept(commentVisitor));
+            } else if (child instanceof TemplateStatementContext) {
+                statements.add(child.accept(templateStatementVisitor));
+            } else if (child instanceof ImportStatementContext) {
+                statements.add(child.accept(impVisitor));
+            } else {
+                throw new ParserException(
+                        "Unerwarteter child type " + child.getClass().getName() + " in der Template-Datei.", ctx);
+            }
+        }
+        final TemplateFile templateFile = new TemplateFile(resourceIdentifier, ctx, statements);
         return templateFile;
     }
 }
