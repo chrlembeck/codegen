@@ -17,7 +17,7 @@ import org.antlr.v4.runtime.Token;
 import de.chrlembeck.antlr.editor.ErrorListener;
 import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
-import lang.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenLexer;
 
 /**
  * TabbedPane, welche die Fenster der Editoren für die Template-Dateien verwaltet und anzeigt.

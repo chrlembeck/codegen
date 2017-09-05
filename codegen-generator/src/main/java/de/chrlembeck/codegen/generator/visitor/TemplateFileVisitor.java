@@ -11,11 +11,11 @@ import de.chrlembeck.codegen.generator.ParserException;
 import de.chrlembeck.codegen.generator.lang.AbstractTemplateMember;
 import de.chrlembeck.codegen.generator.lang.CommentStatement;
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
-import lang.CodeGenParser.CommentStatementContext;
-import lang.CodeGenParser.ImportStatementContext;
-import lang.CodeGenParser.TemplateFileContext;
-import lang.CodeGenParser.TemplateStatementContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.CommentStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ImportStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält die Konvertierung von

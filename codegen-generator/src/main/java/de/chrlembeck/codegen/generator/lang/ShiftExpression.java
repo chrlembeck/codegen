@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionShiftContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionShiftContext;
 
 /**
  * Repräsentiert die logischen Bitverschiebungen numerischer Werte nach links und nach rechts mit und ohne Vorzeichen.

@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import java.lang.reflect.Array;
 
-import lang.CodeGenParser.TypeClassOrInterfaceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TypeClassOrInterfaceContext;
 
 /**
  * Stellt den Typ einer Klasse, eines Interfacs der eines Arrays einer Klasse oder eines Interfaces dar.

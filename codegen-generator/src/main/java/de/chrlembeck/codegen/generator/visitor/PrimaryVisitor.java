@@ -1,5 +1,6 @@
 package de.chrlembeck.codegen.generator.visitor;
 
+import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.Expression;
 import de.chrlembeck.codegen.generator.lang.Identifier;
 import de.chrlembeck.codegen.generator.lang.Literal;
@@ -7,16 +8,15 @@ import de.chrlembeck.codegen.generator.lang.Primary;
 import de.chrlembeck.codegen.generator.lang.SuperReference;
 import de.chrlembeck.codegen.generator.lang.ThisReference;
 import de.chrlembeck.codegen.generator.lang.TypeRef;
-import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.VoidRef;
-import lang.CodeGenParser.PrimaryIdentifierContext;
-import lang.CodeGenParser.PrimaryLiteralContext;
-import lang.CodeGenParser.PrimarySubExpressionContext;
-import lang.CodeGenParser.PrimarySuperReferenceContext;
-import lang.CodeGenParser.PrimaryThisReferenceContext;
-import lang.CodeGenParser.PrimaryTypeClassContext;
-import lang.CodeGenParser.PrimaryVoidClassContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryIdentifierContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryLiteralContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimarySubExpressionContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimarySuperReferenceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryThisReferenceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryTypeClassContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryVoidClassContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

@@ -1,8 +1,8 @@
 package de.chrlembeck.codegen.generator.visitor;
 
 import de.chrlembeck.codegen.generator.lang.ImportStatement;
-import lang.CodeGenParser.ImportStatementContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ImportStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

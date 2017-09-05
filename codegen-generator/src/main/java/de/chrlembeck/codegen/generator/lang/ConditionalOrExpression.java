@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionConditionalOrContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionConditionalOrContext;
 
 /**
  * Repräsentiert das bedingte Oder für Booleans.

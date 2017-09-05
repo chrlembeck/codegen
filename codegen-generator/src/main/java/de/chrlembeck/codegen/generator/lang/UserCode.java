@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.UserCodeContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.UserCodeContext;
 
 /**
  * Enthält einen Code-Block, der die Zeichen enthält, die später in die zu generierenden Artefakte hinein geschrieben

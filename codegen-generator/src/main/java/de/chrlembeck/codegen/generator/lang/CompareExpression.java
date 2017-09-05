@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionCompareContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionCompareContext;
 
 /**
  * Symbolisiert die Vergleichsoperationen auf numerischen Datentypen.

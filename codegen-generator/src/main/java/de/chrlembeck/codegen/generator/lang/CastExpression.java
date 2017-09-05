@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionCastContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionCastContext;
 
 /**
  * Entspricht einem ClassCast oder einem primitiven Cast eines Wertes in den eines anderen Typs für die JAva-ähnlichen

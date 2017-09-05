@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ExpressionNegContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionNegContext;
 
 /**
  * Stellt die beiden Operationen {@code ~}, also die numerische bitweise negation, so wie {@code !}, die boolsche

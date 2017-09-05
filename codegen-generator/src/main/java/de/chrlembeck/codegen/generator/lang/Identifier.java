@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.PrimaryIdentifierContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryIdentifierContext;
 
 /**
  * Repräsentiert eine Variable in einem Ausdruck innerhalb einer Template-Datei.

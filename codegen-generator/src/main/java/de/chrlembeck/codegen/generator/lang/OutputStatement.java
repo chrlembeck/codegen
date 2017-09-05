@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
-import lang.CodeGenParser.OutputStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.OutputStatementContext;
 
 /**
  * Enthält ein OutputStatement der Template-Datei. Output-Statements definieren einen Ausgabekanal, in den die Elemente,

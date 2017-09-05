@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionOrContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionOrContext;
 
 /**
  * Repräsentiert das logische Oder für Wahrheitswerte oder die bitweise Oder-Verknüpfung numerischer Werte.

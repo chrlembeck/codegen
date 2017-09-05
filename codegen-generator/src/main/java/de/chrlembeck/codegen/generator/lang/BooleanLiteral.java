@@ -1,7 +1,7 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.LiteralContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.LiteralContext;
 
 /**
  * Repräsentiert die Boolean Literale True und False innerhalb der Template-Grammatik.

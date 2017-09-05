@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.ExpressionMethodCallContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionMethodCallContext;
 
 /**
  * Entspricht einem Methodenaufruf in dem java-ähnlichen Teil der Template-Sprache.

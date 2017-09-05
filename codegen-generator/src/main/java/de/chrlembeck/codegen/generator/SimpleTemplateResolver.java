@@ -21,8 +21,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.visitor.TemplateFileVisitor;
-import lang.CodeGenLexer;
-import lang.CodeGenParser;
+import de.chrlembeck.codegen.grammar.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenParser;
 
 /**
  * Einfache Implementierung eines TemplateResolvers. Die Strategie bei der Auflösung der URIs in dieser Klasse basiert

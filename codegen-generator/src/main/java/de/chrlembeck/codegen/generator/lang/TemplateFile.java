@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.chrlembeck.codegen.generator.TemplateResolver;
-import lang.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 
 /**
  * Enthält die geparste und zur Ausführung fertige Repräsentation einer Template-Datei. Template-Dateien sollten in der

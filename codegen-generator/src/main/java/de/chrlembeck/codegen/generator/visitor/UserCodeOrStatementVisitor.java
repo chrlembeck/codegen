@@ -11,16 +11,16 @@ import de.chrlembeck.codegen.generator.lang.IfStatement;
 import de.chrlembeck.codegen.generator.lang.OutputStatement;
 import de.chrlembeck.codegen.generator.lang.UserCode;
 import de.chrlembeck.codegen.generator.lang.UserCodeOrStatements;
-import lang.CodeGenParser.CommentStatementContext;
-import lang.CodeGenParser.ExecuteStatementContext;
-import lang.CodeGenParser.ExpressionContext;
-import lang.CodeGenParser.ExpressionStatementContext;
-import lang.CodeGenParser.ForStatementContext;
-import lang.CodeGenParser.IfStatementContext;
-import lang.CodeGenParser.OutputStatementContext;
-import lang.CodeGenParser.StatementsContext;
-import lang.CodeGenParser.UserCodeContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.CommentStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExecuteStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ForStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.IfStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.OutputStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.StatementsContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.UserCodeContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

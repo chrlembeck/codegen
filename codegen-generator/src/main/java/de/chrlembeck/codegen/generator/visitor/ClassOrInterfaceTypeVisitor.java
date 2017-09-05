@@ -9,9 +9,9 @@ import de.chrlembeck.codegen.generator.Util;
 import de.chrlembeck.codegen.generator.lang.ClassOrInterfaceType;
 import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.PrimitiveType;
-import lang.CodeGenParser.TypeClassOrInterfaceContext;
-import lang.CodeGenParser.TypePrimitiveContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TypeClassOrInterfaceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TypePrimitiveContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionPlusMinusContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionPlusMinusContext;
 
 /**
  * Repräsentiert die Konkatenation von Zeichenketten mit dem Plus-Operator oder die numerischen Operationen Plus oder
@@ -34,7 +34,8 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
          */
         @Override
         public ObjectWithType<Integer> apply(final int leftOperand, final int rightOperand) {
-            return new ObjectWithType<Integer>(Integer.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), int.class);
+            return new ObjectWithType<Integer>(
+                    Integer.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), int.class);
         }
 
         /**
@@ -42,7 +43,8 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
          */
         @Override
         public ObjectWithType<Long> apply(final long leftOperand, final long rightOperand) {
-            return new ObjectWithType<Long>(Long.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), long.class);
+            return new ObjectWithType<Long>(
+                    Long.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), long.class);
         }
 
         /**
@@ -50,7 +52,8 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
          */
         @Override
         public ObjectWithType<Float> apply(final float leftOperand, final float rightOperand) {
-            return new ObjectWithType<Float>(Float.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), float.class);
+            return new ObjectWithType<Float>(
+                    Float.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), float.class);
         }
 
         /**
@@ -58,7 +61,9 @@ public class PlusMinusExpression extends AbstractExpression<ExpressionPlusMinusC
          */
         @Override
         public ObjectWithType<Double> apply(final double leftOperand, final double rightOperand) {
-            return new ObjectWithType<Double>(Double.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand), double.class);
+            return new ObjectWithType<Double>(
+                    Double.valueOf(this == PLUS ? leftOperand + rightOperand : leftOperand - rightOperand),
+                    double.class);
         }
     }
 

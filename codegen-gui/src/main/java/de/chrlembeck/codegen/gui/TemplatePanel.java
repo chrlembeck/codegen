@@ -18,7 +18,7 @@ import de.chrlembeck.antlr.editor.LineNumberComponent;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.visitor.TemplateFileVisitor;
-import lang.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 
 /**
  * EditorPanel für das Bearbeiten von Template-Dateien inklusive einer umgebenden ScrollPane.

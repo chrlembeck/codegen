@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
-import lang.CodeGenParser.CommentStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.CommentStatementContext;
 
 /**
  * Enthält Kommentare, die innerhalb der Template-Datei einthalten sind.

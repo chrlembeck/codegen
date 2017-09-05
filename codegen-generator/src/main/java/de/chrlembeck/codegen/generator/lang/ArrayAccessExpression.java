@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ExpressionArrayAccessContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionArrayAccessContext;
 
 /**
  * Repräsentiert den Zugriff auf ein Array-Element innerhalb des Java-ähnlichen Teils der Template-Sprache.

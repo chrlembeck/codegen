@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
-import lang.CodeGenParser.IfStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.IfStatementContext;
 
 /**
  * If-Statement einer Template-Datei. Über das IfStatement kann eine bedingte Ausführung von Codeblöcken gesteuert

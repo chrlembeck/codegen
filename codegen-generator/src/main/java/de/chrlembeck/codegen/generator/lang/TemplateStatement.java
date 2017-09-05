@@ -6,7 +6,7 @@ import java.util.List;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.ParserException;
-import lang.CodeGenParser.TemplateStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateStatementContext;
 
 /**
  * Enthält eine Template-Definition innerhalb einer Template-Datei. Templates können vom Generator aufgerufen werden, so

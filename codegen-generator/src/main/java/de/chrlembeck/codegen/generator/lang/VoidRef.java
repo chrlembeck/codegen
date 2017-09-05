@@ -1,7 +1,7 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.PrimaryVoidClassContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryVoidClassContext;
 
 /**
  * Repräsentiert den Typen void.

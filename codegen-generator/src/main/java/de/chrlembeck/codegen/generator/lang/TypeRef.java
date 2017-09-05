@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.PrimaryTypeClassContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryTypeClassContext;
 
 /**
  * Repräsentiert eine Klassendefinition, also alle Sybtypen der Klasse java.lang.Class.

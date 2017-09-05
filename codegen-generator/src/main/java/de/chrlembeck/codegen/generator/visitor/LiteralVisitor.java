@@ -7,8 +7,8 @@ import de.chrlembeck.codegen.generator.lang.IntegerLiteral;
 import de.chrlembeck.codegen.generator.lang.Literal;
 import de.chrlembeck.codegen.generator.lang.NullLiteral;
 import de.chrlembeck.codegen.generator.lang.StringLiteral;
-import lang.CodeGenParser.LiteralContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.LiteralContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

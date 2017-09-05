@@ -1,9 +1,9 @@
 package de.chrlembeck.codegen.generator.visitor;
 
 import de.chrlembeck.codegen.generator.ParserException;
-import lang.CodeGenLexer;
-import lang.CodeGenParser.PrimitiveTypeContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimitiveTypeContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält die Konvertierungen von

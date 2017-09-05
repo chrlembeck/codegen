@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.chrlembeck.codegen.generator.lang.UserCodeOrStatements;
-import lang.CodeGenParser.UserCodeOrStatementsContext;
-import lang.CodeGenParserBaseVisitor;
+import de.chrlembeck.codegen.grammar.CodeGenParser.UserCodeOrStatementsContext;
+import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von

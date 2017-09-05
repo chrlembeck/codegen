@@ -1,7 +1,7 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.LiteralContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.LiteralContext;
 
 /**
  * Stellt eine ganzzahlige Zahl vom Typ int oder long des Java-ähnlichen Teils der Template-Sprache dar.

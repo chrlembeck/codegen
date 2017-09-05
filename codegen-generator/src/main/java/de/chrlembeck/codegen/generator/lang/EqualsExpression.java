@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionEqualsContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionEqualsContext;
 
 /**
  * Führt einen Vergleich auf Gleichheit bzw. Ungleichheit aus (== oder !=).

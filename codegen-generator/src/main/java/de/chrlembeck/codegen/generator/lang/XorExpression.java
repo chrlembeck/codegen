@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.JavaUtil;
-import lang.CodeGenParser.ExpressionXorContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionXorContext;
 
 /**
  * Repräsentiert das exclusive Oder für Booleans oder die bitweise XOR-Funktion für numerische Werte.

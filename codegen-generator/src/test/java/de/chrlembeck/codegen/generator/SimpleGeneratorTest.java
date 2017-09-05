@@ -17,8 +17,8 @@ import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
 import de.chrlembeck.codegen.generator.output.BufferedOutput;
 import de.chrlembeck.codegen.generator.visitor.TemplateFileVisitor;
-import lang.CodeGenLexer;
-import lang.CodeGenParser;
+import de.chrlembeck.codegen.grammar.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenParser;
 
 /**
  * Sammlung von Tests zu einfachen Templates ohne Imports und Aufrufe von anderen Templates.

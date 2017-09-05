@@ -26,6 +26,12 @@
                 <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
                 <version>4.2.0</version>
+                <configuration>
+                    <includesAllSourceRoots>false</includesAllSourceRoots>
+                    <excludes>
+                        <exclude>de/chrlembeck/codegen/grammar/*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>pre-site</phase>

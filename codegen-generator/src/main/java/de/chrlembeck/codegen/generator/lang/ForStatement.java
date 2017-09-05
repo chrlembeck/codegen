@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ForStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ForStatementContext;
 
 /**
  * For-Statement einer Template-Datei. For Statements können für das Durchlaufen von Collections oder Arrays und die für

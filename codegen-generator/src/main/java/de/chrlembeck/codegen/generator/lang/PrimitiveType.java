@@ -1,6 +1,6 @@
 package de.chrlembeck.codegen.generator.lang;
 
-import lang.CodeGenParser.TypePrimitiveContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TypePrimitiveContext;
 
 /**
  * Stellt einen primitiven Datentyp oder ein Array eined primitiven Typs dar.

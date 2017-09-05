@@ -3,7 +3,7 @@ package de.chrlembeck.codegen.generator.lang;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import lang.CodeGenParser.ImportStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ImportStatementContext;
 
 /**
  * Über Import-Statements können einem Template die Templates-Definitionen aus anderen Template-Dateien zur Verfügung

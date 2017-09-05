@@ -1,7 +1,7 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.PrimaryThisReferenceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimaryThisReferenceContext;
 
 /**
  * Stellt einen Verweis auf die this-Referenz dar.

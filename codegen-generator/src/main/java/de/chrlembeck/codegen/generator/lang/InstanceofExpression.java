@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ExpressionInstanceofContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionInstanceofContext;
 
 /**
  * Implementiert den {@code instanceof}-Operator innerhalb des java-ähnlichen Teils der Template-Sprache.

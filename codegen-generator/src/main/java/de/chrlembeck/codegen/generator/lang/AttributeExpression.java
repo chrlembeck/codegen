@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.ExpressionAttributeContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionAttributeContext;
 
 /**
  * Repräsentiert das Auslesen eines Attributes aus einem Objekt oder einer Klasse.

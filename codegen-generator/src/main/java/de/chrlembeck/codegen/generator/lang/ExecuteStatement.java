@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ExecuteStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExecuteStatementContext;
 
 /**
  * Execute Statements innerhalb von Template-Definitionen bewirken den Sprung in ein anderes auszuführenden Template.

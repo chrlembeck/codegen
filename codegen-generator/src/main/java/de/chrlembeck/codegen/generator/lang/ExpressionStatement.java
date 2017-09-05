@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
-import lang.CodeGenParser.ExpressionStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionStatementContext;
 
 /**
  * Ein Expression Statment kann inerhalb einer Template-Definition dazu verwandt werden, einzelne, java-ähnliche

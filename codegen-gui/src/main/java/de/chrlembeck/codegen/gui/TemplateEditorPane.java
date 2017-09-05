@@ -44,9 +44,9 @@ import de.chrlembeck.antlr.editor.SimpleDocumentListener;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.antlr.editor.action.InsertAction;
 import de.chrlembeck.codegen.generator.Position;
-import lang.CodeGenLexer;
-import lang.CodeGenParser;
-import lang.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.codegen.grammar.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenParser;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 
 /**
  * Editor für Template-Dateien.

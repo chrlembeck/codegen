@@ -1,7 +1,7 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import de.chrlembeck.codegen.generator.Environment;
-import lang.CodeGenParser.PrimarySuperReferenceContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.PrimarySuperReferenceContext;
 
 /**
  * Stellt einen Verweis auf die super-Referenz dar.
