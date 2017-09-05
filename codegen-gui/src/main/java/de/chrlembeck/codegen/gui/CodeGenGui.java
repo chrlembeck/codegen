@@ -297,6 +297,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         final JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
         toolBar.setFloatable(false);
         btNewTemplate = createToolBarButton(new NewTemplateAction(this, true));
+        final JButton btOpenTemplate = createToolBarButton(new LoadTemplateAction(this, true));
         btSaveTemplate = createToolBarButton(new SaveTemplateAction(this, true));
         btSaveTemplateAs = createToolBarButton(new SaveTemplateAsAction(this, true));
 
@@ -304,6 +305,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         btExecuteTemplate = createToolBarButton(new GenerateAction(this));
 
         toolBar.add(btNewTemplate);
+        toolBar.add(btOpenTemplate);
         toolBar.add(btSaveTemplate);
         toolBar.add(btSaveTemplateAs);
         toolBar.add(btInsertBraces);
