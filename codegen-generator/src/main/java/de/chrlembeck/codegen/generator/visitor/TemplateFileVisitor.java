@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import de.chrlembeck.codegen.generator.ParserException;
 import de.chrlembeck.codegen.generator.lang.AbstractTemplateMember;
@@ -61,6 +62,10 @@ public class TemplateFileVisitor extends CodeGenParserBaseVisitor<TemplateFile> 
                 statements.add(child.accept(templateStatementVisitor));
             } else if (child instanceof ImportStatementContext) {
                 statements.add(child.accept(impVisitor));
+            } else if (child instanceof TerminalNode) {
+                if (idx != ctx.getChildCount() - 1) {
+                    throw new IllegalArgumentException("TerminalNode in the middle of an ParseTree.");
+                }
             } else {
                 throw new ParserException(
                         "Unerwarteter child type " + child.getClass().getName() + " in der Template-Datei.", ctx);

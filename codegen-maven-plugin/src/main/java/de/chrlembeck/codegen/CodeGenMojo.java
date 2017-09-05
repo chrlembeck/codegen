@@ -26,6 +26,7 @@ import de.chrlembeck.codegen.generator.model.ModelFactory;
 import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
 import de.chrlembeck.codegen.generator.output.FileOutput;
 import de.chrlembeck.codegen.generator.output.GeneratorOutput;
+import de.chrlembeck.codegen.generator.output.OverwritePreferences;
 
 /**
  * Führt die angegebenen Templates aus und erzeugt daraus den entsprechenden Output.
@@ -87,6 +88,9 @@ public class CodeGenMojo extends AbstractMojo {
             final BasicOutputPreferences preferences = new BasicOutputPreferences();
             log.info("outputEncoding=" + template.getOutputEncoding());
             preferences.setDefaultCharset(Charset.forName(template.getOutputEncoding()));
+            final OverwritePreferences overwritePreferences = template.getOverwritePreferences();
+            log.info("overwritePreferences=" + overwritePreferences);
+            preferences.setDefaultOverwritePreferences(overwritePreferences);
             final Generator generator = new Generator(resolver, generatorOutput, preferences);
             try {
                 generator.generate(rootResourceIdentifier, template.getTemplateName(), model);

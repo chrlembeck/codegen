@@ -139,8 +139,22 @@ public class SimpleGeneratorTest {
      */
     @Test
     public void testExpressionPrimary() throws Exception {
-        checkOut1ForRoot("42;xyz;3.25;1.5;17", "«TEMPLATE root FOR java.lang.String»" +
-                "«OUTPUT \"out1\"»«42»;«\"xyz\"»;«3.25f»;«1.5d»;«17l»«ENDOUTPUT»«ENDTEMPLATE»", "");
+        checkOut1ForRoot("42;xyz;3.25;1.5;17;true;null;void;3", "«TEMPLATE root FOR java.lang.String»" +
+                "«OUTPUT \"out1\"»«42»;«\"xyz\"»;«3.25f»;«1.5d»;«17l»;«true»;«null»;«void.class»;«(1+2)»«ENDOUTPUT»«ENDTEMPLATE»",
+                "");
+    }
+
+    /**
+     * Einfache Tests für Template-Definitionen mit Kommentaren.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testComment() throws Exception {
+        checkOut1ForRoot("abc", "«COMMENT»hfhdsj«ENDCOMMENT»"
+                + "«TEMPLATE root FOR java.lang.String»" + "«COMMENT»hfhdsj«ENDCOMMENT»" +
+                "«OUTPUT \"out1\"»«this»«ENDOUTPUT»«ENDTEMPLATE»",
+                "abc");
     }
 
     /**
@@ -272,7 +286,7 @@ public class SimpleGeneratorTest {
     @Test
     public void testExpressionShift() throws Exception {
         checkOut1ForRoot("36;4;6", "«TEMPLATE root FOR java.lang.String»" +
-                "«OUTPUT \"out1\"»«9<<2»;«9>>1»;«13l>>1»«ENDOUTPUT»«ENDTEMPLATE»", "");
+                "«OUTPUT \"out1\"»«9<<2»;«9>>1»;«13l>>>1»«ENDOUTPUT»«ENDTEMPLATE»", "");
     }
 
     /**
@@ -404,6 +418,18 @@ public class SimpleGeneratorTest {
     }
 
     /**
+     * Tests für die Erkennung der primitiven Datentypen.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testPrimitiveTypes() throws Exception {
+        checkOut1ForRoot("boolean;byte;short;char;int;float;long;double", "«TEMPLATE root FOR java.lang.String»" +
+                "«OUTPUT \"out1\"»«boolean.class»;«byte.class»;«short.class»;«char.class»;«int.class»;«float.class»;«long.class»;«double.class»«ENDOUTPUT»«ENDTEMPLATE»",
+                "");
+    }
+
+    /**
      * Typen von Klassen.
      * 
      * @throws Exception
@@ -427,6 +453,19 @@ public class SimpleGeneratorTest {
         checkOut1ForRoot(System.out.toString(), "«TEMPLATE root FOR java.lang.String»" +
                 "«OUTPUT \"out1\"»«java.lang.System.out»«ENDOUTPUT»" +
                 "«ENDTEMPLATE»", "");
+    }
+
+    /**
+     * Test für ein Import-Statement.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testImport() throws Exception {
+        checkOut1ForRoot("abc", "«IMPORT a AS import.codegen»" +
+                "«TEMPLATE root FOR java.lang.String»" +
+                "«OUTPUT \"out1\"»«this»«ENDOUTPUT»" +
+                "«ENDTEMPLATE»", "abc");
     }
 
     /**

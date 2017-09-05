@@ -1,5 +1,7 @@
 package de.chrlembeck.codegen.generator;
 
+import java.util.Collection;
+
 /**
  * Enthält praktische Hilfsmethoden, die aus den Templates heraus verwendet werden können.
  * 
@@ -30,5 +32,16 @@ public class Util {
      */
     public static String toFirstLower(final String text) {
         return text == null ? null : text.isEmpty() ? "" : Character.toLowerCase(text.charAt(0)) + text.substring(1);
+    }
+
+    /**
+     * Prüft, ob die übergebene Collection null oder leer ist.
+     * 
+     * @param collection
+     *            Zu prüfende Collection.
+     * @return {@code true} falls die Collection null oder leer ist, sonst {@code false}.
+     */
+    public static <E> boolean isNullOrEmpty(final Collection<E> collection) {
+        return collection == null || collection.isEmpty();
     }
 }

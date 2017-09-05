@@ -217,6 +217,7 @@
                     <charset>UTF-8</charset>
                     <generateHtml>true</generateHtml>
                     <generatePdf>true</generatePdf>
+                    <generateHistorical>false</generateHistorical>
                 </configuration>
             </plugin>
         </plugins>

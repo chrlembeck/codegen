@@ -5,6 +5,8 @@ import java.io.File;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import de.chrlembeck.codegen.generator.output.OverwritePreferences;
+
 /**
  * Repräsentiert die Einstellungen eines Generator-Laufs für das CodeGen-Maven-Plugin. Pro Template-Aufruf wird in der
  * <code>configuration</code>-Sektion des Aufrufs des Maven-Plugins in einer <code>pom.xml</code> eine
@@ -56,10 +58,18 @@ public class Template {
     private String outputEncoding = "UTF-8";
 
     /**
-     * Legt fest, zu welchem Scope die erzeugten Dateien im Build-Prozess hinzugefügt werden sollen.
+     * Legt fest, zu welchem Scope die erzeugten Dateien im Build-Prozess hinzugefügt werden sollen. Mögliche Optionen
+     * sind COMPILE, TEST und SCRIPT.
      */
     @Parameter(property = "generate.artifactScope", defaultValue = "false")
     private ArtifactScope artifactScope = ArtifactScope.COMPILE;
+
+    /**
+     * Legt das Verhalten des Generators beim Antreffen einer zu überschreibenden Datei fest. Mögliche Optionen sind
+     * KEEP_EXISTING, OVERWRITE und THROW_EXCEPTION.
+     */
+    @Parameter(property = "generate.overwritePreferences", defaultValue = "THROW_EXCEPTION")
+    private OverwritePreferences overwritePreferences = OverwritePreferences.THROW_EXCEPTION;
 
     /**
      * Gitb die Klasse zurück, mit deren Hilfe das Modell erzeugt werden kann.
@@ -144,5 +154,16 @@ public class Template {
      */
     public ArtifactScope getArtifactScope() {
         return artifactScope;
+    }
+
+    /**
+     * Gibt zurück, wie der Generator sich verhalten soll, wenn er beim Generieren einer Datei eine vorhandene Datei
+     * überschreiben soll.
+     * 
+     * @return Gewünschtes Verhalten des Generators beim Überschreiben.
+     * @see OverwritePreferences
+     */
+    public OverwritePreferences getOverwritePreferences() {
+        return overwritePreferences;
     }
 }
