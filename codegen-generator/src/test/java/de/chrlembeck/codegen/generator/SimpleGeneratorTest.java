@@ -229,6 +229,13 @@ public class SimpleGeneratorTest {
                 "«OUTPUT \"out1\"»«(int)4l»;«(int)3.4f»;«(java.io.Serializable)\"abc\"»«ENDOUTPUT»«ENDTEMPLATE»", "");
     }
 
+    @Test
+    public void testExpressionPrimitiveCast() throws Exception {
+        checkOut1ForRoot("4;3.4;1.0;true;2;3;A;5;65", "«TEMPLATE root FOR java.lang.String»" +
+                "«OUTPUT \"out1\"»«(int)4l»;«(float)3.4»;«(double)1»;«(boolean)true»;«(byte)2»;«(short)3»;«(char)65»;«(long)5»;«(int)'A'»«ENDOUTPUT»«ENDTEMPLATE»",
+                "");
+    }
+
     /**
      * Zahlen mit Vorzeichen.
      * 

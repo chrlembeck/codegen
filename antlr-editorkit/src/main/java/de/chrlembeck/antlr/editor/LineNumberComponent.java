@@ -24,6 +24,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.Utilities;
 
+import de.chrlembeck.util.swing.SimpleDocumentListener;
+
 /**
  * ScrollPaneDecorator zur Verwendung als RowHeaderView in einer JScrollPane einer Text-Komponente.
  * 

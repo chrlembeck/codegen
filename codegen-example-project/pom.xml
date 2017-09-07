@@ -55,10 +55,15 @@
                         <artifactId>codegen-example-model</artifactId>
                         <version>${codegen.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.openclover</groupId>
+                        <artifactId>clover-maven-plugin</artifactId>
+                        <version>4.2.0</version>
+                    </dependency>
                 </dependencies>
             </plugin>
-        
-                    <plugin>
+
+            <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>${antlr.maven.plugin.version}</version>
@@ -98,7 +103,6 @@
             <artifactId>antlr-editorkit</artifactId>
             <scope>compile</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

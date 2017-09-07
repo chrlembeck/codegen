@@ -57,8 +57,8 @@ import de.chrlembeck.codegen.gui.action.NewTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
 import de.chrlembeck.codegen.gui.action.SettingsAction;
-import de.chrlembeck.codegen.gui.util.SwingUtil;
 import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
+import de.chrlembeck.util.swing.SwingUtil;
 
 /**
  * Hauptklasse der Generator-GUI.

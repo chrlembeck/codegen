@@ -24,7 +24,7 @@ import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
 import de.chrlembeck.codegen.gui.UserSettings;
 import de.chrlembeck.codegen.gui.util.DirectoryTextField;
-import de.chrlembeck.codegen.gui.util.ToStringWrapper;
+import de.chrlembeck.util.objects.ToStringWrapper;
 
 public class GenerateDialog extends AbstractDialog {
 

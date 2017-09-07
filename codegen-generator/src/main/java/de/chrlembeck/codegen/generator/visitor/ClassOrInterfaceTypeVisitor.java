@@ -5,13 +5,13 @@ import java.lang.reflect.Array;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import de.chrlembeck.codegen.generator.Util;
 import de.chrlembeck.codegen.generator.lang.ClassOrInterfaceType;
 import de.chrlembeck.codegen.generator.lang.ClassOrPrimitiveType;
 import de.chrlembeck.codegen.generator.lang.PrimitiveType;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TypeClassOrInterfaceContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TypePrimitiveContext;
 import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
+import de.chrlembeck.util.collections.CollectionsUtil;
 
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält alle Konvertierungen von
@@ -52,7 +52,7 @@ public class ClassOrInterfaceTypeVisitor extends CodeGenParserBaseVisitor<ClassO
     @Override
     public ClassOrPrimitiveType visitTypePrimitive(final TypePrimitiveContext ctx) {
         Class<?> classRef = ctx.primitiveType().accept(new PrimitiveTypeVisitor());
-        if (!Util.isNullOrEmpty(ctx.arr)) {
+        if (!CollectionsUtil.isNullOrEmpty(ctx.arr)) {
             for (@SuppressWarnings("unused")
             final Token token : ctx.arr) {
                 final Object array = Array.newInstance(classRef, 0);

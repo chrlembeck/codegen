@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import de.chrlembeck.codegen.gui.IconFactory;
-import de.chrlembeck.codegen.gui.util.SwingUtil;
+import de.chrlembeck.util.swing.SwingUtil;
 
 public abstract class AbstractDialog extends JDialog implements ComponentListener {
 

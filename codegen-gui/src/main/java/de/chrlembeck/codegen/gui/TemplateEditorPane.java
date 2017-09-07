@@ -40,13 +40,13 @@ import org.antlr.v4.runtime.Token;
 import de.chrlembeck.antlr.editor.AntlrDocument;
 import de.chrlembeck.antlr.editor.AntlrEditorKit;
 import de.chrlembeck.antlr.editor.ErrorListener;
-import de.chrlembeck.antlr.editor.SimpleDocumentListener;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.antlr.editor.action.InsertAction;
 import de.chrlembeck.codegen.generator.Position;
 import de.chrlembeck.codegen.grammar.CodeGenLexer;
 import de.chrlembeck.codegen.grammar.CodeGenParser;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.util.swing.SimpleDocumentListener;
 
 /**
  * Editor für Template-Dateien.

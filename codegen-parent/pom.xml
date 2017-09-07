@@ -22,36 +22,14 @@
     <build>
         <plugins>
             <!-- Unterstützung für Openclover einbinden -->
-            <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.0</version>
-                <configuration>
-                    <includesAllSourceRoots>false</includesAllSourceRoots>
-                    <includesTestSourceRoots>false</includesTestSourceRoots>
-                    <excludes>
-                        <exclude>**/CodeGenLexer</exclude>
-                    </excludes>
-                    <copyExcludedFiles>false</copyExcludedFiles>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>cloversetup</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>setup</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>cloveraggregate</id>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
+            <!-- <plugin> <groupId>org.openclover</groupId> <artifactId>clover-maven-plugin</artifactId> 
+                <version>4.2.0</version> <configuration> <includesAllSourceRoots>false</includesAllSourceRoots> 
+                <includesTestSourceRoots>false</includesTestSourceRoots> <excludes> <exclude>**/CodeGenLexer</exclude> 
+                </excludes> <copyExcludedFiles>false</copyExcludedFiles> </configuration> 
+                <executions> <execution> <id>cloversetup</id> <phase>process-sources</phase> 
+                <goals> <goal>setup</goal> </goals> </execution> <execution> <id>cloveraggregate</id> 
+                <phase>pre-site</phase> <goals> <goal>aggregate</goal> </goals> </execution> 
+                </executions> </plugin> -->
             <!-- Source-jar beim Packen mit erzeugen -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -73,6 +51,8 @@
                 <configuration>
                     <show>package</show>
                     <nohelp>false</nohelp>
+                    <sourcepath>src/main/java</sourcepath>
+                    <sourcepath>target/generated-sources/antlr4</sourcepath>
                 </configuration>
                 <executions>
                     <execution>
@@ -154,6 +134,7 @@
                 </dependencies>
             </plugin>
         </plugins>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -186,6 +167,8 @@
                 <configuration>
                     <show>package</show>
                     <nohelp>false</nohelp>
+                    <sourcepath>src/main/java</sourcepath>
+                    <sourcepath>target/generated-sources/antlr4</sourcepath>
                 </configuration>
             </plugin>
 
@@ -222,23 +205,21 @@
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.9</version>
             </plugin>
-
-            <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <configuration>
-                    <includesAllSourceRoots>false</includesAllSourceRoots>
-                    <excludes>
-                        <exclude>**/de/chrlembeck/codegen/grammar/**</exclude>
-                    </excludes>
-                    <charset>UTF-8</charset>
-                    <generateHtml>true</generateHtml>
-                    <generatePdf>true</generatePdf>
-                    <generateHistorical>false</generateHistorical>
-                </configuration>
-            </plugin>
+            <!-- <plugin> <groupId>org.openclover</groupId> <artifactId>clover-maven-plugin</artifactId> 
+                <configuration> <includesAllSourceRoots>false</includesAllSourceRoots> <excludes> 
+                <exclude>**/de/chrlembeck/codegen/grammar/**</exclude> </excludes> <charset>UTF-8</charset> 
+                <generateHtml>true</generateHtml> <generatePdf>true</generatePdf> <generateHistorical>false</generateHistorical> 
+                </configuration> </plugin> -->
         </plugins>
     </reporting>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.chrlembeck</groupId>
+            <artifactId>util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -334,4 +315,71 @@
             <url>scp://chrlembeck.de/javadoc</url>
         </site>
     </distributionManagement>
+
+    <profiles>
+        <!-- run clover: mvn -Dclover=true test site -->
+        <profile>
+            <activation>
+                <file>
+                    <exists>src/main/java</exists>
+                </file>
+                <property>
+                    <name>clover</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openclover</groupId>
+                        <artifactId>clover-maven-plugin</artifactId>
+                        <version>4.2.0</version>
+                        <configuration>
+                            <includesAllSourceRoots>false</includesAllSourceRoots>
+                            <includesTestSourceRoots>false</includesTestSourceRoots>
+                            <excludes>
+                                <exclude>**/CodeGenLexer</exclude>
+                            </excludes>
+                            <copyExcludedFiles>false</copyExcludedFiles>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>cloversetup</id>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>setup</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>cloveraggregate</id>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openclover</groupId>
+                        <artifactId>clover-maven-plugin</artifactId>
+                        <configuration>
+                            <includesAllSourceRoots>false</includesAllSourceRoots>
+                            <excludes>
+                                <exclude>**/de/chrlembeck/codegen/grammar/**</exclude>
+                            </excludes>
+                            <charset>UTF-8</charset>
+                            <generateHtml>true</generateHtml>
+                            <generatePdf>true</generatePdf>
+                            <generateHistorical>false</generateHistorical>
+                        </configuration>
+                    </plugin>
+                </plugins>
+
+            </reporting>
+        </profile>
+    </profiles>
 </project>
