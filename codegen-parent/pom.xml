@@ -216,7 +216,7 @@
     <dependencies>
         <dependency>
             <groupId>de.chrlembeck</groupId>
-            <artifactId>util</artifactId>
+            <artifactId>chrlembeck-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
