@@ -21,6 +21,14 @@ public enum IconFactory {
      */
     BRACES_32("braces_32.png"),
 
+    GEAR_16("gear_16.png"),
+
+    GEAR_24("gear_24.png"),
+
+    GEAR_32("gear_32.png"),
+
+    GEAR_48("gear_48.png"),
+
     CANCEL_22("cancel_22.png"),
 
     CANCEL_32("cancel_32.png"),

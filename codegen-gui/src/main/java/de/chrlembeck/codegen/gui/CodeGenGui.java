@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -217,6 +218,10 @@ public class CodeGenGui extends JFrame implements TabListener {
         setVisible(true);
         spMain.setDividerLocation(0.7d);
         spEditorModel.setDividerLocation(0.8d);
+        setIconImages(Arrays.asList(((ImageIcon) IconFactory.GEAR_16.icon()).getImage(),
+                ((ImageIcon) IconFactory.GEAR_24.icon()).getImage(),
+                ((ImageIcon) IconFactory.GEAR_32.icon()).getImage(),
+                ((ImageIcon) IconFactory.GEAR_48.icon()).getImage()));
     }
 
     /**
