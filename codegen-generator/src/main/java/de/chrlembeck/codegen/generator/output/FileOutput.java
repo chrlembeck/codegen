@@ -8,7 +8,9 @@ import java.io.Writer;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Christoph Lembeck
  */
-public class FileOutput implements GeneratorOutput {
+public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
+
+    public static FileOutput<TextGeneratorWriter> simpleTextOutput(final Path rootPath) {
+        return new FileOutput<TextGeneratorWriter>(rootPath, writer -> new TextGeneratorWriter(writer));
+    }
+
+    private String suffix;
 
     /**
      * Der Logger für diese Klasse.
@@ -35,7 +43,9 @@ public class FileOutput implements GeneratorOutput {
     /**
      * Zuordnung von Channel-Namen zu den Writern, die die generierten Artefakte in Dateien schreiben.
      */
-    private Map<String, Writer> writers = new TreeMap<>();
+    private Map<String, T> writers = new TreeMap<>();
+
+    private Function<Writer, T> generatorWriterSupplier;
 
     /**
      * Erstellt einen neuen Verwalter mit dem angegebenen Verzeichnis als root-Verzeichnis.
@@ -43,16 +53,17 @@ public class FileOutput implements GeneratorOutput {
      * @param rootPath
      *            Verzeichnis unterhalb dessen die Dateien des Generators abgelegt werden sollen.
      */
-    public FileOutput(final Path rootPath) {
-        this.rootPath = rootPath;
+    public FileOutput(final Path rootPath, final Function<Writer, T> generatorWriterSupplier) {
+        this.rootPath = Objects.requireNonNull(rootPath);
+        this.generatorWriterSupplier = generatorWriterSupplier;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Writer getWriter(final String channelName, final OutputPreferences prefs) throws IOException {
-        Writer writer = writers.get(channelName);
+    public GeneratorWriter getWriter(final String channelName, final OutputPreferences prefs) throws IOException {
+        T writer = writers.get(channelName);
         if (writer == null) {
             final Path path = getPathFromChannel(channelName);
             final Path directory = path.getParent();
@@ -60,11 +71,12 @@ public class FileOutput implements GeneratorOutput {
                 directory.toFile().mkdirs();
             }
             if (path.toFile().exists() && keepExisting(channelName, prefs, path)) {
-                writer = new NullWriter();
+                writer = generatorWriterSupplier.apply(new NullWriter());
             } else {
                 final FileOutputStream fileOut = new FileOutputStream(path.toFile());
                 final BufferedOutputStream bufOut = new BufferedOutputStream(fileOut);
-                writer = new OutputStreamWriter(bufOut, prefs.getCharsetForChannel(channelName));
+                writer = generatorWriterSupplier
+                        .apply(new OutputStreamWriter(bufOut, prefs.getCharsetForChannel(channelName)));
             }
             writers.put(channelName, writer);
         }
@@ -109,7 +121,7 @@ public class FileOutput implements GeneratorOutput {
      * @return Pfad zu der Datei für den Ausgabe-Chanel.
      */
     private Path getPathFromChannel(final String channelName) {
-        return rootPath.resolve(channelName);
+        return rootPath.resolve(channelName + (suffix == null ? "" : suffix));
     }
 
     /**
@@ -117,7 +129,7 @@ public class FileOutput implements GeneratorOutput {
      */
     @Override
     public void closeAll() {
-        for (final Writer writer : writers.values()) {
+        for (final GeneratorWriter writer : writers.values()) {
             try {
                 writer.close();
             } catch (final IOException e) {
@@ -156,5 +168,9 @@ public class FileOutput implements GeneratorOutput {
         public void close() throws IOException {
             // do nothing
         }
+    }
+
+    public void setSuffix(final String suffix) {
+        this.suffix = suffix;
     }
 }

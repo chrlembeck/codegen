@@ -1,7 +1,6 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.grammar.CodeGenParser.UserCodeContext;
 
 /**
@@ -65,14 +65,14 @@ public class UserCode extends AbstractTemplateMember<UserCodeContext> implements
     @Override
     public void execute(final Generator generator, final Object model, final Environment environment)
             throws IOException {
-        final Writer currentWriter = generator.getCurrentWriter();
+        final GeneratorWriter currentWriter = generator.getCurrentWriter();
         if (currentWriter == null) {
             if (code != null && code.trim().length() > 0) {
                 LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
                 throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
             }
         } else {
-            currentWriter.append(code);
+            currentWriter.append(code, this, getContext().AnyChar());
         }
     }
 }

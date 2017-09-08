@@ -1,7 +1,6 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
@@ -12,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ExecuteStatementContext;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionContext;
 
 /**
  * Execute Statements innerhalb von Template-Definitionen bewirken den Sprung in ein anderes auszuführenden Template.
@@ -173,12 +174,14 @@ public class ExecuteStatement extends AbstractTemplateMember<ExecuteStatementCon
                     final Object item = iterator.next();
                     generator.generate(resourceIdentifier, templateName, item);
                     if (iterator.hasNext() && separatorExpression != null) {
-                        final Writer writer = generator.getCurrentWriter();
+                        final GeneratorWriter writer = generator.getCurrentWriter();
                         if (writer == null) {
                             LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
                             throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
                         } else {
-                            writer.write(String.valueOf(separatorExpression.evaluate(model, environment).getObject()));
+                            final ExpressionContext sepExpr = getContext().separatorExpression;
+                            writer.append(String.valueOf(separatorExpression.evaluate(model, environment).getObject()),
+                                    this, sepExpr);
                         }
                     }
                 }

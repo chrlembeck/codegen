@@ -1,12 +1,12 @@
 package de.chrlembeck.codegen.generator;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URI;
 
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.lang.TemplateStatement;
 import de.chrlembeck.codegen.generator.output.GeneratorOutput;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.generator.output.OutputPreferences;
 
 /**
@@ -36,7 +36,7 @@ public class Generator {
     /**
      * Speichert den aktuell gültigen Ausgabekanal für die Generierung der Artefakte.
      */
-    private Writer currentWriter;
+    private GeneratorWriter currentWriter;
 
     /**
      * Erstellt einen neuen Generator und übergibt ihm die benötigten Einstellungen.
@@ -104,7 +104,7 @@ public class Generator {
      * 
      * @return Aktuell gültiger Ausgabekanal für das Template oder null, falls noch kein Kanal geöffnet wurde.
      */
-    public Writer getCurrentWriter() {
+    public GeneratorWriter getCurrentWriter() {
         return currentWriter;
     }
 
@@ -115,7 +115,7 @@ public class Generator {
      * @param currentWriter
      *            Ausgabekanal für das aktuelle Template.
      */
-    public void setCurrentWriter(final Writer currentWriter) {
+    public void setCurrentWriter(final GeneratorWriter currentWriter) {
         this.currentWriter = currentWriter;
     }
 
@@ -129,7 +129,7 @@ public class Generator {
      * @throws IOException
      *             Falls bei der Erzeugung des Writers eine Exception aufgetreten ist.
      */
-    public Writer getWriter(final String channelName) throws IOException {
+    public GeneratorWriter getWriter(final String channelName) throws IOException {
         return output.getWriter(channelName, outputPreferences);
     }
 }

@@ -1,7 +1,6 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
+import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ForStatementContext;
 
 /**
@@ -124,12 +125,14 @@ public class ForStatement extends AbstractTemplateMember<ForStatementContext>
                 environment.execute(cos, generator, model);
             }
             if (separatorExpression != null && nextItem != null) {
-                final Writer writer = generator.getCurrentWriter();
+                final GeneratorWriter writer = generator.getCurrentWriter();
                 if (writer == null) {
                     LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
                     throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
                 } else {
-                    writer.write(String.valueOf(separatorExpression.evaluate(model, environment).getObject()));
+                    final ExpressionContext sepExp = getContext().separatorExpression;
+                    writer.append(String.valueOf(separatorExpression.evaluate(model, environment).getObject()), this,
+                            sepExp);
                 }
             }
             index++;

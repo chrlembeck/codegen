@@ -52,6 +52,15 @@ public class Template {
     private String outputPath;
 
     /**
+     * Gibt an, ob zusätzlich zur Ausgabe der Generatorartefakte HTML-Dateien zum Debuggen ausgegeben werden sollen.
+     */
+    @Parameter(required = false, defaultValue = "false")
+    private boolean generateDebugHtml = false;
+
+    @Parameter(required = false, defaultValue = "/target/generated-sources/codegen-debug")
+    private String debugOutputPath = "/target/generated-sources/codegen-debug";
+
+    /**
      * Encoding für die zu erstellenden Ausgabe-Dateien. Default = 'UTF-8'
      */
     @Parameter(required = true, defaultValue = "UTF-8")
@@ -165,5 +174,13 @@ public class Template {
      */
     public OverwritePreferences getOverwritePreferences() {
         return overwritePreferences;
+    }
+
+    public String getDebugOutputPath() {
+        return debugOutputPath;
+    }
+
+    public boolean getGenerateDebugHtml() {
+        return generateDebugHtml;
     }
 }

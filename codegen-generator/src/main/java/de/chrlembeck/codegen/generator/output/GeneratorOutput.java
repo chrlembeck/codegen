@@ -1,7 +1,6 @@
 package de.chrlembeck.codegen.generator.output;
 
 import java.io.IOException;
-import java.io.Writer;
 
 /**
  * Verwaltet die Ausgabekanäle für einen Generator-Lauf. Die Ausgabe des Generators erfolgt dabei in verschiedene, durch
@@ -24,7 +23,7 @@ public interface GeneratorOutput {
      * @throws IOException
      *             Falls bei der Erstellung des Writers ein Fehler aufgetreten ist.
      */
-    Writer getWriter(String channelName, OutputPreferences prefs) throws IOException;
+    GeneratorWriter getWriter(String channelName, OutputPreferences prefs) throws IOException;
 
     /**
      * Informiert alle Ausgabekanäle darüber, dass die Ausgabedatenströme geschlossen werden können.

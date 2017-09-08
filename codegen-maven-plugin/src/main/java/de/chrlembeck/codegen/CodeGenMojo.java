@@ -24,8 +24,10 @@ import de.chrlembeck.codegen.generator.SimpleTemplateResolver;
 import de.chrlembeck.codegen.generator.TemplateResolver;
 import de.chrlembeck.codegen.generator.model.ModelFactory;
 import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
+import de.chrlembeck.codegen.generator.output.CombinedGeneratorOutput;
 import de.chrlembeck.codegen.generator.output.FileOutput;
 import de.chrlembeck.codegen.generator.output.GeneratorOutput;
+import de.chrlembeck.codegen.generator.output.HTMLDebugGeneratorWriter;
 import de.chrlembeck.codegen.generator.output.OverwritePreferences;
 
 /**
@@ -74,7 +76,18 @@ public class CodeGenMojo extends AbstractMojo {
             final String outputPath = template.getOutputPath(project);
             final File outputBaseDir = new File(project.getBasedir(), outputPath);
             log.info("outputPath=" + outputPath + ". Ausgabe erfolgt in " + outputBaseDir.getAbsolutePath());
-            final GeneratorOutput generatorOutput = new FileOutput(outputBaseDir.toPath());
+            GeneratorOutput generatorOutput = FileOutput.simpleTextOutput(outputBaseDir.toPath());
+            if (template.getGenerateDebugHtml()) {
+                final String debugOutputPath = template.getDebugOutputPath();
+                final File debugOutputBaseDir = new File(project.getBasedir(), debugOutputPath);
+                log.info("debugOutputPath=" + debugOutputPath + ". Debug-Ausgabe erfolgt in "
+                        + debugOutputBaseDir.getAbsolutePath());
+                final FileOutput<HTMLDebugGeneratorWriter> debugOutput = new FileOutput<>(
+                        debugOutputBaseDir.toPath(),
+                        writer -> new HTMLDebugGeneratorWriter(writer));
+                debugOutput.setSuffix(".html");
+                generatorOutput = new CombinedGeneratorOutput(generatorOutput, debugOutput);
+            }
 
             addSourceRoot(outputBaseDir, template.getArtifactScope());
 

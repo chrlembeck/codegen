@@ -1,7 +1,6 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionStatementContext;
 
 /**
@@ -69,12 +69,12 @@ public class ExpressionStatement extends AbstractTemplateMember<ExpressionStatem
         final ObjectWithType<?> objectWithType = expression.evaluate(model, environment);
         final Object object = objectWithType.getObject();
         final String text = String.valueOf(object);
-        final Writer currentWriter = generator.getCurrentWriter();
+        final GeneratorWriter currentWriter = generator.getCurrentWriter();
         if (currentWriter == null) {
             LOGGER.info("Kein Writer zur Ausgabe gefunden. " + this + ": " + this.getContext());
             throw new GeneratorException("Kein Writer zur Ausgabe gefunden.", this, environment);
         } else {
-            currentWriter.append(text);
+            currentWriter.append(text, this, getContext().expression());
         }
     }
 }

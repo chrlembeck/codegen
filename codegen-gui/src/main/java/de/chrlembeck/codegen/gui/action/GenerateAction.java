@@ -165,7 +165,7 @@ public class GenerateAction extends AbstractAction {
      */
     private Generator generateToFile(final TemplateFile templateFile,
             final Path outputDirectory, final OverwritePreferences overwritePreferences) {
-        final FileOutput out = new FileOutput(outputDirectory);
+        final FileOutput<?> out = FileOutput.simpleTextOutput(outputDirectory);
         final SimpleTemplateResolver templateResolver = new SimpleTemplateResolver(templateFile);
         final BasicOutputPreferences outputPreferences = new BasicOutputPreferences();
         outputPreferences.setDefaultCharset(Charset.forName("UTF-8"));

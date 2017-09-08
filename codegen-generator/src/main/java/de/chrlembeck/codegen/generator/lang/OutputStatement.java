@@ -1,11 +1,11 @@
 package de.chrlembeck.codegen.generator.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 import de.chrlembeck.codegen.generator.Environment;
 import de.chrlembeck.codegen.generator.Generator;
+import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.grammar.CodeGenParser.OutputStatementContext;
 
 /**
@@ -84,8 +84,8 @@ public class OutputStatement extends AbstractTemplateMember<OutputStatementConte
                             + nameExpression.getStartPosition() + ")");
         }
         final String channelName = (String) nameExp.getObject();
-        try (final Writer writer = generator.getWriter(channelName)) {
-            final Writer oldWriter = generator.getCurrentWriter();
+        try (final GeneratorWriter writer = generator.getWriter(channelName)) {
+            final GeneratorWriter oldWriter = generator.getCurrentWriter();
             generator.setCurrentWriter(writer);
             for (final UserCodeOrStatements<?> cos : codeOrStatements) {
                 environment.execute(cos, generator, model);

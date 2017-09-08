@@ -13,7 +13,6 @@ import de.chrlembeck.codegen.generator.lang.UserCode;
 import de.chrlembeck.codegen.generator.lang.UserCodeOrStatements;
 import de.chrlembeck.codegen.grammar.CodeGenParser.CommentStatementContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ExecuteStatementContext;
-import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ExpressionStatementContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.ForStatementContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.IfStatementContext;
@@ -128,14 +127,12 @@ public class UserCodeOrStatementVisitor
      */
     @Override
     public UserCodeOrStatements<?> visitForStatement(final ForStatementContext ctx) {
-        final String varName = ctx.Identifier(0).getText();
-        final Expression collectionExpression = ctx.expression(0).accept(new ExpressionVisitor());
-        final String counterName = ctx.Identifier().size() > 1 ? ctx.Identifier(1).getText() : null;
-        final Expression separatorExpression = ctx.expression().size() > 1
-                ? ctx.expression(1).accept(new ExpressionVisitor())
-                : null;
-        final List<UserCodeOrStatements<?>> loopBody = ctx.userCodeOrStatements()
-                .accept(new UserCodeOrStatementsVisitor());
+        final String varName = ctx.variableIdentifier.getText();
+        final Expression collectionExpression = ctx.valueExpression.accept(new ExpressionVisitor());
+        final String counterName = ctx.counterIdentifier == null ? null : ctx.counterIdentifier.getText();
+        final Expression separatorExpression = ctx.separatorExpression == null ? null
+                : ctx.separatorExpression.accept(new ExpressionVisitor());
+        final List<UserCodeOrStatements<?>> loopBody = ctx.loopBody.accept(new UserCodeOrStatementsVisitor());
         return new ForStatement(ctx, varName, collectionExpression, counterName, separatorExpression, loopBody);
     }
 
@@ -151,12 +148,9 @@ public class UserCodeOrStatementVisitor
     public UserCodeOrStatements<?> visitExecuteStatement(final ExecuteStatementContext ctx) {
         final String prefix = ctx.prefix == null ? null : ctx.prefix.getText();
         final String templateName = ctx.templateName.getText();
-        final List<ExpressionContext> expressions = ctx.expression();
-        final Expression valueExpression = expressions.get(0).accept(new ExpressionVisitor());
-        Expression separatorExpression = null;
-        if (expressions.size() > 1) {
-            separatorExpression = expressions.get(1).accept(new ExpressionVisitor());
-        }
+        final Expression valueExpression = ctx.valueExpression.accept(new ExpressionVisitor());
+        final Expression separatorExpression = ctx.separatorExpression == null ? null
+                : ctx.separatorExpression.accept(new ExpressionVisitor());
         final boolean forEach = ctx.FOREACH() != null;
         return new ExecuteStatement(ctx, prefix, templateName, valueExpression, forEach, separatorExpression);
     }

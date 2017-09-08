@@ -30,6 +30,7 @@
                                     <modelCreatorMethod>getListOfStrings</modelCreatorMethod>
                                     <artifactScope>COMPILE</artifactScope>
                                     <overwritePreferences>OVERWRITE</overwritePreferences>
+                                    <generateDebugHtml>true</generateDebugHtml>
                                 </template>
                                 <template>
                                     <templateFile>src/main/resources/codegen/template2.codegen</templateFile>
@@ -40,6 +41,7 @@
                                     <outputEncoding>UTF-8</outputEncoding>
                                     <artifactScope>TEST</artifactScope>
                                     <overwritePreferences>OVERWRITE</overwritePreferences>
+                                    <generateDebugHtml>true</generateDebugHtml>
                                 </template>
                             </templates>
                         </configuration>

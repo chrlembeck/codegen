@@ -2,7 +2,6 @@ package de.chrlembeck.codegen.generator.output;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -18,16 +17,16 @@ public class BufferedOutput implements GeneratorOutput {
     /**
      * Zuordnung von Ausgabekanälen zu den StringWritern, in denen die Ausgaben gesammelt werden.
      */
-    private Map<String, StringWriter> writerMap = new TreeMap<>();
+    private Map<String, TextGeneratorWriter> writerMap = new TreeMap<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Writer getWriter(final String channelName, final OutputPreferences prefs) {
-        StringWriter writer = writerMap.get(channelName);
+    public GeneratorWriter getWriter(final String channelName, final OutputPreferences prefs) {
+        TextGeneratorWriter writer = writerMap.get(channelName);
         if (writer == null) {
-            writer = new StringWriter();
+            writer = new TextGeneratorWriter(new StringWriter());
             writerMap.put(channelName, writer);
         }
         return writer;
@@ -50,8 +49,8 @@ public class BufferedOutput implements GeneratorOutput {
      * @return Inhalt der Ausgabe, so wie der Generator sie erzeugt hat.
      */
     public String getContent(final String channelName) {
-        final StringWriter writer = writerMap.get(channelName);
-        return writer == null ? null : writer.toString();
+        final TextGeneratorWriter writer = writerMap.get(channelName);
+        return writer == null ? null : writer.getWriter().toString();
     }
 
     /**
@@ -60,7 +59,7 @@ public class BufferedOutput implements GeneratorOutput {
     @Override
     @SuppressWarnings("PMD.EmptyCatchBlock")
     public void closeAll() {
-        for (final StringWriter writer : writerMap.values()) {
+        for (final TextGeneratorWriter writer : writerMap.values()) {
             try {
                 writer.close();
             } catch (final IOException e) {
