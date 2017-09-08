@@ -12,11 +12,13 @@
         <antlr.version>4.7</antlr.version>
         <antlr.maven.plugin.version>4.7</antlr.maven.plugin.version>
         <log4j.version>2.8.2</log4j.version>
+        <clover.version>4.2.0</clover.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <codegen.version>0.0.1-SNAPSHOT</codegen.version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
+        <pmd.rules.def>../build-properties/pmd-rules.xml</pmd.rules.def>
     </properties>
 
     <build>
@@ -53,28 +55,13 @@
                     <nohelp>false</nohelp>
                     <sourcepath>src/main/java</sourcepath>
                     <sourcepath>target/generated-sources/antlr4</sourcepath>
+                    <quiet>true</quiet>
                 </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Jars mit gpg signieren -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -95,41 +82,6 @@
                         <groupId>org.junit.platform</groupId>
                         <artifactId>junit-platform-surefire-provider</artifactId>
                         <version>1.0.0-RC3</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.8</version>
-                <configuration>
-                    <verbose>true</verbose>
-                    <failurePriority>2</failurePriority>
-                    <excludes>
-                        <exclude>**/generated/*.java</exclude>
-                    </excludes>
-                    <excludeRoots>
-                        <excludeRoot>target/generated-sources/antlr4</excludeRoot>
-                        <excludeRoot>target/clover</excludeRoot>
-                    </excludeRoots>
-                    <rulesets>
-                        <ruleset>de/chrlembeck/buildtools/pmd/pmd-rules.xml</ruleset>
-                    </rulesets>
-                    <printFailingErrors>true</printFailingErrors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>de.chrlembeck</groupId>
-                        <artifactId>chrlembeck-build-tools</artifactId>
-                        <version>0.1-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -188,8 +140,7 @@
                         <excludeRoot>target/generated-sources/antlr4</excludeRoot>
                     </excludeRoots>
                     <rulesets>
-                        <ruleset>de/chrlembeck/buildtools/pmd/pmd-rules.xml</ruleset>
-                        <!-- <ruleset>${pmd.rules.file}</ruleset> -->
+                        <ruleset>${pmd.rules.def}</ruleset>
                     </rulesets>
                 </configuration>
             </plugin>
@@ -317,8 +268,50 @@
     </distributionManagement>
 
     <profiles>
+        <!-- run pmd if ruleset exists -->
+        <profile>
+            <id>runpmd</id>
+            <activation>
+                <file>
+                    <exists>${pmd.rules.def}</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>3.8</version>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <failurePriority>2</failurePriority>
+                            <excludes>
+                                <exclude>**/generated/*.java</exclude>
+                            </excludes>
+                            <excludeRoots>
+                                <excludeRoot>target/generated-sources/antlr4</excludeRoot>
+                                <excludeRoot>target/clover</excludeRoot>
+                            </excludeRoots>
+                            <rulesets>
+                                <ruleset>${pmd.rules.def}</ruleset>
+                            </rulesets>
+                            <printFailingErrors>true</printFailingErrors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- run clover: mvn -Dclover=true test site -->
         <profile>
+            <id>runclover</id>
             <activation>
                 <file>
                     <exists>src/main/java</exists>
@@ -333,7 +326,7 @@
                     <plugin>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
+                        <version>${clover.version}</version>
                         <configuration>
                             <includesAllSourceRoots>false</includesAllSourceRoots>
                             <includesTestSourceRoots>false</includesTestSourceRoots>
@@ -366,6 +359,7 @@
                     <plugin>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
+                        <version>${clover.version}</version>
                         <configuration>
                             <includesAllSourceRoots>false</includesAllSourceRoots>
                             <excludes>
@@ -380,6 +374,35 @@
                 </plugins>
 
             </reporting>
+        </profile>
+
+        <profile>
+            <id>runpgp</id>
+            <activation>
+                <property>
+                    <name>gpgsign-chrlembeck</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- sign jars with gpg -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
