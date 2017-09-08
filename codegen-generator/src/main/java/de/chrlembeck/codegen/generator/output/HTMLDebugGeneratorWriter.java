@@ -62,6 +62,8 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
         writer.append(escape(text));
         writer.append("</span>");
         writer.append("</a>");
+        // TODO ToolTip-Text wie hier anzeigen:
+        // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip
     }
 
     private CharSequence escape(final String text) {
