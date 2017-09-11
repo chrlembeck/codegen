@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
 
     public static FileOutput<TextGeneratorWriter> simpleTextOutput(final Path rootPath) {
-        return new FileOutput<TextGeneratorWriter>(rootPath, writer -> new TextGeneratorWriter(writer));
+        return new FileOutput<TextGeneratorWriter>(rootPath, (writer, channelName) -> new TextGeneratorWriter(writer));
     }
 
     private String suffix;
@@ -45,7 +45,7 @@ public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
      */
     private Map<String, T> writers = new TreeMap<>();
 
-    private Function<Writer, T> generatorWriterSupplier;
+    private BiFunction<Writer, String, T> generatorWriterSupplier;
 
     /**
      * Erstellt einen neuen Verwalter mit dem angegebenen Verzeichnis als root-Verzeichnis.
@@ -53,7 +53,7 @@ public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
      * @param rootPath
      *            Verzeichnis unterhalb dessen die Dateien des Generators abgelegt werden sollen.
      */
-    public FileOutput(final Path rootPath, final Function<Writer, T> generatorWriterSupplier) {
+    public FileOutput(final Path rootPath, final BiFunction<Writer, String, T> generatorWriterSupplier) {
         this.rootPath = Objects.requireNonNull(rootPath);
         this.generatorWriterSupplier = generatorWriterSupplier;
     }
@@ -71,12 +71,12 @@ public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
                 directory.toFile().mkdirs();
             }
             if (path.toFile().exists() && keepExisting(channelName, prefs, path)) {
-                writer = generatorWriterSupplier.apply(new NullWriter());
+                writer = generatorWriterSupplier.apply(new NullWriter(), channelName);
             } else {
                 final FileOutputStream fileOut = new FileOutputStream(path.toFile());
                 final BufferedOutputStream bufOut = new BufferedOutputStream(fileOut);
                 writer = generatorWriterSupplier
-                        .apply(new OutputStreamWriter(bufOut, prefs.getCharsetForChannel(channelName)));
+                        .apply(new OutputStreamWriter(bufOut, prefs.getCharsetForChannel(channelName)), channelName);
             }
             writers.put(channelName, writer);
         }
