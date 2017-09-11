@@ -26,7 +26,7 @@ public class CombinedGeneratorOutput implements GeneratorOutput {
     }
 
     @Override
-    public void closeAll() {
+    public void closeAll() throws IOException {
         try {
             firstOutput.closeAll();
         } finally {

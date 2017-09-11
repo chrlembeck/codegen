@@ -20,7 +20,10 @@ import de.chrlembeck.codegen.generator.SimpleTemplateResolver;
 import de.chrlembeck.codegen.generator.lang.TemplateFile;
 import de.chrlembeck.codegen.generator.lang.TemplateStatement;
 import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
+import de.chrlembeck.codegen.generator.output.CombinedGeneratorOutput;
 import de.chrlembeck.codegen.generator.output.FileOutput;
+import de.chrlembeck.codegen.generator.output.GeneratorOutput;
+import de.chrlembeck.codegen.generator.output.HTMLDebugGeneratorWriter;
 import de.chrlembeck.codegen.generator.output.OverwritePreferences;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
@@ -105,14 +108,16 @@ public class GenerateAction extends AbstractAction {
         if (generateDialog.getResult() == GenerateDialog.RESULT_OK) {
             final OutputSelection outputSelection = generateDialog.getOutputSelection();
             Generator generator;
+            final boolean debugEnabled = generateDialog.debugEnabled();
             switch (outputSelection) {
                 case FILE_OUTPUT:
                     generator = generateToFile(templateFile, generateDialog.getOutputDirectory(),
-                            generateDialog.getOverwritePreferences());
+                            generateDialog.getOverwritePreferences(), debugEnabled,
+                            generateDialog.getDebugOutputDirectory());
                     new UserSettings().setLastOutputDirectory(generateDialog.getOutputDirectory());
                     break;
                 case APPLICATION_OUTPUT:
-                    generator = generateToGui(templateFile);
+                    generator = generateToGui(templateFile, debugEnabled);
                     break;
                 default:
                     throw new IllegalStateException();
@@ -120,6 +125,9 @@ public class GenerateAction extends AbstractAction {
             }
             final TemplateStatement selectedTemplate = generateDialog.getSelectedTemplate();
             generate(generator, templateFile, selectedTemplate.getName());
+            if (debugEnabled && outputSelection == OutputSelection.APPLICATION_OUTPUT) {
+                JOptionPane.showMessageDialog(codeGenGui, "Debug");
+            }
         }
     }
 
@@ -164,8 +172,17 @@ public class GenerateAction extends AbstractAction {
      * @return Konfiguriertwer Generator für die Ausgabe in das Dateisystem.
      */
     private Generator generateToFile(final TemplateFile templateFile,
-            final Path outputDirectory, final OverwritePreferences overwritePreferences) {
-        final FileOutput<?> out = FileOutput.simpleTextOutput(outputDirectory);
+            final Path outputDirectory, final OverwritePreferences overwritePreferences, final boolean includeDebug,
+            final Path debugOutputDirectory) {
+        GeneratorOutput out = FileOutput.simpleTextOutput(outputDirectory);
+        if (includeDebug) {
+            final FileOutput<HTMLDebugGeneratorWriter> debugOutput = new FileOutput<>(
+                    debugOutputDirectory,
+                    (writer, channelName) -> new HTMLDebugGeneratorWriter(writer, channelName));
+            debugOutput.setSuffix(".html");
+            out = new CombinedGeneratorOutput(out, debugOutput);
+        }
+
         final SimpleTemplateResolver templateResolver = new SimpleTemplateResolver(templateFile);
         final BasicOutputPreferences outputPreferences = new BasicOutputPreferences();
         outputPreferences.setDefaultCharset(Charset.forName("UTF-8"));
@@ -180,10 +197,11 @@ public class GenerateAction extends AbstractAction {
      * 
      * @param templateFile
      *            Template-Datei, aus der die Templates gelesen werden sollen.
+     * @param bebugEnabled
      * @return Konfiurierter Generator für die Ausgabe in die GUI.
      */
-    private Generator generateToGui(final TemplateFile templateFile) {
-        final GuiOutput out = new GuiOutput(codeGenGui);
+    private Generator generateToGui(final TemplateFile templateFile, final boolean debugEnabled) {
+        final GeneratorOutput out = debugEnabled ? new GuiDebugOutput(codeGenGui) : new GuiOutput(codeGenGui);
         final URI templateResourceLocator = templateFile.getResourceIdentifier();
         LOGGER.debug("templateResourceLocator=" + templateResourceLocator);
         final SimpleTemplateResolver templateResolver = new SimpleTemplateResolver(templateFile);

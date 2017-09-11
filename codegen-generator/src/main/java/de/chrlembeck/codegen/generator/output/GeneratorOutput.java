@@ -27,6 +27,9 @@ public interface GeneratorOutput {
 
     /**
      * Informiert alle Ausgabekanäle darüber, dass die Ausgabedatenströme geschlossen werden können.
+     * 
+     * @throws IOException
+     *             Falls bei der Aktion eine Exception geworfen wird.
      */
-    void closeAll();
+    void closeAll() throws IOException;
 }

@@ -28,6 +28,8 @@ public class UserSettings {
      */
     private static final String LAST_OUTPUT_DIRECTORY = "lastOutputDirectory";
 
+    private static final String LAST_DEBUG_OUTPUT_DIRECTORY = "lastDebugOutputDirectory";
+
     /**
      * Gibt das Verzeichnis zurück, aus dem die letzte Template-Datei gelesen wurde.
      * 
@@ -115,6 +117,32 @@ public class UserSettings {
         }
         if (path != null) {
             preferences.put(LAST_MODEL_DIRECTORY, path.toString());
+        }
+    }
+
+    public Path getLastDebugOutputDirectory() {
+        final Preferences preferences = Preferences.userNodeForPackage(CodeGenGui.class);
+        final String dir = preferences.get(LAST_DEBUG_OUTPUT_DIRECTORY, null);
+        if (dir != null) {
+            return FileSystems.getDefault().getPath(dir);
+        }
+        return FileSystems.getDefault().getPath(System.getProperty("java.io.tmpdir"));
+    }
+
+    /**
+     * Setzt das Verzeichnis, welches gerade für die Ausgabe der Debug-Informationen eines Generatorlaufs verwendet
+     * wurde.
+     * 
+     * @param path
+     *            Verzeichnis der Ausgabe der Debug-Informationen für den Generatorlauf.
+     */
+    public void setLastDebugOutputDirectory(final Path path) {
+        if (path != null) {
+            if (!Files.isDirectory(path)) {
+                throw new IllegalArgumentException("Path is not a directory: " + path);
+            }
+            final Preferences preferences = Preferences.userNodeForPackage(CodeGenGui.class);
+            preferences.put(LAST_DEBUG_OUTPUT_DIRECTORY, path.toString());
         }
     }
 }
