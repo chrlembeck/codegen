@@ -81,8 +81,15 @@ public enum IconFactory {
     /**
      * Icon für das Einstellungen-Menü.
      */
-    SETTINGS_32("settings_32.png"), WARNING_32(
-            "warning_32.png"), WARNING_48("warning_48.png");
+    SETTINGS_32("settings_32.png"),
+
+    WARNING_32("warning_32.png"),
+
+    WARNING_48("warning_48.png"),
+
+    UNDO_32("undo_32.png"),
+
+    REDO_32("redo_32.png");
 
     /**
      * Logger für die Klasse.

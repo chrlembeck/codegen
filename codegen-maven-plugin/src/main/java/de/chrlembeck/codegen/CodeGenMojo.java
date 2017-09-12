@@ -84,7 +84,8 @@ public class CodeGenMojo extends AbstractMojo {
                         + debugOutputBaseDir.getAbsolutePath());
                 final FileOutput<HTMLDebugGeneratorWriter> debugOutput = new FileOutput<>(
                         debugOutputBaseDir.toPath(),
-                        (writer, channelName) -> new HTMLDebugGeneratorWriter(writer, channelName));
+                        (writer, channelName, path) -> new HTMLDebugGeneratorWriter(writer, channelName,
+                                path.toFile()));
                 debugOutput.setSuffix(".html");
                 generatorOutput = new CombinedGeneratorOutput(generatorOutput, debugOutput);
             }

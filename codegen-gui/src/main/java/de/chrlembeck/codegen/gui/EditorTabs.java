@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 
 import org.antlr.v4.runtime.Token;
 
@@ -48,6 +50,8 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      * Formatierungsregeln für die Template-Editoren.
      */
     private TokenStyleRepository tokenStyles = createTokenStyles();
+
+    private List<UndoableEditListener> undoableEditListeners = new ArrayList<>();
 
     /**
      * Erstellt das Objekt und initialisiert es.
@@ -103,6 +107,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
         final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"), tokenStyles);
         addTabComponent(templatePanel, null, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
+        templatePanel.getEditorPane().addUndoableEditListener(this::undoableEditHappened);
     }
 
     /**
@@ -181,6 +186,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
         final TemplatePanel templatePanel = new TemplatePanel(path, charset, tokenStyles);
         addTabComponent(templatePanel, null, true);
         templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
+        templatePanel.getEditorPane().addUndoableEditListener(this::undoableEditHappened);
     }
 
     /**
@@ -228,5 +234,17 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      */
     public void removeErrorListener(final ErrorListener listener) {
         errorListeners.remove(listener);
+    }
+
+    public void addUndoableEditListener(final UndoableEditListener listener) {
+        undoableEditListeners.add(listener);
+    }
+
+    public void removeUndoableEditListener(final UndoableEditListener listener) {
+        undoableEditListeners.remove(listener);
+    }
+
+    void undoableEditHappened(final UndoableEditEvent editEvent) {
+        undoableEditListeners.forEach(listener -> listener.undoableEditHappened(editEvent));
     }
 }

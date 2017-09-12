@@ -44,7 +44,11 @@ public abstract class AbstractDialog extends JDialog implements ComponentListene
     }
 
     public AbstractDialog(final Window owner, final String title) {
-        super(owner, title, ModalityType.APPLICATION_MODAL);
+        this(owner, title, ModalityType.APPLICATION_MODAL);
+    }
+
+    public AbstractDialog(final Window owner, final String title, final ModalityType modalityType) {
+        super(owner, title, modalityType);
         init();
     }
 

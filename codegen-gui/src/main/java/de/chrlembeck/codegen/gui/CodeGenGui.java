@@ -36,6 +36,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.event.CaretEvent;
+import javax.swing.event.UndoableEditEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Element;
@@ -49,15 +50,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.codegen.generator.Position;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.action.CloseApplicationAction;
 import de.chrlembeck.codegen.gui.action.GenerateAction;
 import de.chrlembeck.codegen.gui.action.InsertDoubleAngleQuotationMarksAction;
 import de.chrlembeck.codegen.gui.action.LoadModelAction;
 import de.chrlembeck.codegen.gui.action.LoadTemplateAction;
 import de.chrlembeck.codegen.gui.action.NewTemplateAction;
+import de.chrlembeck.codegen.gui.action.RedoAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
 import de.chrlembeck.codegen.gui.action.SettingsAction;
+import de.chrlembeck.codegen.gui.action.UndoAction;
 import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
 import de.chrlembeck.util.swing.SwingUtil;
 
@@ -112,6 +116,10 @@ public class CodeGenGui extends JFrame implements TabListener {
      */
     private JButton btSaveTemplateAs;
 
+    private JButton btUndo;
+
+    private JButton btRedo;
+
     /**
      * Button in der Toolbar zum Einfügen eines Paares der doppeltn spitzen Klammern.
      */
@@ -146,6 +154,10 @@ public class CodeGenGui extends JFrame implements TabListener {
      * Menüeintrag zum Laden eines Modells.
      */
     private JMenuItem miLoadModel;
+
+    private JMenuItem miUndo;
+
+    private JMenuItem miRedo;
 
     /**
      * Menüeintrag zum Starten des Generators.
@@ -237,6 +249,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         editorTabs.addCaretPositionChangeListener(this::caretPositionChanged);
         editorTabs.addErrorListener(this::errorsChanged);
         editorTabs.addTabListener(this);
+        editorTabs.addUndoableEditListener(this::undoableEditHappened);
 
         // Model Tree-Table
         ttModel = new JXTreeTable(createModelTreeModel());
@@ -305,6 +318,8 @@ public class CodeGenGui extends JFrame implements TabListener {
         final JButton btOpenTemplate = createToolBarButton(new LoadTemplateAction(this, true));
         btSaveTemplate = createToolBarButton(new SaveTemplateAction(this, true));
         btSaveTemplateAs = createToolBarButton(new SaveTemplateAsAction(this, true));
+        btUndo = createToolBarButton(new UndoAction(this));
+        btRedo = createToolBarButton(new RedoAction(this));
 
         btInsertBraces = createToolBarButton(new InsertDoubleAngleQuotationMarksAction(this));
         btExecuteTemplate = createToolBarButton(new GenerateAction(this));
@@ -313,12 +328,18 @@ public class CodeGenGui extends JFrame implements TabListener {
         toolBar.add(btOpenTemplate);
         toolBar.add(btSaveTemplate);
         toolBar.add(btSaveTemplateAs);
+        toolBar.addSeparator();
+        toolBar.add(btUndo);
+        toolBar.add(btRedo);
+        toolBar.addSeparator();
         toolBar.add(btInsertBraces);
         toolBar.add(btExecuteTemplate);
 
         btSaveTemplate.setEnabled(false);
         btSaveTemplateAs.setEnabled(false);
         btInsertBraces.setEnabled(false);
+        btUndo.setEnabled(false);
+        btRedo.setEnabled(false);
         return toolBar;
     }
 
@@ -347,6 +368,8 @@ public class CodeGenGui extends JFrame implements TabListener {
         miSaveTemplate = new JMenuItem(new SaveTemplateAction(this, false));
         miSaveTemplateAs = new JMenuItem(new SaveTemplateAsAction(this, false));
         miLoadModel = new JMenuItem(new LoadModelAction(this, false));
+        miUndo = new JMenuItem(new UndoAction(this));
+        miRedo = new JMenuItem(new RedoAction(this));
         final JMenuItem miSettings = new JMenuItem(new SettingsAction(this));
 
         final JMenu fileMenu = new JMenu("Datei");
@@ -354,6 +377,11 @@ public class CodeGenGui extends JFrame implements TabListener {
         fileMenu.add(miSettings);
         fileMenu.addSeparator();
         fileMenu.add(miCloseApplication);
+
+        final JMenuItem editMenu = new JMenu("Bearbeiten");
+        editMenu.setMnemonic(KeyEvent.VK_B);
+        editMenu.add(miUndo);
+        editMenu.add(miRedo);
 
         final JMenu templateMenu = new JMenu("Template");
         templateMenu.setMnemonic(KeyEvent.VK_T);
@@ -368,12 +396,15 @@ public class CodeGenGui extends JFrame implements TabListener {
 
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu);
+        menuBar.add(editMenu);
         menuBar.add(templateMenu);
         menuBar.add(modelMenu);
         setJMenuBar(menuBar);
 
         miSaveTemplate.setEnabled(false);
         miSaveTemplateAs.setEnabled(false);
+        miUndo.setEnabled(false);
+        miRedo.setEnabled(false);
     }
 
     /**
@@ -458,6 +489,7 @@ public class CodeGenGui extends JFrame implements TabListener {
             final Map<Token, String> errors = templatePanel.getErrors();
             addErrorMessages(errors);
         }
+        updateUndoRedoState();
     }
 
     /**
@@ -598,6 +630,10 @@ public class CodeGenGui extends JFrame implements TabListener {
         return editorTabs.getSelectedDocumentCharset();
     }
 
+    public TabComponent getSelectedTabComponent() {
+        return editorTabs.getSelectedDocument();
+    }
+
     /**
      * Ersetzt das für die Generierung zu verwendende Modell durch ein neues Modell.
      * 
@@ -676,5 +712,23 @@ public class CodeGenGui extends JFrame implements TabListener {
         final Element element = rootElement.getElement(line);
         final int column = event.getDot() - element.getStartOffset();
         lbPosition.setText(new Position(line + 1, column + 1).toShortString());
+    }
+
+    public void updateUndoRedoState() {
+        final TabComponent selectedDocument = editorTabs.getSelectedDocument();
+        if (selectedDocument instanceof TemplatePanel) {
+            final TemplatePanel templatePanel = (TemplatePanel) selectedDocument;
+            final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+            final boolean canUndo = editorPane.canUndo();
+            miUndo.setEnabled(canUndo);
+            btUndo.setEnabled(canUndo);
+            final boolean canRedo = editorPane.canRedo();
+            miRedo.setEnabled(canRedo);
+            btRedo.setEnabled(canRedo);
+        }
+    }
+
+    public void undoableEditHappened(final UndoableEditEvent editEvent) {
+        updateUndoRedoState();
     }
 }

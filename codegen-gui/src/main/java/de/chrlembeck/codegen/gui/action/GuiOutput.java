@@ -19,8 +19,6 @@ import de.chrlembeck.codegen.gui.CodeGenGui;
 
 public class GuiOutput implements GeneratorOutput {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(GuiOutput.class);
-
     private CodeGenGui codeGenGui;
 
     public GuiOutput(final CodeGenGui codeGenGui) {

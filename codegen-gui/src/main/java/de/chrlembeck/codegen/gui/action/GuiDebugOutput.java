@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.chrlembeck.codegen.generator.output.GeneratorOutput;
-import de.chrlembeck.codegen.generator.output.GeneratorWriter;
 import de.chrlembeck.codegen.generator.output.HTMLDebugGeneratorWriter;
 import de.chrlembeck.codegen.generator.output.OutputPreferences;
 import de.chrlembeck.codegen.gui.CodeGenGui;
@@ -25,12 +24,13 @@ public class GuiDebugOutput implements GeneratorOutput {
     }
 
     @Override
-    public GeneratorWriter getWriter(final String channelName, final OutputPreferences prefs) throws IOException {
+    public HTMLDebugGeneratorWriter getWriter(final String channelName, final OutputPreferences prefs)
+            throws IOException {
         final File tempFile = File.createTempFile("codegen_debug_", ".html");
         tempFile.deleteOnExit();
         final Writer writer = new OutputStreamWriter(new FileOutputStream(tempFile),
                 prefs.getCharsetForChannel(channelName));
-        final HTMLDebugGeneratorWriter debugWriter = new HTMLDebugGeneratorWriter(writer, channelName);
+        final HTMLDebugGeneratorWriter debugWriter = new HTMLDebugGeneratorWriter(writer, channelName, tempFile);
         writers.put(channelName, debugWriter);
         return debugWriter;
     }

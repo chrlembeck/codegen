@@ -30,12 +30,19 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.antlr.editor.AntlrDocument;
 import de.chrlembeck.antlr.editor.AntlrEditorKit;
@@ -46,6 +53,7 @@ import de.chrlembeck.codegen.generator.Position;
 import de.chrlembeck.codegen.grammar.CodeGenLexer;
 import de.chrlembeck.codegen.grammar.CodeGenParser;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
+import de.chrlembeck.util.swing.ContiguousUpdateManager;
 import de.chrlembeck.util.swing.SimpleDocumentListener;
 
 /**
@@ -63,6 +71,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      * @see java.io.Serializable
      */
     private static final long serialVersionUID = -7817592231847982962L;
+
+    private static Logger LOGGER = LoggerFactory.getLogger(TemplateEditorPane.class);
 
     /**
      * Name der Action zum Einfügen eines Paars doppelter spitzer Klammern.
@@ -99,6 +109,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      */
     private List<ModificationListener> modificationListeners = new ArrayList<>();
 
+    private final UndoManager undoManager;
+
     /**
      * {@code true} falls das Dokument Änderungen enthält, die noch nicht gespeichert wurden, {@code false} falls das
      * Dokument neu und unverändert oder frisch gelesen oder gespeichert wurde.
@@ -126,6 +138,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      * Listener, der auf Änderungen an den im Dokument enthaltenen Fehlern reagiert.
      */
     private final ErrorListener errorListener = this::errorsChanged;
+
+    private List<UndoableEditListener> undoableEditListeners = new ArrayList<>();
 
     /**
      * Erstellt ein neues EditorPane-Objekt mit den übergebenen Daten.
@@ -157,6 +171,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
             loadTemplate(path, charset);
         }
         addCaretListener(event -> fireStatusEvent(event.getDot()));
+        undoManager = new ContiguousUpdateManager(this);
+        getDocument().addUndoableEditListener(this::undoableEditHappened);
     }
 
     /**
@@ -447,5 +463,41 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
     @SuppressWarnings("unchecked")
     public AntlrDocument<TemplateFileContext> getAntlrDocument() {
         return (AntlrDocument<TemplateFileContext>) getDocument();
+    }
+
+    public void undoableEditHappened(final UndoableEditEvent editEvent) {
+        undoableEditListeners.forEach(listener -> listener.undoableEditHappened(editEvent));
+    }
+
+    public void undo() {
+        try {
+            undoManager.undo();
+        } catch (final CannotUndoException cue) {
+            LOGGER.info("Can not undo.", cue);
+        }
+    }
+
+    public void redo() {
+        try {
+            undoManager.redo();
+        } catch (final CannotRedoException cre) {
+            LOGGER.info("Can not redo.", cre);
+        }
+    }
+
+    public boolean canUndo() {
+        return undoManager.canUndo();
+    }
+
+    public boolean canRedo() {
+        return undoManager.canRedo();
+    }
+
+    public void addUndoableEditListener(final UndoableEditListener listener) {
+        undoableEditListeners.add(listener);
+    }
+
+    public void removeUndoableEditListener(final UndoableEditListener listener) {
+        undoableEditListeners.remove(listener);
     }
 }

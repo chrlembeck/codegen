@@ -30,6 +30,7 @@ import de.chrlembeck.codegen.gui.IconFactory;
 import de.chrlembeck.codegen.gui.TabComponent;
 import de.chrlembeck.codegen.gui.TemplatePanel;
 import de.chrlembeck.codegen.gui.UserSettings;
+import de.chrlembeck.codegen.gui.dialog.DebugDialog;
 import de.chrlembeck.codegen.gui.dialog.GenerateDialog;
 import de.chrlembeck.codegen.gui.dialog.GenerateDialog.OutputSelection;
 
@@ -126,9 +127,13 @@ public class GenerateAction extends AbstractAction {
             final TemplateStatement selectedTemplate = generateDialog.getSelectedTemplate();
             generate(generator, templateFile, selectedTemplate.getName());
             if (debugEnabled && outputSelection == OutputSelection.APPLICATION_OUTPUT) {
-                JOptionPane.showMessageDialog(codeGenGui, "Debug");
+                openDebugDialog(generator.getGeneratorOutput());
             }
         }
+    }
+
+    private void openDebugDialog(final GeneratorOutput generatorOutput) {
+        new DebugDialog(codeGenGui, (GuiDebugOutput) generatorOutput).setVisible(true);
     }
 
     /**
@@ -178,7 +183,7 @@ public class GenerateAction extends AbstractAction {
         if (includeDebug) {
             final FileOutput<HTMLDebugGeneratorWriter> debugOutput = new FileOutput<>(
                     debugOutputDirectory,
-                    (writer, channelName) -> new HTMLDebugGeneratorWriter(writer, channelName));
+                    (writer, channelName, path) -> new HTMLDebugGeneratorWriter(writer, channelName, path.toFile()));
             debugOutput.setSuffix(".html");
             out = new CombinedGeneratorOutput(out, debugOutput);
         }
