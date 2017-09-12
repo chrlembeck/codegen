@@ -20,7 +20,7 @@ public class Generator {
     /**
      * Verwalter für die Ausgaben des Generators.
      */
-    private GeneratorOutput output;
+    private GeneratorOutput generatorOutput;
 
     /**
      * Detaileinstellungen zu der Art und Weise der Ausgaben.
@@ -51,7 +51,7 @@ public class Generator {
     public Generator(final TemplateResolver resolver, final GeneratorOutput output,
             final OutputPreferences outputPreferences) {
         this.templateResolver = resolver;
-        this.output = output;
+        this.generatorOutput = output;
         this.outputPreferences = outputPreferences;
     }
 
@@ -130,6 +130,10 @@ public class Generator {
      *             Falls bei der Erzeugung des Writers eine Exception aufgetreten ist.
      */
     public GeneratorWriter getWriter(final String channelName) throws IOException {
-        return output.getWriter(channelName, outputPreferences);
+        return generatorOutput.getWriter(channelName, outputPreferences);
+    }
+
+    public GeneratorOutput getGeneratorOutput() {
+        return generatorOutput;
     }
 }

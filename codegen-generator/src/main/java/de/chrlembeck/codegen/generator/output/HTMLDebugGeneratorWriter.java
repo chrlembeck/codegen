@@ -1,6 +1,7 @@
 package de.chrlembeck.codegen.generator.output;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,9 +37,12 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private String channelName;
 
-    public HTMLDebugGeneratorWriter(final Writer writer, final String channelName) {
+    private File outputFile;
+
+    public HTMLDebugGeneratorWriter(final Writer writer, final String channelName, final File outputFile) {
         this.writer = Objects.requireNonNull(writer);
         this.channelName = channelName;
+        this.outputFile = outputFile;
     }
 
     @Override
@@ -240,5 +244,9 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
             return "&raquo;";
         }
         return Character.toString(nextChar);
+    }
+
+    public File getOutputFile() {
+        return outputFile;
     }
 }
