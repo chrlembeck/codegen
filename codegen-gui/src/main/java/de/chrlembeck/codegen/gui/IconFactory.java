@@ -89,7 +89,15 @@ public enum IconFactory {
 
     UNDO_32("undo_32.png"),
 
-    REDO_32("redo_32.png");
+    REDO_32("redo_32.png"),
+
+    FIND_32("find_32.png"),
+
+    CUT_32("cut_32.png"),
+
+    COPY_32("copy_32.png"),
+
+    PASTE_32("paste_32.png");
 
     /**
      * Logger für die Klasse.

@@ -80,20 +80,22 @@ public abstract class AbstractDialog extends JDialog implements ComponentListene
 
     protected abstract JPanel createMainPanel();
 
-    public void addButton(final Action action) {
-        buttonPanel.add(new JButton(action));
+    public JButton addButton(final Action action) {
+        final JButton button = new JButton(action);
+        buttonPanel.add(button);
+        return button;
     }
 
-    public void addCancelButton() {
-        addCancelButton("Abbrechen", KeyEvent.VK_C, IconFactory.CANCEL_22.icon());
+    public JButton addCancelButton() {
+        return addCancelButton("Abbrechen", KeyEvent.VK_C, IconFactory.CANCEL_22.icon());
     }
 
-    public void addCancelButton(final String text, final int mnemonic, final Icon icon) {
-        addButton(new CloseAction(text, RESULT_CANCEL, mnemonic, icon));
+    public JButton addCancelButton(final String text, final int mnemonic, final Icon icon) {
+        return addButton(new CloseAction(text, RESULT_CANCEL, mnemonic, icon));
     }
 
-    public void addOKButton(final String title, final int mnemonic, final Icon icon) {
-        addButton(new CloseAction(title, RESULT_OK, mnemonic, icon));
+    public JButton addOKButton(final String title, final int mnemonic, final Icon icon) {
+        return addButton(new CloseAction(title, RESULT_OK, mnemonic, icon));
     }
 
     class CloseAction extends AbstractAction {

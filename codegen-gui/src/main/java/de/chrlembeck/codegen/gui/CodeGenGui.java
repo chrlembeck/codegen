@@ -25,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -52,11 +53,15 @@ import org.slf4j.LoggerFactory;
 import de.chrlembeck.codegen.generator.Position;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.action.CloseApplicationAction;
+import de.chrlembeck.codegen.gui.action.CopyAction;
+import de.chrlembeck.codegen.gui.action.CutAction;
+import de.chrlembeck.codegen.gui.action.FindAction;
 import de.chrlembeck.codegen.gui.action.GenerateAction;
 import de.chrlembeck.codegen.gui.action.InsertDoubleAngleQuotationMarksAction;
 import de.chrlembeck.codegen.gui.action.LoadModelAction;
 import de.chrlembeck.codegen.gui.action.LoadTemplateAction;
 import de.chrlembeck.codegen.gui.action.NewTemplateAction;
+import de.chrlembeck.codegen.gui.action.PasteAction;
 import de.chrlembeck.codegen.gui.action.RedoAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
@@ -320,6 +325,10 @@ public class CodeGenGui extends JFrame implements TabListener {
         btSaveTemplateAs = createToolBarButton(new SaveTemplateAsAction(this, true));
         btUndo = createToolBarButton(new UndoAction(this));
         btRedo = createToolBarButton(new RedoAction(this));
+        final JButton btFind = createToolBarButton(new FindAction(this));
+        final JButton btCut = createToolBarButton(new CutAction(this));
+        final JButton btCopy = createToolBarButton(new CopyAction(this));
+        final JButton btPaste = createToolBarButton(new PasteAction(this));
 
         btInsertBraces = createToolBarButton(new InsertDoubleAngleQuotationMarksAction(this));
         btExecuteTemplate = createToolBarButton(new GenerateAction(this));
@@ -332,6 +341,11 @@ public class CodeGenGui extends JFrame implements TabListener {
         toolBar.add(btUndo);
         toolBar.add(btRedo);
         toolBar.addSeparator();
+        toolBar.add(btCut);
+        toolBar.add(btCopy);
+        toolBar.add(btPaste);
+        toolBar.addSeparator();
+        toolBar.add(btFind);
         toolBar.add(btInsertBraces);
         toolBar.add(btExecuteTemplate);
 
@@ -355,6 +369,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setText(null);
+        button.setFocusable(false);
         return button;
     }
 
@@ -370,6 +385,11 @@ public class CodeGenGui extends JFrame implements TabListener {
         miLoadModel = new JMenuItem(new LoadModelAction(this, false));
         miUndo = new JMenuItem(new UndoAction(this));
         miRedo = new JMenuItem(new RedoAction(this));
+        final JMenuItem miFind = new JMenuItem(new FindAction(this));
+        final JMenuItem miCut = new JMenuItem(new CutAction(this));
+        final JMenuItem miCopy = new JMenuItem(new CopyAction(this));
+        final JMenuItem miPaste = new JMenuItem(new PasteAction(this));
+
         final JMenuItem miSettings = new JMenuItem(new SettingsAction(this));
 
         final JMenu fileMenu = new JMenu("Datei");
@@ -382,6 +402,12 @@ public class CodeGenGui extends JFrame implements TabListener {
         editMenu.setMnemonic(KeyEvent.VK_B);
         editMenu.add(miUndo);
         editMenu.add(miRedo);
+        editMenu.add(new JSeparator());
+        editMenu.add(miFind);
+        editMenu.add(new JSeparator());
+        editMenu.add(miCut);
+        editMenu.add(miCopy);
+        editMenu.add(miPaste);
 
         final JMenu templateMenu = new JMenu("Template");
         templateMenu.setMnemonic(KeyEvent.VK_T);
