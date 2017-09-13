@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentEvent.EventType;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.PlainDocument;
+import javax.swing.text.Segment;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStreams;
@@ -543,5 +546,32 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      */
     public void removeErrorListener(final ErrorListener errorListener) {
         this.errorListeners.remove(errorListener);
+    }
+
+    /**
+     * Erstellt einen Matcher zur Suche nach Ausdrücken innerhalb des Dokuments.
+     * 
+     * @param expr
+     *            Ausdruck, nach dem der Matcher suchen soll.
+     * @param startIdx
+     *            Index des Zeichens, ab dem die Suche beginnen soll.
+     * @param length
+     *            Anzahl der Zeichen, die zur Suche herangezogen werden sollen.
+     * @param caseSensitive
+     *            {@code true}, falls Groß- und Kleinschreibung berücksichtigt werden sollen, {@code false} falls die
+     *            Groß- und Kleinschreibung bei der Suche nicht relevant sind.
+     * @return Matcher zur Ausführung der Suche.
+     */
+    public Matcher find(final String expr, final int startIdx, final int length, final boolean caseSensitive) {
+        final Pattern pattern = Pattern.compile(expr, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
+        final Segment segment = new Segment();
+        try {
+            getText(startIdx, Math.max(length, getLength() - startIdx), segment);
+            final Matcher matcher = pattern.matcher(segment);
+            return matcher;
+        } catch (final BadLocationException e) {
+            LOGGER.error("Bad Location: " + e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }
