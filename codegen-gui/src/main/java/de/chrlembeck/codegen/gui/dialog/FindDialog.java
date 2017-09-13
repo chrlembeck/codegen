@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.regex.Matcher;
 
 import javax.swing.AbstractAction;
@@ -62,26 +61,6 @@ public class FindDialog extends AbstractDialog {
         tfFindExpression = new JTextField("");
         cbCaseSensitive = new JCheckBox("Groß-/Kleinschreibung beachten");
 
-        tfFindExpression.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(final KeyEvent e) {
-                System.out.println(
-                        "char=" + e.getKeyChar() + ", code=" + e.getKeyCode() + ", extended" + e.getExtendedKeyCode()
-                                + ", param=" + e.paramString());
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(final KeyEvent e) {
-
-            }
-        });
         final JPanel pnOptions = new JPanel();
         pnOptions.setLayout(new GridBagLayout());
         pnOptions.setBorder(
