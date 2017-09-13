@@ -20,6 +20,7 @@ import de.chrlembeck.antlr.editor.ErrorListener;
 import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.grammar.CodeGenLexer;
+import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 
 /**
  * TabbedPane, welche die Fenster der Editoren für die Template-Dateien verwaltet und anzeigt.
@@ -106,8 +107,10 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     public void newTemplate() {
         final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"), tokenStyles);
         addTabComponent(templatePanel, null, true);
-        templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
-        templatePanel.getEditorPane().addUndoableEditListener(this::undoableEditHappened);
+        final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+        editorPane.addErrorListener(this::errorsChanged);
+        editorPane.addUndoableEditListener(this::undoableEditHappened);
+        editorPane.grabFocus();
     }
 
     /**
@@ -185,8 +188,10 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     public void loadTemplate(final Path path, final Charset charset) {
         final TemplatePanel templatePanel = new TemplatePanel(path, charset, tokenStyles);
         addTabComponent(templatePanel, null, true);
-        templatePanel.getEditorPane().addErrorListener(this::errorsChanged);
-        templatePanel.getEditorPane().addUndoableEditListener(this::undoableEditHappened);
+        final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+        editorPane.addErrorListener(this::errorsChanged);
+        editorPane.addUndoableEditListener(this::undoableEditHappened);
+        editorPane.grabFocus();
     }
 
     /**

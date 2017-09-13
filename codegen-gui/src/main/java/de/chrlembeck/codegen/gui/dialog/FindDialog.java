@@ -4,20 +4,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 
 import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import de.chrlembeck.antlr.editor.AntlrDocument;
+import de.chrlembeck.antlr.editor.action.InsertAction;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
@@ -59,7 +65,11 @@ public class FindDialog extends AbstractDialog {
         panel.setLayout(new GridBagLayout());
         final JLabel lbFindExpression = new JLabel("Suche");
         tfFindExpression = new JTextField("");
+        lbFindExpression.setLabelFor(tfFindExpression);
+        lbFindExpression.setDisplayedMnemonic(KeyEvent.VK_U);
+        initInputActions();
         cbCaseSensitive = new JCheckBox("Groß-/Kleinschreibung beachten");
+        cbCaseSensitive.setMnemonic(KeyEvent.VK_G);
 
         final JPanel pnOptions = new JPanel();
         pnOptions.setLayout(new GridBagLayout());
@@ -78,6 +88,23 @@ public class FindDialog extends AbstractDialog {
                         GridBagConstraints.HORIZONTAL, new Insets(0, 0, 10, 0), 0, 0));
 
         return panel;
+    }
+
+    private void initInputActions() {
+        final ActionMap actionMap = tfFindExpression.getActionMap();
+        actionMap.put(TemplateEditorPane.ACTION_INSERT_BRACES, new InsertAction("\u00ab", "\u00bb", 1, false));
+        actionMap.put(TemplateEditorPane.ACTION_INSERT_LPAR, new InsertAction("\u00ab", null, 1, true));
+        actionMap.put(TemplateEditorPane.ACTION_INSERT_RPAR, new InsertAction("\u00bb", null, 1, true));
+
+        final InputMap inputMap = tfFindExpression.getInputMap(JComponent.WHEN_FOCUSED);
+        final KeyStroke ksLpar = KeyStroke.getKeyStroke(KeyEvent.VK_LESS, InputEvent.CTRL_DOWN_MASK);
+        final KeyStroke ksRpar = KeyStroke.getKeyStroke(KeyEvent.VK_LESS,
+                InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK);
+        final KeyStroke ksCtrlB = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK);
+        inputMap.put(ksCtrlB, TemplateEditorPane.ACTION_INSERT_BRACES);
+        inputMap.put(ksLpar, TemplateEditorPane.ACTION_INSERT_LPAR);
+        inputMap.put(ksRpar, TemplateEditorPane.ACTION_INSERT_RPAR);
+
     }
 
     class FindButtonAction extends AbstractAction {

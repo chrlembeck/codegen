@@ -82,12 +82,12 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
     /**
      * Name der Action zum Einfügen einer rechten doppelten spitzen Klammer.
      */
-    private static final String ACTION_INSERT_RPAR = "ACTION_INSERT_RPAR";
+    public static final String ACTION_INSERT_RPAR = "ACTION_INSERT_RPAR";
 
     /**
      * Name der Action zum Einfügen einer linken doppelten spitzen Klammer.
      */
-    private static final String ACTION_INSERT_LPAR = "ACTION_INSERT_LPAR";
+    public static final String ACTION_INSERT_LPAR = "ACTION_INSERT_LPAR";
 
     /**
      * Name der Action zum Einfügen des Grundgerüsts einer Template-Definition.
@@ -148,7 +148,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      *            Pfad zu der enthaltenen Datei, falls diese geladen wurde oder {@code null}, falls das Dokument gerade
      *            neu erzeut wurde.
      * @param charset
-     *            Encoding der zu bearbeitenden Datei, falls dies bekannt ist.
+     *            Encoding der zu bearbeitenden Datei, falls dieses bekannt ist.
      * @param tokenStyles
      *            Zuordnung der Token zu ihren Darstellungseigenschaften.
      */
