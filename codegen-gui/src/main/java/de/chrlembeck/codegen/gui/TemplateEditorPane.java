@@ -72,7 +72,7 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
      */
     private static final long serialVersionUID = -7817592231847982962L;
 
-    private static Logger LOGGER = LoggerFactory.getLogger(TemplateEditorPane.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateEditorPane.class);
 
     /**
      * Name der Action zum Einfügen eines Paars doppelter spitzer Klammern.
