@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import de.chrlembeck.codegen.generator.output.GeneratorOutput;
@@ -30,7 +32,9 @@ public class GuiDebugOutput implements GeneratorOutput {
         tempFile.deleteOnExit();
         final Writer writer = new OutputStreamWriter(new FileOutputStream(tempFile),
                 prefs.getCharsetForChannel(channelName));
-        final HTMLDebugGeneratorWriter debugWriter = new HTMLDebugGeneratorWriter(writer, channelName, tempFile);
+        final String tokenCSS = codeGenGui.getTokenStyles().toCSS();
+        final HTMLDebugGeneratorWriter debugWriter = new HTMLDebugGeneratorWriter(writer, channelName, tempFile,
+                tokenCSS);
         writers.put(channelName, debugWriter);
         return debugWriter;
     }
@@ -52,5 +56,27 @@ public class GuiDebugOutput implements GeneratorOutput {
 
     public Map<String, HTMLDebugGeneratorWriter> getWriters() {
         return writers;
+    }
+
+    public File writeSummary() throws IOException {
+        final File tempFile = File.createTempFile("codegen_debug_summary_", ".html");
+        tempFile.deleteOnExit();
+        try (final Writer writer = new OutputStreamWriter(new FileOutputStream(tempFile), Charset.forName("UTF-8"))) {
+            writer.append("<!DOCTYPE html>\n<html>\n<head>\n");
+            writer.append("<body>\n");
+            writer.append("<ul>\n");
+            for (final Entry<String, HTMLDebugGeneratorWriter> entry : getWriters().entrySet()) {
+                final HTMLDebugGeneratorWriter debugWriter = entry.getValue();
+                writer.append("<li><a href=\"");
+                writer.append(debugWriter.getOutputFile().toURI().toURL().toString());
+                writer.append("\">");
+                writer.append(entry.getKey() + " (" + debugWriter.getCharacterCount() + " Zeichen, "
+                        + debugWriter.getLineCount() + " Zeilen)");
+                writer.append("</a></li>\n");
+            }
+            writer.append("</ul>\n");
+            writer.append("</body>\n</html>");
+        }
+        return tempFile;
     }
 }

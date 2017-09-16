@@ -75,7 +75,7 @@ public abstract class AbstractDialog extends JDialog implements ComponentListene
         setMinimumSize(getPreferredSize());
         pack();
         addComponentListener(this);
-        SwingUtil.centerOnScreen(this);
+        SwingUtil.centerToScreen(this);
     }
 
     protected abstract JPanel createMainPanel();

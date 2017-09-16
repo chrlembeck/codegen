@@ -1,5 +1,6 @@
 package de.chrlembeck.codegen.gui.action;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.GeneratorException;
 import de.chrlembeck.codegen.generator.ParserException;
@@ -133,7 +135,14 @@ public class GenerateAction extends AbstractAction {
     }
 
     private void openDebugDialog(final GeneratorOutput generatorOutput) {
-        new DebugDialog(codeGenGui, (GuiDebugOutput) generatorOutput).setVisible(true);
+        final GuiDebugOutput debugOutput = (GuiDebugOutput) generatorOutput;
+        new DebugDialog(codeGenGui, debugOutput).setVisible(true);
+        try {
+            Desktop.getDesktop().browse(debugOutput.writeSummary().toURI());
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -181,9 +190,12 @@ public class GenerateAction extends AbstractAction {
             final Path debugOutputDirectory) {
         GeneratorOutput out = FileOutput.simpleTextOutput(outputDirectory);
         if (includeDebug) {
+            final TokenStyleRepository tokenStyles = codeGenGui.getTokenStyles();
+            final String tokenCSS = tokenStyles.toCSS();
             final FileOutput<HTMLDebugGeneratorWriter> debugOutput = new FileOutput<>(
                     debugOutputDirectory,
-                    (writer, channelName, path) -> new HTMLDebugGeneratorWriter(writer, channelName, path.toFile()));
+                    (writer, channelName, path) -> new HTMLDebugGeneratorWriter(writer, channelName, path.toFile(),
+                            tokenCSS));
             debugOutput.setSuffix(".html");
             out = new CombinedGeneratorOutput(out, debugOutput);
         }

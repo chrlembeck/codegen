@@ -3,6 +3,7 @@ package de.chrlembeck.antlr.editor;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.antlr.v4.runtime.Token;
@@ -84,5 +85,20 @@ public class TokenStyleRepository {
         } else {
             styles.put(tokenType, style);
         }
+    }
+
+    /**
+     * Gibt CSS-Stildefinitionen für die in dem Repository enthaltenen Tokenstile zurück.
+     * 
+     * @return CSS-Stildefinitionen für die in dem Repository enthaltenen Tokenstile.
+     */
+    public String toCSS() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(".token_default {" + DEFAULT.toCSS() + "}\n");
+        sb.append(".token_no_token {" + NO_TOKEN_STYLE.toCSS() + "}\n");
+        for (final Entry<Integer, TokenStyle> entry : styles.entrySet()) {
+            sb.append(".token_" + entry.getKey() + " {" + entry.getValue().toCSS() + "}\n");
+        }
+        return sb.toString();
     }
 }

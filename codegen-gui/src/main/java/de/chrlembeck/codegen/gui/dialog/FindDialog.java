@@ -50,7 +50,7 @@ public class FindDialog extends AbstractDialog {
 
         addCancelButton("Schließen", KeyEvent.VK_C, IconFactory.CANCEL_32.icon());
         pack();
-        SwingUtil.centerOnScreen(this);
+        SwingUtil.centerToScreen(this);
     }
 
     private AntlrDocument<TemplateFileContext> getDocument() {

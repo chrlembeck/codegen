@@ -39,10 +39,18 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private File outputFile;
 
-    public HTMLDebugGeneratorWriter(final Writer writer, final String channelName, final File outputFile) {
+    private long characterCount;
+
+    private long lineCount = 1;
+
+    private String tokenStyles;
+
+    public HTMLDebugGeneratorWriter(final Writer writer, final String channelName, final File outputFile,
+            final String tokenStyles) {
         this.writer = Objects.requireNonNull(writer);
         this.channelName = channelName;
         this.outputFile = outputFile;
+        this.tokenStyles = tokenStyles;
     }
 
     @Override
@@ -89,6 +97,7 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private void append(final String text, final String infoText, final int templateFileIdx, final Token token)
             throws IOException {
+        updateStatistics(text);
         if (!headerWritten) {
             writeHeader();
             headerWritten = true;
@@ -108,6 +117,11 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
         // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip
     }
 
+    private void updateStatistics(final String text) {
+        characterCount += text.length();
+        lineCount += text.chars().parallel().filter(ch -> ch == '\n').count();
+    }
+
     private CharSequence escape(final String text) {
         return text.replaceAll("&", "&amp;").replaceAll("\"", "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
                 .replaceAll("'", "&apos;").replaceAll(" ", "&#x22C5;").replaceAll("\n", "&#x21B5;\n");
@@ -123,6 +137,10 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
         writer.append("<!DOCTYPE html>\n<html>\n<head>\n");
         writer.append("<style>\n");
         inlineFile(DEBUG_HTML_STYLE);
+        if (tokenStyles != null) {
+            writer.append(tokenStyles);
+            writer.append("\n");
+        }
         writer.append("</style>\n");
         writer.append("<script>\n");
         inlineFile(DEBUG_HTML_JAVASCRIPT);
@@ -190,7 +208,8 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private void appendSourceToken(final Token token, final String tokenText, final int templateIdx)
             throws IOException {
-        writer.append("<span id=\"token_" + templateIdx + "_" + token.getTokenIndex() + "\">");
+        writer.append("<span id=\"token_" + templateIdx + "_" + token.getTokenIndex() + "\" class=\"token_"
+                + token.getType() + "\">");
         writer.append(tokenText + "</span>");
     }
 
@@ -248,5 +267,13 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     public File getOutputFile() {
         return outputFile;
+    }
+
+    public long getCharacterCount() {
+        return characterCount;
+    }
+
+    public long getLineCount() {
+        return lineCount;
     }
 }

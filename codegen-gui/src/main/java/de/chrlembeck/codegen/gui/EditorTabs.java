@@ -1,8 +1,6 @@
 package de.chrlembeck.codegen.gui;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -66,11 +64,14 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
      */
     public TokenStyleRepository createTokenStyles() {
         final TokenStyleRepository styles = new TokenStyleRepository();
-        final TokenStyle keywordStyle = new TokenStyle(new Color(127, 0, 85), Font.BOLD);
-        final TokenStyle javaPrimaryType = new TokenStyle(new Color(180, 0, 60), Font.BOLD);
-        final TokenStyle stringLiteral = new TokenStyle(new Color(42, 0, 255), Font.PLAIN);
-        final TokenStyle errorStyle = new TokenStyle(new Color(220, 0, 0), Font.ITALIC);
-        styles.putStyle(CodeGenLexer.BlockComment, new TokenStyle(new Color(63, 127, 95), Font.ITALIC));
+        final UserSettings settings = new UserSettings();
+
+        final TokenStyle keywordStyle = settings.getKeywordTokenStyle();
+        final TokenStyle javaPrimaryType = settings.getJavaPrimaryTypeTokenStyle();
+        final TokenStyle stringLiteral = settings.getStringLiteralTokenStyle();
+        final TokenStyle errorStyle = settings.getErrorTokenStyle();
+        final TokenStyle commentStyle = settings.getCommentTokenStyle();
+        styles.putStyle(CodeGenLexer.BlockComment, commentStyle);
         styles.putStyle(CodeGenLexer.IMPORT, keywordStyle);
         styles.putStyle(CodeGenLexer.AS, keywordStyle);
         styles.putStyle(CodeGenLexer.TEMPLATE, keywordStyle);
@@ -251,5 +252,9 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
 
     void undoableEditHappened(final UndoableEditEvent editEvent) {
         undoableEditListeners.forEach(listener -> listener.undoableEditHappened(editEvent));
+    }
+
+    public TokenStyleRepository getTokenStyles() {
+        return tokenStyles;
     }
 }

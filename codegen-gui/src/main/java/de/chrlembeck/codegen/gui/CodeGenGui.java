@@ -50,6 +50,7 @@ import org.jdesktop.swingx.treetable.TreeTableNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.Position;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.action.CloseApplicationAction;
@@ -231,7 +232,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         initCloseMechanism();
         pack();
         setSize(Math.max(1200, getWidth()), Math.max(800, getHeight()));
-        SwingUtil.centerOnScreen(this);
+        SwingUtil.centerToScreen(this);
         setVisible(true);
         spMain.setDividerLocation(0.7d);
         spEditorModel.setDividerLocation(0.8d);
@@ -756,5 +757,9 @@ public class CodeGenGui extends JFrame implements TabListener {
 
     public void undoableEditHappened(final UndoableEditEvent editEvent) {
         updateUndoRedoState();
+    }
+
+    public TokenStyleRepository getTokenStyles() {
+        return editorTabs.getTokenStyles();
     }
 }

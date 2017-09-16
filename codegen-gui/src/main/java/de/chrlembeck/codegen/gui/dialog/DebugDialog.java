@@ -22,7 +22,6 @@ import de.chrlembeck.util.swing.SwingUtil;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class DebugDialog extends AbstractDialog {
@@ -42,7 +41,7 @@ public class DebugDialog extends AbstractDialog {
         addCancelButton("Schließen", KeyEvent.VK_C, IconFactory.CANCEL_22.icon());
         setVisible(true);
         pack();
-        SwingUtil.centerOnScreen(this);
+        SwingUtil.centerToScreen(this);
     }
 
     private void initCBchannel() {
@@ -57,8 +56,6 @@ public class DebugDialog extends AbstractDialog {
         Platform.runLater(() -> {
             webView = new WebView();
             jxPanel.setScene(new Scene(webView));
-            final WebEngine engine = webView.getEngine();
-            engine.loadContent("<html><body>hello</body></html>");
         });
     }
 
