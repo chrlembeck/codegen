@@ -1,4 +1,4 @@
-# codegen
+# codegen https://travis-ci.org/chrlembeck/codegen.svg?branch=master
 A Java based code generator that generates arbitrary text artifacts using templates and arbitrary POJOs as models
 
 # *Work in progress*
