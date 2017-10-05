@@ -17,3 +17,5 @@ antlr-editorkit/target/
 target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml
 target/
 *.eclipse-pmd
+codegen-modeller/testDB/
+codegen-modeller/derby.log

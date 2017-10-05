@@ -159,8 +159,7 @@ public class AntlrDocument<T extends ParserRuleContext> extends PlainDocument {
      */
     public List<Token> getTokenSubList(final int start, final int end) {
         if (tokens == null || tokens.isEmpty()) {
-            @SuppressWarnings("unchecked")
-            final List<Token> emptyList = Collections.EMPTY_LIST;
+            final List<Token> emptyList = Collections.emptyList();
             return emptyList;
         }
         final int startIndex = TokenUtil.findTokenIndex(tokens, start);

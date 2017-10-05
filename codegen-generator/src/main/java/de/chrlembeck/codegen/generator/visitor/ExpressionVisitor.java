@@ -127,8 +127,7 @@ public class ExpressionVisitor extends CodeGenParserBaseVisitor<Expression> {
     @Override
     public Expression visitExpressionMethodCall(final ExpressionMethodCallContext ctx) {
         final Expression methodExpression = ctx.expression().accept(this);
-        @SuppressWarnings("unchecked")
-        List<Expression> arguments = Collections.EMPTY_LIST;
+        List<Expression> arguments = Collections.emptyList();
         if (ctx.expressionList() != null) {
             arguments = ctx.expressionList().accept(new ExpressionListVisitor());
         }
