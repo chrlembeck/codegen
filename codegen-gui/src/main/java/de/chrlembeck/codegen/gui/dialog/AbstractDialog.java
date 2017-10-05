@@ -58,7 +58,7 @@ public abstract class AbstractDialog extends JDialog implements ComponentListene
 
     private void init() {
         setLayout(new BorderLayout());
-        final JPanel mainPanel = createMainPanel();
+        final JComponent mainPanel = createMainPanel();
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
@@ -78,7 +78,7 @@ public abstract class AbstractDialog extends JDialog implements ComponentListene
         SwingUtil.centerToScreen(this);
     }
 
-    protected abstract JPanel createMainPanel();
+    protected abstract JComponent createMainPanel();
 
     public JButton addButton(final Action action) {
         final JButton button = new JButton(action);

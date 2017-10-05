@@ -54,6 +54,8 @@ public class UserSettings {
 
     private static final String TOKEN_STYLE_COMMENT_COLOR = "tsCommentColor";
 
+    private static final String LAST_CLASSPATH_DIRECTORY = "classpathDir";
+
     private final Preferences preferences = Preferences.userNodeForPackage(CodeGenGui.class);;
 
     /**
@@ -161,6 +163,23 @@ public class UserSettings {
                 throw new IllegalArgumentException("Path is not a directory: " + path);
             }
             preferences.put(LAST_DEBUG_OUTPUT_DIRECTORY, path.toString());
+        }
+    }
+
+    public Path getLastClasspathDirectory() {
+        final String dir = preferences.get(LAST_CLASSPATH_DIRECTORY, null);
+        if (dir != null) {
+            return FileSystems.getDefault().getPath(dir);
+        }
+        return FileSystems.getDefault().getPath(System.getProperty("user.home"));
+    }
+
+    public void setLastClasspathDirectory(Path path) {
+        if (!Files.isDirectory(path)) {
+            path = path.getParent();
+        }
+        if (path != null) {
+            preferences.put(LAST_CLASSPATH_DIRECTORY, path.toString());
         }
     }
 

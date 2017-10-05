@@ -16,6 +16,8 @@ import de.chrlembeck.codegen.gui.IconFactory;
 
 public class DirectoryTextField extends JPanel {
 
+    private static final long serialVersionUID = -5153181152417036810L;
+
     private JTextField tfDirectory;
 
     private JButton btChoose;

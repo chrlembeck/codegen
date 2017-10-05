@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
+import de.chrlembeck.codegen.gui.dialog.SettingsDialog;
 
 /**
  * Action zum Aufrufen des Dialogs zur Verwaltung der Anwendungseinstellungen.
@@ -45,7 +46,7 @@ public class SettingsAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(final ActionEvent event) {
-        System.out.println(codeGenGui);
-        // TODO implementieren
+        final SettingsDialog dialog = new SettingsDialog(codeGenGui);
+        dialog.setVisible(true);
     }
 }

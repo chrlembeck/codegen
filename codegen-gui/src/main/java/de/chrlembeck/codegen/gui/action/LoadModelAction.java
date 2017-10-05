@@ -2,11 +2,9 @@ package de.chrlembeck.codegen.gui.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -16,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.chrlembeck.codegen.generator.model.ModelFactory;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.UserSettings;
 
@@ -71,27 +70,29 @@ public class LoadModelAction extends AbstractAction {
     @Override
     public void actionPerformed(final ActionEvent event) {
         final FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Model Files", "smodel");
-        final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastModelDirectory(), filter);
+        final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastModelDirectory(), filter,
+                JFileChooser.FILES_ONLY);
         final int selection = chooser.showOpenDialog(codeGenGui);
         if (selection == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();
             new UserSettings().setLastModelDirectory(file.toPath());
+            loadModel(file);
+        }
+    }
 
-            try (FileInputStream fileIn = new FileInputStream(file);
-                    BufferedInputStream bufIn = new BufferedInputStream(fileIn);
-                    ObjectInputStream objectIn = new ObjectInputStream(bufIn)) {
-                final Object newModel = objectIn.readObject();
-                codeGenGui.setModel(file.getName(), newModel);
-            } catch (final IOException ioe) {
-                LOGGER.info("IOException beim Laden eines Models via readObject(). " + file.getAbsolutePath(), ioe);
-                JOptionPane.showMessageDialog(codeGenGui, "IO-Fehler beim Laden des Models.", "Fehler",
-                        JOptionPane.ERROR_MESSAGE);
-            } catch (final ClassNotFoundException cnfe) {
-                LOGGER.info("Modelklasse konnte beim Laden via readObject() nicht gefunden werden. "
-                        + file.getAbsolutePath(), cnfe);
-                JOptionPane.showMessageDialog(codeGenGui, "Fehler beim Deserialisieren des Models.", "Fehler",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+    private void loadModel(final File file) {
+        try (FileInputStream fileIn = new FileInputStream(file)) {
+            final Object newModel = ModelFactory.byDeserialization(fileIn, codeGenGui.getModelClassLoader());
+            codeGenGui.setModel(file.getName(), newModel);
+        } catch (final IOException ioe) {
+            LOGGER.info("IOException beim Laden eines Models via readObject(). " + file.getAbsolutePath(), ioe);
+            JOptionPane.showMessageDialog(codeGenGui, "IO-Fehler beim Laden des Models.", "Fehler",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (final ClassNotFoundException cnfe) {
+            LOGGER.info("Modelklasse konnte beim Laden via readObject() nicht gefunden werden. "
+                    + file.getAbsolutePath(), cnfe);
+            JOptionPane.showMessageDialog(codeGenGui, "Fehler beim Deserialisieren des Models.", "Fehler",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

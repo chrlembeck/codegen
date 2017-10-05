@@ -1,4 +1,4 @@
-package de.chrlembeck.codegen.model.gui;
+package de.chrlembeck.codegen.gui.datamodel;
 
 import java.util.Enumeration;
 

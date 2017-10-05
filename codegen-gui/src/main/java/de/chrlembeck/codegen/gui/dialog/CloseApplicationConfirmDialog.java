@@ -13,6 +13,8 @@ import de.chrlembeck.codegen.gui.IconFactory;
 
 public class CloseApplicationConfirmDialog extends AbstractDialog {
 
+    private static final long serialVersionUID = -9080133221662576832L;
+
     /**
      * Text der Schaltfläche zum Abbrechen der Aktion.
      */

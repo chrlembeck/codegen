@@ -62,7 +62,7 @@ public class LoadTemplateAction extends AbstractAction {
         final FileNameExtensionFilter filter = new FileNameExtensionFilter("Template Files", "codegen");
 
         final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastTemplateDirectory(),
-                filter);
+                filter, JFileChooser.FILES_ONLY);
         final int selection = chooser.showOpenDialog(codeGenGui);
         if (selection == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();

@@ -74,7 +74,7 @@ public class SaveTemplateAsAction extends AbstractAction {
         }
         final FileNameExtensionFilter filter = new FileNameExtensionFilter("Template Files", "codegen");
         final JFileChooser chooser = CodeGenGui.createFileChooser(new UserSettings().getLastTemplateDirectory(),
-                filter);
+                filter, JFileChooser.FILES_ONLY);
         do {
             final int selection = chooser.showSaveDialog(codeGenGui);
             if (selection == JFileChooser.APPROVE_OPTION) {

@@ -171,7 +171,8 @@ public class GenerateDialog extends AbstractDialog {
 
     public static void main(final String[] args) {
         CodeGenGui.setSystemLookAndFeel();
-        SwingUtilities.invokeLater(() -> new GenerateDialog(null, Collections.EMPTY_LIST, item -> "").setVisible(true));
+        SwingUtilities
+                .invokeLater(() -> new GenerateDialog(null, Collections.emptyList(), item -> "").setVisible(true));
     }
 
     public Path getOutputDirectory() {

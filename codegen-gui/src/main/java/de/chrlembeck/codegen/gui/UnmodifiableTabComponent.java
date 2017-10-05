@@ -9,6 +9,8 @@ import javax.swing.JScrollPane;
 
 public class UnmodifiableTabComponent extends JScrollPane implements TabComponent {
 
+    private static final long serialVersionUID = 3838149106330826649L;
+
     public UnmodifiableTabComponent(final JComponent component) {
         super(component);
     }

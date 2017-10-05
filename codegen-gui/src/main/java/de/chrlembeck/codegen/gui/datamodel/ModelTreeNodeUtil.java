@@ -1,4 +1,4 @@
-package de.chrlembeck.codegen.model.gui;
+package de.chrlembeck.codegen.gui.datamodel;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -125,7 +125,6 @@ public class ModelTreeNodeUtil {
     }
 
     public TreeTableNode[] getChildren(final ModelTreeTableNode node) {
-        System.out.println("getChildren");
         final Object userObject = node.getUserObject();
         if (userObject == null) {
             return LEAF_NODE;

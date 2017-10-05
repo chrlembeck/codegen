@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -54,12 +56,14 @@ import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.Position;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.action.CloseApplicationAction;
+import de.chrlembeck.codegen.gui.action.ConfigureClasspathAction;
 import de.chrlembeck.codegen.gui.action.CopyAction;
 import de.chrlembeck.codegen.gui.action.CutAction;
 import de.chrlembeck.codegen.gui.action.FindAction;
 import de.chrlembeck.codegen.gui.action.GenerateAction;
 import de.chrlembeck.codegen.gui.action.InsertDoubleAngleQuotationMarksAction;
 import de.chrlembeck.codegen.gui.action.LoadModelAction;
+import de.chrlembeck.codegen.gui.action.LoadModelByReflectionAction;
 import de.chrlembeck.codegen.gui.action.LoadTemplateAction;
 import de.chrlembeck.codegen.gui.action.NewTemplateAction;
 import de.chrlembeck.codegen.gui.action.PasteAction;
@@ -68,7 +72,7 @@ import de.chrlembeck.codegen.gui.action.SaveTemplateAction;
 import de.chrlembeck.codegen.gui.action.SaveTemplateAsAction;
 import de.chrlembeck.codegen.gui.action.SettingsAction;
 import de.chrlembeck.codegen.gui.action.UndoAction;
-import de.chrlembeck.codegen.model.gui.ModelTreeNodeUtil;
+import de.chrlembeck.codegen.gui.datamodel.ModelTreeNodeUtil;
 import de.chrlembeck.util.swing.SwingUtil;
 
 /**
@@ -145,6 +149,11 @@ public class CodeGenGui extends JFrame implements TabListener {
      * Referenz auf das zuletzt geladene Modell.
      */
     private Object model;
+
+    /**
+     * Liste der Classpath-Elemente zum Laden des Modells.
+     */
+    private URL[] modelClasspath = new URL[0];
 
     /**
      * Menüeintarg zum Anlegen eines neuen Templates
@@ -383,15 +392,17 @@ public class CodeGenGui extends JFrame implements TabListener {
         miLoadTemplate = new JMenuItem(new LoadTemplateAction(this, false));
         miSaveTemplate = new JMenuItem(new SaveTemplateAction(this, false));
         miSaveTemplateAs = new JMenuItem(new SaveTemplateAsAction(this, false));
-        miLoadModel = new JMenuItem(new LoadModelAction(this, false));
         miUndo = new JMenuItem(new UndoAction(this));
         miRedo = new JMenuItem(new RedoAction(this));
         final JMenuItem miFind = new JMenuItem(new FindAction(this));
         final JMenuItem miCut = new JMenuItem(new CutAction(this));
         final JMenuItem miCopy = new JMenuItem(new CopyAction(this));
         final JMenuItem miPaste = new JMenuItem(new PasteAction(this));
-
         final JMenuItem miSettings = new JMenuItem(new SettingsAction(this));
+
+        miLoadModel = new JMenuItem(new LoadModelAction(this, false));
+        final JMenuItem miConfigureModelClasspath = new JMenuItem(new ConfigureClasspathAction(this));
+        final JMenuItem miLoadModelReflection = new JMenuItem(new LoadModelByReflectionAction(this));
 
         final JMenu fileMenu = new JMenu("Datei");
         fileMenu.setMnemonic(KeyEvent.VK_D);
@@ -420,6 +431,9 @@ public class CodeGenGui extends JFrame implements TabListener {
         final JMenu modelMenu = new JMenu("Model");
         modelMenu.setMnemonic(KeyEvent.VK_M);
         modelMenu.add(miLoadModel);
+        modelMenu.add(miLoadModelReflection);
+        modelMenu.addSeparator();
+        modelMenu.add(miConfigureModelClasspath);
 
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu);
@@ -468,9 +482,10 @@ public class CodeGenGui extends JFrame implements TabListener {
      *            Filter für die anzuzeigenden Dateien.
      * @return Vorbereiteter Dialog zur Anzeige auf dem Bildschirm.
      */
-    public static JFileChooser createFileChooser(final Path directory, final FileNameExtensionFilter filter) {
+    public static JFileChooser createFileChooser(final Path directory, final FileNameExtensionFilter filter,
+            final int fileSelectionMode) {
         final JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setFileSelectionMode(fileSelectionMode);
         chooser.setFileFilter(filter);
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(directory.toFile());
@@ -761,5 +776,22 @@ public class CodeGenGui extends JFrame implements TabListener {
 
     public TokenStyleRepository getTokenStyles() {
         return editorTabs.getTokenStyles();
+    }
+
+    /**
+     * Gibt die Liste der Classpath-Elemente zum Laden des Modells zurück.
+     * 
+     * @return Liste der Classpath-Elemente zum Laden des Modells.
+     */
+    public URL[] getModelClasspath() {
+        return modelClasspath;
+    }
+
+    public void setModelClasspath(final URL[] modelClasspath) {
+        this.modelClasspath = modelClasspath;
+    }
+
+    public ClassLoader getModelClassLoader() {
+        return new URLClassLoader(getModelClasspath());
     }
 }
