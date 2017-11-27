@@ -11,6 +11,128 @@
     <artifactId>codegen-gui</artifactId>
     <name>Codegen GUI</name>
 
+
+    <profiles>
+        <profile>
+            <id>uml</id>
+            <activation>
+                <property>
+                    <name>uml</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>
+                            <execution>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>javadoc</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <doclet>org.umlgraph.doclet.UmlGraph</doclet>
+                            <docletPath>${basedir}/doclets/UmlGraph.jar</docletPath>
+                            <additionalparam>-views</additionalparam>
+                            <reportOutputDirectory>${project.reporting.outputDirectory}/</reportOutputDirectory>
+                            <destDir>uml</destDir>
+                            <useStandardDocletOptions>no</useStandardDocletOptions>
+                        </configuration>
+                    </plugin>
+                    <!-- mvn graphviz:dot -Duml=true -X -->
+                    <plugin>
+                        <groupId>us.bryon</groupId>
+                        <artifactId>graphviz-maven-plugin</artifactId>
+                        <version>1.0</version>
+
+                        <executions>
+                            <execution>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>dot</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+                        <configuration>
+                            <basedir>${project.reporting.outputDirectory}/uml</basedir>
+                            <destdir>${project.build.directory}/graphviz</destdir>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <build>
+        <plugins>
+
+           <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <tags>
+            <tag>
+              <name>depend</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>hidden</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>opt</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>assoc</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>has</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>composed</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>view</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>match</name>
+              <placement>X</placement>
+            </tag>
+          </tags>
+          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+          <docletPath>${basedir}/doclets/UmlGraph.jar</docletPath><!-- 
+          <additionalparam>-inferrel</additionalparam>
+          <additionalparam>-inferdep</additionalparam>
+          <additionalparam>-collapsible</additionalparam>
+          <additionalparam>-hide java.*</additionalparam> -->
+          <additionalparam>-compact</additionalparam>
+          <additionalparam>-subpackages de.chrlembeck</additionalparam>
+
+          <!-- 
+          <additionalparam>-collpackages</additionalparam>
+          <additionalparam>-qualify</additionalparam>
+          <additionalparam>-postfixpackage</additionalparam>
+          <additionalparam>-nodefontsize 9</additionalparam>
+          <additionalparam>-nodefontpackagesize 7</additionalparam>
+          <additionalparam>-link http://docs.oracle.com/javase/8/docs/jdk/api/javadoc/doclet/</additionalparam>
+          <additionalparam>-link http://download.oracle.com/javase/8/docs/api/</additionalparam> -->
+          <useStandardDocletOptions>true</useStandardDocletOptions>
+        </configuration>
+      </plugin>
+
+        </plugins>
+
+    </build>
     <dependencies>
         <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
@@ -20,12 +142,8 @@
             <groupId>de.chrlembeck.codegen</groupId>
             <artifactId>codegen-generator</artifactId>
         </dependency>
-        <!-- 
-        <dependency>
-            <groupId>de.chrlembeck.codegen</groupId>
-            <artifactId>codegen-modeller</artifactId>
-        </dependency>
-         -->
+        <!-- <dependency> <groupId>de.chrlembeck.codegen</groupId> <artifactId>codegen-modeller</artifactId> 
+            </dependency> -->
         <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>swingx</artifactId>
