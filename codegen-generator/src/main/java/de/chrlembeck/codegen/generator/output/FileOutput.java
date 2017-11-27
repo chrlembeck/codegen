@@ -23,17 +23,12 @@ import org.slf4j.LoggerFactory;
  */
 public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
 
-    public static FileOutput<TextGeneratorWriter> simpleTextOutput(final Path rootPath) {
-        return new FileOutput<TextGeneratorWriter>(rootPath,
-                (writer, channelName, path) -> new TextGeneratorWriter(writer));
-    }
-
-    private String suffix;
-
     /**
      * Der Logger für diese Klasse.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(FileOutput.class);
+
+    private String suffix;
 
     /**
      * Root-Verzeichnis, unterhalb dessen alle Ausgaben erstellt werden.
@@ -46,6 +41,11 @@ public class FileOutput<T extends GeneratorWriter> implements GeneratorOutput {
     private Map<String, T> writers = new TreeMap<>();
 
     private GeneratorWriterCreator<T> generatorWriterSupplier;
+
+    public static FileOutput<TextGeneratorWriter> simpleTextOutput(final Path rootPath) {
+        return new FileOutput<TextGeneratorWriter>(rootPath,
+                (writer, channelName, path) -> new TextGeneratorWriter(writer));
+    }
 
     /**
      * Erstellt einen neuen Verwalter mit dem angegebenen Verzeichnis als root-Verzeichnis.
