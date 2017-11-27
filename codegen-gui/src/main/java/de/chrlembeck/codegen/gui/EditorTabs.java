@@ -18,7 +18,6 @@ import de.chrlembeck.antlr.editor.ErrorListener;
 import de.chrlembeck.antlr.editor.TokenStyle;
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.grammar.CodeGenLexer;
-import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 
 /**
  * TabbedPane, welche die Fenster der Editoren für die Template-Dateien verwaltet und anzeigt.
@@ -48,7 +47,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     /**
      * Formatierungsregeln für die Template-Editoren.
      */
-    private TokenStyleRepository tokenStyles = createTokenStyles();
+    private TokenStyleRepository tokenStyles = initializeTokenStyles();
 
     private List<UndoableEditListener> undoableEditListeners = new ArrayList<>();
 
@@ -59,18 +58,33 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
         super(TOP, WRAP_TAB_LAYOUT);
     }
 
-    /**
-     * Initialisiert das Syntax-Highlighting für den Code-Editor.
-     */
-    public TokenStyleRepository createTokenStyles() {
-        final TokenStyleRepository styles = new TokenStyleRepository();
+    private TokenStyleRepository initializeTokenStyles() {
         final UserSettings settings = new UserSettings();
-
+        final TokenStyle defaultStyle = settings.getDefaultTokenStyle();
         final TokenStyle keywordStyle = settings.getKeywordTokenStyle();
-        final TokenStyle javaPrimaryType = settings.getJavaPrimaryTypeTokenStyle();
+        final TokenStyle javaPrimaryType = settings.getPrimitiveTypeTokenStyle();
         final TokenStyle stringLiteral = settings.getStringLiteralTokenStyle();
         final TokenStyle errorStyle = settings.getErrorTokenStyle();
         final TokenStyle commentStyle = settings.getCommentTokenStyle();
+        final TokenStyle literalStyle = settings.getLiteralTokenStyle();
+        return createTokenStyles(defaultStyle, keywordStyle, javaPrimaryType, stringLiteral, errorStyle, commentStyle,
+                literalStyle);
+    }
+
+    /**
+     * Initialisiert das Syntax-Highlighting für den Code-Editor.
+     * 
+     * @param commentStyle
+     * @param errorStyle
+     * @param stringLiteral
+     * @param javaPrimaryType
+     * @param keywordStyle
+     */
+    public static TokenStyleRepository createTokenStyles(final TokenStyle defaultStyle, final TokenStyle keywordStyle,
+            final TokenStyle javaPrimaryType, final TokenStyle stringLiteral, final TokenStyle errorStyle,
+            final TokenStyle commentStyle, final TokenStyle literalStyle) {
+        final TokenStyleRepository styles = new TokenStyleRepository();
+        styles.setDefaultStyle(defaultStyle);
         styles.putStyle(CodeGenLexer.BlockComment, commentStyle);
         styles.putStyle(CodeGenLexer.IMPORT, keywordStyle);
         styles.putStyle(CodeGenLexer.AS, keywordStyle);
@@ -99,6 +113,12 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
         styles.putStyle(CodeGenLexer.NullLiteral, javaPrimaryType);
         styles.putStyle(CodeGenLexer.StringLiteral, stringLiteral);
         styles.putStyle(CodeGenLexer.ERR_CHAR, errorStyle);
+        styles.putStyle(CodeGenLexer.IERR_CHAR, errorStyle);
+        styles.putStyle(CodeGenLexer.IntegerLiteral, literalStyle);
+        styles.putStyle(CodeGenLexer.BooleanLiteral, literalStyle);
+        styles.putStyle(CodeGenLexer.FloatingPointLiteral, literalStyle);
+        styles.putStyle(CodeGenLexer.CharacterLiteral, literalStyle);
+        styles.putStyle(CodeGenLexer.NullLiteral, literalStyle);
         return styles;
     }
 
@@ -108,7 +128,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     public void newTemplate() {
         final TemplatePanel templatePanel = new TemplatePanel(null, Charset.forName("UTF-8"), tokenStyles);
         addTabComponent(templatePanel, null, true);
-        final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+        final TemplateEditorPane editorPane = templatePanel.getEditorPane();
         editorPane.addErrorListener(this::errorsChanged);
         editorPane.addUndoableEditListener(this::undoableEditHappened);
         editorPane.grabFocus();
@@ -189,7 +209,7 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
     public void loadTemplate(final Path path, final Charset charset) {
         final TemplatePanel templatePanel = new TemplatePanel(path, charset, tokenStyles);
         addTabComponent(templatePanel, null, true);
-        final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+        final TemplateEditorPane editorPane = templatePanel.getEditorPane();
         editorPane.addErrorListener(this::errorsChanged);
         editorPane.addUndoableEditListener(this::undoableEditHappened);
         editorPane.grabFocus();
@@ -256,5 +276,11 @@ public class EditorTabs extends BasicTabbedPane implements CaretPositionChangeLi
 
     public TokenStyleRepository getTokenStyles() {
         return tokenStyles;
+    }
+
+    public void updateTokenStyles(final TokenStyleRepository newTokenStyles) {
+        this.tokenStyles.update(newTokenStyles);
+        invalidate();
+        repaint();
     }
 }
