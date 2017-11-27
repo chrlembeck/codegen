@@ -159,4 +159,14 @@ public class AntlrEditorKit<T extends ParserRuleContext> extends DefaultEditorKi
             ((AntlrDocument<?>) newDoc).addErrorListener(errorMap -> comp.repaint());
         }
     }
+
+    /**
+     * Ersetzt die Zeichnstil-Definitionen dieser View durch die neu übergebenen Definitionen.
+     * 
+     * @param newTokenStyles
+     *            Neue Stildefinitionen.
+     */
+    public void updateStyleRepository(final TokenStyleRepository newTokenStyles) {
+        this.styleRepository.update(newTokenStyles);
+    }
 }
