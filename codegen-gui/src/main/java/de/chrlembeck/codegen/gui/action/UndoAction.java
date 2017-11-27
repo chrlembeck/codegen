@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
 import de.chrlembeck.codegen.gui.TabComponent;
@@ -30,11 +29,11 @@ public class UndoAction extends AbstractAction {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         final TabComponent selectedTabComponent = codeGenGui.getSelectedTabComponent();
         if (selectedTabComponent instanceof TemplatePanel) {
             final TemplatePanel templatePanel = (TemplatePanel) selectedTabComponent;
-            final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+            final TemplateEditorPane editorPane = templatePanel.getEditorPane();
             editorPane.undo();
         }
         codeGenGui.updateUndoRedoState();

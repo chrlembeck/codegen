@@ -28,7 +28,7 @@ public class PasteAction extends AbstractAction {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         final TabComponent selectedDocument = codeGenGui.getSelectedDocument();
         if (selectedDocument instanceof TemplatePanel) {
             final TemplatePanel templatePanel = (TemplatePanel) selectedDocument;
