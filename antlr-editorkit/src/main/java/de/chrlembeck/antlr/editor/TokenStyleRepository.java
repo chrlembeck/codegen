@@ -35,6 +35,11 @@ public class TokenStyleRepository {
     private final Map<Integer, TokenStyle> styles = new TreeMap<>();
 
     /**
+     * Darstellungsform für die Token-Typen, zu denen keine spezielle Darstellung hinterlegt wurde.
+     */
+    private TokenStyle defaultStyle = DEFAULT;
+
+    /**
      * Gibt die Darstellungsform zu dem übergebenen Token anhand dessen Typ zurück. Ist für den Tokentyp keine spezielle
      * Darstellung hinterlegt, wird die Standarddarstellungsweise zurückgegeben.
      * 
@@ -52,10 +57,20 @@ public class TokenStyleRepository {
      * Gibt die Darstellungsform von Token zurück, für die kein spezieller Darstellungsstil hinterlegt wurde.
      * 
      * @return Standarddarstellungsform.
-     * @see #DEFAULT
+     * @see #defaultStyle
      */
     public TokenStyle getDefaultStyle() {
-        return DEFAULT;
+        return defaultStyle;
+    }
+
+    /**
+     * Ändert die Darstellungsform für die Token, zu denen keine spezielle Festlegung hinterlegt wurde.
+     * 
+     * @param defaultStyle
+     *            Neue Darstellungsform für die Token ohne spezielle Formatierung.
+     */
+    public void setDefaultStyle(final TokenStyle defaultStyle) {
+        this.defaultStyle = defaultStyle;
     }
 
     /**
@@ -100,5 +115,17 @@ public class TokenStyleRepository {
             sb.append(".token_" + entry.getKey() + " {" + entry.getValue().toCSS() + "}\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Ersetzt die hinterlegten Stildefinitionen durch die Definitionen in dem übergebenen Objekt.
+     * 
+     * @param newTokenStyles
+     *            Neue Stildefinitionen, die die alten Definitionen komplett ersetzen.
+     */
+    public void update(final TokenStyleRepository newTokenStyles) {
+        this.styles.clear();
+        this.styles.putAll(newTokenStyles.styles);
+        this.defaultStyle = newTokenStyles.defaultStyle;
     }
 }
