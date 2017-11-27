@@ -27,7 +27,7 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private final Writer writer;
 
-    private boolean headerWritten = false;
+    private boolean headerWritten;
 
     private final static String DEBUG_HTML_JAVASCRIPT = "/debug/debug_html_javascript.js";
 
@@ -119,7 +119,7 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
 
     private void updateStatistics(final String text) {
         characterCount += text.length();
-        lineCount += text.chars().parallel().filter(ch -> ch == '\n').count();
+        lineCount += text.chars().parallel().filter(character -> character == '\n').count();
     }
 
     private CharSequence escape(final String text) {
@@ -151,8 +151,8 @@ public class HTMLDebugGeneratorWriter implements GeneratorWriter {
     }
 
     private void inlineFile(final String fileLocation) throws IOException {
-        try (InputStream in = getClass().getResourceAsStream(fileLocation);
-                InputStreamReader inputReader = new InputStreamReader(in);
+        try (InputStream input = getClass().getResourceAsStream(fileLocation);
+                InputStreamReader inputReader = new InputStreamReader(input);
                 BufferedReader reader = new BufferedReader(inputReader)) {
             String line;
             while ((line = reader.readLine()) != null) {
