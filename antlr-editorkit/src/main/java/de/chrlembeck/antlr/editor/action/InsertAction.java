@@ -85,26 +85,28 @@ public class InsertAction extends AbstractAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         final JEditorPane editor = (JEditorPane) event.getSource();
-        try {
-            final AntlrDocument<?> document = (AntlrDocument<?>) editor.getDocument();
-            System.out.println("---");
-            for (final DocumentListener dl : document.getDocumentListeners()) {
-                System.out.println(dl);
+        if (editor.isEditable() && editor.isEnabled()) {
+            try {
+                final AntlrDocument<?> document = (AntlrDocument<?>) editor.getDocument();
+                System.out.println("---");
+                for (final DocumentListener dl : document.getDocumentListeners()) {
+                    System.out.println(dl);
+                }
+                System.out.println("---");
+                final int selectionStart = editor.getSelectionStart();
+                if (replace) {
+                    editor.replaceSelection(startText + endText);
+                } else {
+                    final int selectionEnd = editor.getSelectionEnd();
+                    document.insertString(selectionStart, startText, null);
+                    document.insertString(startText.length() +
+                            selectionEnd, endText, null);
+                }
+                editor.setCaretPosition(selectionStart + caretOffset);
+                editor.grabFocus();
+            } catch (final BadLocationException e1) {
+                LOGGER.error("Bad Location Exception: " + e1.getMessage(), e1);
             }
-            System.out.println("---");
-            final int selectionStart = editor.getSelectionStart();
-            if (replace) {
-                editor.replaceSelection(startText + endText);
-            } else {
-                final int selectionEnd = editor.getSelectionEnd();
-                document.insertString(selectionStart, startText, null);
-                document.insertString(startText.length() +
-                        selectionEnd, endText, null);
-            }
-            editor.setCaretPosition(selectionStart + caretOffset);
-            editor.grabFocus();
-        } catch (final BadLocationException e1) {
-            LOGGER.error("Bad Location Exception: " + e1.getMessage(), e1);
         }
     }
 
