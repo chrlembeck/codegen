@@ -17,6 +17,34 @@ import de.chrlembeck.antlr.editor.TokenStyle;
  */
 public class UserSettings {
 
+    public static final Color DEFAULT_DEFAULT_COLOR = Color.BLACK;
+
+    public static final Color DEFAULT_COMMENT_COLOR = new Color(63, 127, 95);
+
+    public static final Color DEFAULT_ERROR_COLOR = new Color(220, 0, 0);
+
+    public static final Color DEFAULT_STRING_LITERAL_COLOR = new Color(42, 0, 255);
+
+    public static final Color DEFAULT_LITERAL_COLOR = new Color(42, 0, 255);
+
+    public static final Color DEFAULT_PRIMITIVE_TYPE_COLOR = new Color(180, 0, 60);
+
+    public static final Color DEFAULT_KEYWORD_COLOR = new Color(127, 0, 85);
+
+    public static final int DEFAULT_DEFAULT_FONT_STYLE = Font.PLAIN;
+
+    public static final int DEFAULT_COMMENT_FONT_STYLE = Font.ITALIC;
+
+    public static final int DEFAULT_ERROR_FONT_STYLE = Font.ITALIC;
+
+    public static final int DEFAULT_STRING_LITERAL_FONT_STYLE = Font.PLAIN;
+
+    public static final int DEFAULT_LITERAL_FONT_STYLE = Font.PLAIN;
+
+    public static final int DEFAULT_PRIMITIVE_TYPE_FONT_STYLE = Font.BOLD;
+
+    public static final int DEFAULT_KEYWORD_FONT_STYLE = Font.BOLD;
+
     /**
      * Name der Einstellung für das Verzeichnis, aus dem zuletzt eine Template-Datei geladen wurde.
      */
@@ -34,17 +62,25 @@ public class UserSettings {
 
     private static final String LAST_DEBUG_OUTPUT_DIRECTORY = "lastDebugOutputDirectory";
 
+    private static final String TOKEN_STYLE_DEFAULT_FONT = "tsDefaultFont";
+
     private static final String TOKEN_STYLE_KEYWORD_FONT = "tsKeywordFont";
+
+    private static final String TOKEN_STYLE_DEFAULT_COLOR = "tsDefaultColor";
 
     private static final String TOKEN_STYLE_KEYWORD_COLOR = "tsKeywordColor";
 
-    private static final String TOKEN_STYLE_JAVA_PRIMARY_TYPE_FONT = "tsJavaPrimaryTypeFont";
+    private static final String TOKEN_STYLE_PRIMITIVE_TYPE_FONT = "tsJavaPrimaryTypeFont";
 
-    private static final String TOKEN_STYLE_JAVA_PRIMARY_TYPE_COLOR = "tsJavaPrimaryTypeColor";
+    private static final String TOKEN_STYLE_PRIMITIVE_TYPE_COLOR = "tsJavaPrimaryTypeColor";
 
     private static final String TOKEN_STYLE_STRING_LITERAL_FONT = "tsStringLiteralFont";
 
     private static final String TOKEN_STYLE_STRING_LITERAL_COLOR = "tsStringLiteralColor";
+
+    private static final String TOKEN_STYLE_LITERAL_FONT = "tsLiteralFont";
+
+    private static final String TOKEN_STYLE_LITERAL_COLOR = "tsLiteralColor";
 
     private static final String TOKEN_STYLE_ERROR_FONT = "tsErrorFont";
 
@@ -196,33 +232,56 @@ public class UserSettings {
     }
 
     public TokenStyle getKeywordTokenStyle() {
-        return readTokenStyle(TOKEN_STYLE_KEYWORD_FONT, Font.BOLD, TOKEN_STYLE_KEYWORD_COLOR, new Color(127, 0, 85));
+        return readTokenStyle(TOKEN_STYLE_KEYWORD_FONT, DEFAULT_KEYWORD_FONT_STYLE, TOKEN_STYLE_KEYWORD_COLOR,
+                DEFAULT_KEYWORD_COLOR);
+    }
+
+    public TokenStyle getDefaultTokenStyle() {
+        return readTokenStyle(TOKEN_STYLE_DEFAULT_FONT, DEFAULT_DEFAULT_FONT_STYLE, TOKEN_STYLE_DEFAULT_COLOR,
+                DEFAULT_DEFAULT_COLOR);
     }
 
     public void setKeywordTokenStyle(final TokenStyle style) {
         setTokenStyle(style, TOKEN_STYLE_KEYWORD_FONT, TOKEN_STYLE_KEYWORD_COLOR);
     }
 
-    public TokenStyle getJavaPrimaryTypeTokenStyle() {
-        return readTokenStyle(TOKEN_STYLE_JAVA_PRIMARY_TYPE_FONT, Font.BOLD, TOKEN_STYLE_JAVA_PRIMARY_TYPE_COLOR,
-                new Color(180, 0, 60));
+    public void setDefaultTokenStyle(final TokenStyle style) {
+        setTokenStyle(style, TOKEN_STYLE_DEFAULT_FONT, TOKEN_STYLE_DEFAULT_COLOR);
     }
 
-    public void setJavaPrimaryTypeTokenStyle(final TokenStyle tokenStyle) {
-        setTokenStyle(tokenStyle, TOKEN_STYLE_JAVA_PRIMARY_TYPE_FONT, TOKEN_STYLE_JAVA_PRIMARY_TYPE_COLOR);
+    public TokenStyle getPrimitiveTypeTokenStyle() {
+        return readTokenStyle(TOKEN_STYLE_PRIMITIVE_TYPE_FONT, DEFAULT_PRIMITIVE_TYPE_FONT_STYLE,
+                TOKEN_STYLE_PRIMITIVE_TYPE_COLOR,
+                DEFAULT_PRIMITIVE_TYPE_COLOR);
+    }
+
+    public void setPrimitiveTypeTokenStyle(final TokenStyle tokenStyle) {
+        setTokenStyle(tokenStyle, TOKEN_STYLE_PRIMITIVE_TYPE_FONT, TOKEN_STYLE_PRIMITIVE_TYPE_COLOR);
     }
 
     public TokenStyle getStringLiteralTokenStyle() {
-        return readTokenStyle(TOKEN_STYLE_STRING_LITERAL_FONT, Font.PLAIN, TOKEN_STYLE_STRING_LITERAL_COLOR,
-                new Color(42, 0, 255));
+        return readTokenStyle(TOKEN_STYLE_STRING_LITERAL_FONT, DEFAULT_STRING_LITERAL_FONT_STYLE,
+                TOKEN_STYLE_STRING_LITERAL_COLOR,
+                DEFAULT_STRING_LITERAL_COLOR);
     }
 
     public void setStringLiteralTokenStyle(final TokenStyle style) {
         setTokenStyle(style, TOKEN_STYLE_STRING_LITERAL_FONT, TOKEN_STYLE_STRING_LITERAL_COLOR);
     }
 
+    public TokenStyle getLiteralTokenStyle() {
+        return readTokenStyle(TOKEN_STYLE_LITERAL_FONT, DEFAULT_LITERAL_FONT_STYLE,
+                TOKEN_STYLE_LITERAL_COLOR,
+                DEFAULT_LITERAL_COLOR);
+    }
+
+    public void setLiteralTokenStyle(final TokenStyle style) {
+        setTokenStyle(style, TOKEN_STYLE_LITERAL_FONT, TOKEN_STYLE_LITERAL_COLOR);
+    }
+
     public TokenStyle getErrorTokenStyle() {
-        return readTokenStyle(TOKEN_STYLE_ERROR_FONT, Font.ITALIC, TOKEN_STYLE_ERROR_COLOR, new Color(220, 0, 0));
+        return readTokenStyle(TOKEN_STYLE_ERROR_FONT, DEFAULT_ERROR_FONT_STYLE, TOKEN_STYLE_ERROR_COLOR,
+                DEFAULT_ERROR_COLOR);
     }
 
     public void setErrorTokenStyle(final TokenStyle style) {
@@ -230,7 +289,8 @@ public class UserSettings {
     }
 
     public TokenStyle getCommentTokenStyle() {
-        return readTokenStyle(TOKEN_STYLE_COMMENT_FONT, Font.ITALIC, TOKEN_STYLE_COMMENT_COLOR, new Color(63, 127, 95));
+        return readTokenStyle(TOKEN_STYLE_COMMENT_FONT, DEFAULT_COMMENT_FONT_STYLE, TOKEN_STYLE_COMMENT_COLOR,
+                DEFAULT_COMMENT_COLOR);
     }
 
     public void setCommentTokenStyle(final TokenStyle style) {
