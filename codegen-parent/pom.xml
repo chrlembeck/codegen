@@ -92,7 +92,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
@@ -155,7 +155,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0</version>
             </plugin>
             <!-- <plugin> <groupId>org.openclover</groupId> <artifactId>clover-maven-plugin</artifactId> 
                 <configuration> <includesAllSourceRoots>false</includesAllSourceRoots> <excludes> 
@@ -245,7 +245,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.0.0-RC3</version>
+                <version>5.4.0</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
