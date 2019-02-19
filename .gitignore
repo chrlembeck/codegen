@@ -1,4 +1,6 @@
 codegen-parent/.settings/org.eclipse.m2e.core.prefs
+.idea
+*.iml
 *.project
 *.classpath
 org.eclipse.core.resources.prefs
@@ -19,3 +21,7 @@ target/
 *.eclipse-pmd
 codegen-modeller/testDB/
 codegen-modeller/derby.log
+codegen-modeller/all.log
+codegen-modeller/src/main/resources/oracle_dev.properties
+codegen-modeller/src/main/resources/oracle_local.properties
+codegen-modeller/lib/ojdbc6-11.2.0.3.jar

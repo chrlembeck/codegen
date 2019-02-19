@@ -17,6 +17,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <codegen.version>0.0.1-SNAPSHOT</codegen.version>
+        <maven-plugin-plugin.version>3.6.0</maven-plugin-plugin.version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <pmd.rules.def>../build-properties/pmd-rules.xml</pmd.rules.def>
     </properties>
@@ -105,7 +106,7 @@
                     <!-- https://issues.apache.org/jira/browse/MPLUGIN-324 -->
                     <!-- danach kann javadoc wieder auf "private" gestellt 
                         werden -->
-                    <version>3.5</version>
+                    <version>${maven-plugin-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -117,7 +118,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <show>package</show>
+                    <show>private</show>
                     <nohelp>false</nohelp>
                     <sourcepath>src/main/java</sourcepath>
                     <sourcepath>target/generated-sources/antlr4</sourcepath>
@@ -168,7 +169,7 @@
         <dependency>
             <groupId>de.chrlembeck</groupId>
             <artifactId>chrlembeck-util</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
@@ -227,12 +228,12 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
-                <version>3.5.0</version>
+                <version>${maven-plugin-plugin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-annotations</artifactId>
-                <version>3.5</version>
+                <version>${maven-plugin-plugin.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>

@@ -64,7 +64,7 @@ public class CodeGenMojo extends AbstractMojo {
         log.info("compile source roots: " + project.getCompileSourceRoots());
         log.info("file: " + project.getFile());
 
-        if (templates == null || templates.size() == 0) {
+        if (templates == null || templates.isEmpty()) {
             log.warn("Keine Template-Definitionen in der " + project.getFile().getName()
                     + " gefunden. Es wird nichts generiert. (" + project.getFile().getAbsolutePath() + ")");
             return;
@@ -77,7 +77,7 @@ public class CodeGenMojo extends AbstractMojo {
             final File outputBaseDir = new File(project.getBasedir(), outputPath);
             log.info("outputPath=" + outputPath + ". Ausgabe erfolgt in " + outputBaseDir.getAbsolutePath());
             GeneratorOutput generatorOutput = FileOutput.simpleTextOutput(outputBaseDir.toPath());
-            if (template.getGenerateDebugHtml()) {
+            if (template.isGenerateDebugHtml()) {
                 final String debugOutputPath = template.getDebugOutputPath();
                 final File debugOutputBaseDir = new File(project.getBasedir(), debugOutputPath);
                 log.info("debugOutputPath=" + debugOutputPath + ". Debug-Ausgabe erfolgt in "
@@ -126,10 +126,10 @@ public class CodeGenMojo extends AbstractMojo {
     private Object ladeModel(final Template template) throws MojoFailureException {
         getLog().debug("Lade Modell");
         final String modelCreatorClass = template.getModelCreatorClass();
-        final String modelCreatorMethod = template.getModelCreatorMethod();
         if (modelCreatorClass == null || modelCreatorClass.trim().isEmpty()) {
             throw new MojoFailureException("Das Feld modelCreatorClass ist nicht gefüllt.");
         }
+        final String modelCreatorMethod = template.getModelCreatorMethod();
         if (modelCreatorMethod == null || modelCreatorMethod.trim().isEmpty()) {
             throw new MojoFailureException("Das Feld modelCreatorMethod ist nicht gefüllt.");
         }

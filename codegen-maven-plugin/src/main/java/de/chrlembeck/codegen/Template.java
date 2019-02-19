@@ -55,7 +55,7 @@ public class Template {
      * Gibt an, ob zusätzlich zur Ausgabe der Generatorartefakte HTML-Dateien zum Debuggen ausgegeben werden sollen.
      */
     @Parameter(required = false, defaultValue = "false")
-    private boolean generateDebugHtml = false;
+    private boolean generateDebugHtml;
 
     @Parameter(required = false, defaultValue = "/target/generated-sources/codegen-debug")
     private String debugOutputPath = "/target/generated-sources/codegen-debug";
@@ -180,7 +180,7 @@ public class Template {
         return debugOutputPath;
     }
 
-    public boolean getGenerateDebugHtml() {
+    public boolean isGenerateDebugHtml() {
         return generateDebugHtml;
     }
 }

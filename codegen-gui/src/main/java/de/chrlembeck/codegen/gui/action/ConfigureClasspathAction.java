@@ -22,7 +22,7 @@ public class ConfigureClasspathAction extends AbstractAction {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         final ConfigureClasspathDialog dialog = new ConfigureClasspathDialog(codeGenGui);
         dialog.setVisible(true);
         if (dialog.getResult() == AbstractDialog.RESULT_OK) {

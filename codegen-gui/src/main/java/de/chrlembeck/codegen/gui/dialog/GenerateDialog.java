@@ -39,8 +39,6 @@ public class GenerateDialog extends AbstractDialog {
 
     private JLabel lbDirectory;
 
-    private JLabel lbDebugDirectory;
-
     private DirectoryTextField tfDirectory;
 
     private DirectoryTextField tfDebugDirectory;
@@ -85,7 +83,7 @@ public class GenerateDialog extends AbstractDialog {
         bgOutputMethod.add(rbGuiOutput);
         lbOverwrite = new JLabel("Existierende Dateien");
         lbDirectory = new JLabel("Ausgabeverzeichnis");
-        lbDebugDirectory = new JLabel("Debug-Verzeichnis");
+        final JLabel lbDebugDirectory = new JLabel("Debug-Verzeichnis");
         tfDirectory = new DirectoryTextField();
         tfDebugDirectory = new DirectoryTextField();
         cbDebug = new JCheckBox("Debug-Ausgabe", false);

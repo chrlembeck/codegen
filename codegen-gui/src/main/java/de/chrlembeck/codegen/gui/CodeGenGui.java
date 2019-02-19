@@ -54,7 +54,6 @@ import org.slf4j.LoggerFactory;
 
 import de.chrlembeck.antlr.editor.TokenStyleRepository;
 import de.chrlembeck.codegen.generator.Position;
-import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.gui.action.CloseApplicationAction;
 import de.chrlembeck.codegen.gui.action.ConfigureClasspathAction;
 import de.chrlembeck.codegen.gui.action.CopyAction;
@@ -80,6 +79,7 @@ import de.chrlembeck.util.swing.SwingUtil;
  * 
  * @author Christoph Lembeck
  */
+@SuppressWarnings("PMD.GodClass")
 public class CodeGenGui extends JFrame implements TabListener {
 
     private static final String CLIENT_PROPERTY_OUTPUT_PANEL = "CLIENT_PROPERTY_OUTPUT_PANEL";
@@ -760,7 +760,7 @@ public class CodeGenGui extends JFrame implements TabListener {
         final TabComponent selectedDocument = editorTabs.getSelectedDocument();
         if (selectedDocument instanceof TemplatePanel) {
             final TemplatePanel templatePanel = (TemplatePanel) selectedDocument;
-            final TemplateEditorPane<TemplateFileContext> editorPane = templatePanel.getEditorPane();
+            final TemplateEditorPane editorPane = templatePanel.getEditorPane();
             final boolean canUndo = editorPane.canUndo();
             miUndo.setEnabled(canUndo);
             btUndo.setEnabled(canUndo);
@@ -793,5 +793,9 @@ public class CodeGenGui extends JFrame implements TabListener {
 
     public ClassLoader getModelClassLoader() {
         return new URLClassLoader(getModelClasspath());
+    }
+
+    public void updateTokenStyles(final TokenStyleRepository newTokenStyles) {
+        editorTabs.updateTokenStyles(newTokenStyles);
     }
 }

@@ -39,7 +39,6 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +58,9 @@ import de.chrlembeck.util.swing.SimpleDocumentListener;
 /**
  * Editor für Template-Dateien.
  *
- * @param <T>
- *            Typ des vom Parser zurückgegebenen Kontext-Ojekts
  * @author Christoph Lembeck
  */
-public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane {
+public class TemplateEditorPane extends JEditorPane {
 
     /**
      * Version number of the current class.
@@ -163,8 +160,8 @@ public class TemplateEditorPane<T extends ParserRuleContext> extends JEditorPane
         setForeground(Color.BLACK);
         final Lexer lexer = new CodeGenLexer(null);
         final String startRuleName = CodeGenParser.ruleNames[CodeGenParser.RULE_templateFile];
-        final AntlrEditorKit<T> editorKit = new AntlrEditorKit<T>(lexer, CodeGenParser.class, startRuleName,
-                tokenStyles);
+        final AntlrEditorKit<TemplateFileContext> editorKit = new AntlrEditorKit<>(lexer, CodeGenParser.class,
+                startRuleName, tokenStyles);
         setEditorKit(editorKit);
         initActions();
         if (path != null) {

@@ -37,7 +37,7 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
     /**
      * Referenz auf die in dieser Komponente entheltene EditorPane.
      */
-    private TemplateEditorPane<TemplateFileContext> editorPane;
+    private TemplateEditorPane editorPane;
 
     /**
      * Erzeugt ein neues TemplatePanel mit den übergebenen Daten.
@@ -52,7 +52,7 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
      *            Darstellungsregeln für die Token in den Template-Editoren.
      */
     public TemplatePanel(final Path path, final Charset charset, final TokenStyleRepository tokenStyles) {
-        editorPane = new TemplateEditorPane<TemplateFileContext>(path, charset, tokenStyles);
+        editorPane = new TemplateEditorPane(path, charset, tokenStyles);
         setViewportView(editorPane);
         initLineNumberComponent();
     }
@@ -84,7 +84,7 @@ public class TemplatePanel extends JScrollPane implements TabComponent {
      * 
      * @return referenz auf die enthaltene EditorPane.
      */
-    public TemplateEditorPane<TemplateFileContext> getEditorPane() {
+    public TemplateEditorPane getEditorPane() {
         return editorPane;
     }
 

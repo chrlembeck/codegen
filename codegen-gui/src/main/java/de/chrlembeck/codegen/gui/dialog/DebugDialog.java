@@ -46,7 +46,7 @@ public class DebugDialog extends AbstractDialog {
 
     private void initCBchannel() {
         for (final Entry<String, HTMLDebugGeneratorWriter> entry : debugOutput.getWriters().entrySet()) {
-            cbChannel.addItem(new ToStringWrapper<Entry<String, HTMLDebugGeneratorWriter>>(entry, e -> e.getKey()));
+            cbChannel.addItem(new ToStringWrapper<Entry<String, HTMLDebugGeneratorWriter>>(entry, ent -> ent.getKey()));
         }
         cbChannel.addItemListener(this::channelChanged);
         channelChanged(new ItemEvent(cbChannel, 0, cbChannel.getSelectedItem(), ItemEvent.SELECTED));

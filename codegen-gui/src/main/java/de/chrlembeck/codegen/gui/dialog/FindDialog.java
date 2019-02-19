@@ -32,20 +32,20 @@ import de.chrlembeck.util.swing.SwingUtil;
 
 public class FindDialog extends AbstractDialog {
 
-    private TemplateEditorPane<TemplateFileContext> editorPane;
+    private static final long serialVersionUID = -872271966685866731L;
 
-    private JTextField tfFindExpression;
+    TemplateEditorPane editorPane;
 
-    private JCheckBox cbCaseSensitive;
+    JTextField tfFindExpression;
 
-    private JButton findButton;
+    JCheckBox cbCaseSensitive;
 
-    public FindDialog(final CodeGenGui codeGenGui, final TemplateEditorPane<TemplateFileContext> editorPane) {
+    public FindDialog(final CodeGenGui codeGenGui, final TemplateEditorPane editorPane) {
         super(codeGenGui, "Suchen", ModalityType.MODELESS);
         this.setAlwaysOnTop(true);
         this.editorPane = editorPane;
 
-        findButton = addButton(new FindButtonAction());
+        final JButton findButton = addButton(new FindButtonAction());
         getRootPane().setDefaultButton(findButton);
 
         addCancelButton("Schließen", KeyEvent.VK_C, IconFactory.CANCEL_32.icon());
@@ -53,11 +53,9 @@ public class FindDialog extends AbstractDialog {
         SwingUtil.centerToScreen(this);
     }
 
-    private AntlrDocument<TemplateFileContext> getDocument() {
+    AntlrDocument<TemplateFileContext> getDocument() {
         return editorPane.getAntlrDocument();
     }
-
-    private static final long serialVersionUID = -872271966685866731L;
 
     @Override
     protected JPanel createMainPanel() {
@@ -118,7 +116,7 @@ public class FindDialog extends AbstractDialog {
         }
 
         @Override
-        public void actionPerformed(final ActionEvent e) {
+        public void actionPerformed(final ActionEvent event) {
             final String text = tfFindExpression.getText();
             final int start = editorPane.getCaretPosition();
             final int length = getDocument().getLength() - start;

@@ -61,8 +61,8 @@ public class ModelTreeNodeUtil {
         leafClasses.add(String.class);
         leafClasses.add(BigDecimal.class);
         leafClasses.add(BigInteger.class);
-        blockedFields.add(f -> long.class == f.getType() && Modifier.isFinal(f.getModifiers())
-                && "serialVersionUID".equals(f.getName()));
+        blockedFields.add(field -> long.class == field.getType() && Modifier.isFinal(field.getModifiers())
+                && "serialVersionUID".equals(field.getName()));
         blockedFields.add(
                 field -> field.getDeclaringClass() == DefaultMutableTreeNode.class
                         && "EMPTY_ENUMERATION".equals(field.getName()));

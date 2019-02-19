@@ -41,7 +41,7 @@ public class ConfigureClasspathDialog extends AbstractDialog {
 
     private DefaultListModel<ToStringWrapper<URL>> classpathModel;
 
-    final static Function<URL, String> toStringFunction = URL::toString;
+    final static Function<URL, String> TO_STRING_FUNCTION = URL::toString;
 
     public ConfigureClasspathDialog(final CodeGenGui codeGenGui) {
         super(codeGenGui, "Classpath-Konfiguration");
@@ -122,7 +122,7 @@ public class ConfigureClasspathDialog extends AbstractDialog {
     }
 
     private void addClasspathElement(final URL pathElement) {
-        classpathModel.addElement(new ToStringWrapper<URL>(pathElement, toStringFunction));
+        classpathModel.addElement(new ToStringWrapper<URL>(pathElement, TO_STRING_FUNCTION));
     }
 
     public URL[] getClasspathElements() {
