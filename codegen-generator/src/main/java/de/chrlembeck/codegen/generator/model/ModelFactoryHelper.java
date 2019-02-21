@@ -16,7 +16,7 @@ import de.chrlembeck.util.io.ClassLoaderObjectInputStream;
  * @author Christoph Lembeck
  */
 @SuppressWarnings("PMD.UseUtilityClass")
-public class ModelFactory {
+public class ModelFactoryHelper {
 
     /**
      * Erzeugt ein Modell über das Ergebnis eines Methodenaufrufs.

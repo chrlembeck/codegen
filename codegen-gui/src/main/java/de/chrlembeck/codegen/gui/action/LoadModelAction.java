@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.chrlembeck.codegen.generator.model.ModelFactory;
+import de.chrlembeck.codegen.generator.model.ModelFactoryHelper;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.UserSettings;
 
@@ -82,7 +82,7 @@ public class LoadModelAction extends AbstractAction {
 
     private void loadModel(final File file) {
         try (FileInputStream fileIn = new FileInputStream(file)) {
-            final Object newModel = ModelFactory.byDeserialization(fileIn, codeGenGui.getModelClassLoader());
+            final Object newModel = ModelFactoryHelper.byDeserialization(fileIn, codeGenGui.getModelClassLoader());
             codeGenGui.setModel(file.getName(), newModel);
         } catch (final IOException ioe) {
             LOGGER.info("IOException beim Laden eines Models via readObject(). " + file.getAbsolutePath(), ioe);

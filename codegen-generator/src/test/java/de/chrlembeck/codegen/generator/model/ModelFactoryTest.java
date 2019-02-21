@@ -10,14 +10,14 @@ public class ModelFactoryTest {
 
     @Test
     public void testByMethodCallStatic() throws Exception {
-        final Object model = ModelFactory.byMethodCall("java.lang.System", "getenv");
+        final Object model = ModelFactoryHelper.byMethodCall("java.lang.System", "getenv");
         Assertions.assertNotNull(model);
         Assertions.assertTrue(model instanceof Map);
     }
 
     @Test
     public void testByMethodCallInstance() throws Exception {
-        final Object model = ModelFactory.byMethodCall("java.util.ArrayList", "toArray");
+        final Object model = ModelFactoryHelper.byMethodCall("java.util.ArrayList", "toArray");
         Assertions.assertNotNull(model);
         Assertions.assertTrue(model.getClass().isArray());
         Assertions.assertEquals(0, Array.getLength(model));

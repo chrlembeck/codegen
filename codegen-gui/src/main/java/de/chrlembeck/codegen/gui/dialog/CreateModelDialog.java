@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.chrlembeck.codegen.generator.model.ModelFactory;
+import de.chrlembeck.codegen.generator.model.ModelFactoryHelper;
 import de.chrlembeck.codegen.gui.CodeGenGui;
 import de.chrlembeck.codegen.gui.IconFactory;
 import de.chrlembeck.util.swing.action.DefaultAction;
@@ -70,7 +70,7 @@ public class CreateModelDialog extends AbstractDialog {
         final String methodName = tfMethodName.getText().trim();
         Object modell;
         try {
-            modell = ModelFactory.byMethodCall(className, methodName,
+            modell = ModelFactoryHelper.byMethodCall(className, methodName,
                     codeGenGui.getModelClassLoader());
             codeGenGui.setModel(className + "." + methodName, modell);
             setResult(RESULT_OK);

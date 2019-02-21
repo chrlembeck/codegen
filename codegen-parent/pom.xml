@@ -9,15 +9,24 @@
     <name>Codegen Parent</name>
 
     <properties>
-        <antlr.version>4.7</antlr.version>
-        <antlr.maven.plugin.version>4.7</antlr.maven.plugin.version>
-        <log4j.version>2.8.2</log4j.version>
-        <clover.version>4.2.0</clover.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <codegen.version>0.0.1-SNAPSHOT</codegen.version>
         <maven-plugin-plugin.version>3.6.0</maven-plugin-plugin.version>
+        <maven-surefire-plugin-version>2.22.1</maven-surefire-plugin-version>
+        <maven-pmd-plugin-version>3.11.0</maven-pmd-plugin-version>
+        <maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
+        <maven-source-plugin-version>3.0.1</maven-source-plugin-version>
+        <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
+        <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
+        <maven-project-version>2.2.1</maven-project-version>
+        <antlr.version>4.7</antlr.version>
+        <swingx-version>1.6.1</swingx-version>
+        <antlr-maven-plugin-version>4.7.2</antlr-maven-plugin-version>
+        <log4j.version>2.8.2</log4j.version>
+        <clover.version>4.2.0</clover.version>
+        <junit-version>5.4.0</junit-version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <pmd.rules.def>../build-properties/pmd-rules.xml</pmd.rules.def>
     </properties>
@@ -71,41 +80,35 @@
             <!-- Surefire-Plugin zum Ausführen der JUnit-Tests integrieren -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
                 <configuration>
                     <useFile>false</useFile>
                     <trimStackTrace>false</trimStackTrace>
                     <detail>true</detail>
                     <printSummary>true</printSummary>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.0-RC3</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin-version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>${maven-source-plugin-version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <!-- upgrade to 3.5.1 when released -->
-                    <!-- https://issues.apache.org/jira/projects/MPLUGIN?selectedItem=com.atlassian.jira.jira-projects-plugin:release-page&status=all -->
-                    <!-- https://issues.apache.org/jira/browse/MPLUGIN-324 -->
-                    <!-- danach kann javadoc wieder auf "private" gestellt 
-                        werden -->
                     <version>${maven-plugin-plugin.version}</version>
                 </plugin>
             </plugins>
@@ -128,7 +131,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.8</version>
+                <version>${maven-pmd-plugin-version}</version>
                 <configuration>
                     <linkXref>true</linkXref>
                     <sourceEncoding>utf-8</sourceEncoding>
@@ -149,13 +152,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
+                <version>${maven-jxr-plugin-version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-project-info-reports-plugin-version}</version>
             </plugin>
             <!-- <plugin> <groupId>org.openclover</groupId> <artifactId>clover-maven-plugin</artifactId> 
                 <configuration> <includesAllSourceRoots>false</includesAllSourceRoots> <excludes> 
@@ -208,7 +211,7 @@
             <dependency>
                 <groupId>org.swinglabs</groupId>
                 <artifactId>swingx</artifactId>
-                <version>1.6.1</version>
+                <version>${swingx-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -239,13 +242,13 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-project</artifactId>
-                <version>2.2.1</version>
+                <version>${maven-project-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.4.0</version>
+                <version>${junit-version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -282,7 +285,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.8</version>
+                        <version>${maven-pmd-plugin-version}</version>
                         <configuration>
                             <verbose>true</verbose>
                             <failurePriority>2</failurePriority>

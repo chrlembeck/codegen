@@ -68,7 +68,7 @@
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>${antlr.maven.plugin.version}</version>
+                <version>${antlr-maven-plugin-version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -85,7 +85,7 @@
                     <dependency>
                         <groupId>org.antlr</groupId>
                         <artifactId>antlr4-maven-plugin</artifactId>
-                        <version>${antlr.maven.plugin.version}</version>
+                        <version>${antlr-maven-plugin-version}</version>
                         <type>maven-plugin</type>
                         <scope>compile</scope>
                     </dependency>

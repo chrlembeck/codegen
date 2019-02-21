@@ -22,7 +22,7 @@ import de.chrlembeck.codegen.generator.AbstractCodeGenException;
 import de.chrlembeck.codegen.generator.Generator;
 import de.chrlembeck.codegen.generator.SimpleTemplateResolver;
 import de.chrlembeck.codegen.generator.TemplateResolver;
-import de.chrlembeck.codegen.generator.model.ModelFactory;
+import de.chrlembeck.codegen.generator.model.ModelFactoryHelper;
 import de.chrlembeck.codegen.generator.output.BasicOutputPreferences;
 import de.chrlembeck.codegen.generator.output.CombinedGeneratorOutput;
 import de.chrlembeck.codegen.generator.output.FileOutput;
@@ -135,7 +135,7 @@ public class CodeGenMojo extends AbstractMojo {
         }
         final Object modell;
         try {
-            modell = ModelFactory.byMethodCall(modelCreatorClass, modelCreatorMethod);
+            modell = ModelFactoryHelper.byMethodCall(modelCreatorClass, modelCreatorMethod);
             getLog().debug("Modell geladen: " + modell);
             return modell;
         } catch (final ClassNotFoundException e) {
