@@ -60,7 +60,7 @@
                     <dependency>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
+                        <version>${clover-maven-plugin-version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

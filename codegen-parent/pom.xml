@@ -8,6 +8,12 @@
     <packaging>pom</packaging>
     <name>Codegen Parent</name>
 
+    <licenses>
+        <license>
+            <name>BSD-3</name>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -25,7 +31,7 @@
         <swingx-version>1.6.1</swingx-version>
         <antlr-maven-plugin-version>4.7.2</antlr-maven-plugin-version>
         <log4j.version>2.8.2</log4j.version>
-        <clover.version>4.2.0</clover.version>
+        <clover-maven-plugin-version>4.3.1</clover-maven-plugin-version>
         <junit-version>5.4.0</junit-version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <pmd.rules.def>../build-properties/pmd-rules.xml</pmd.rules.def>
@@ -330,7 +336,7 @@
                     <plugin>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
-                        <version>${clover.version}</version>
+                        <version>${clover-maven-plugin-version}</version>
                         <configuration>
                             <includesAllSourceRoots>false</includesAllSourceRoots>
                             <includesTestSourceRoots>false</includesTestSourceRoots>
@@ -363,7 +369,7 @@
                     <plugin>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
-                        <version>${clover.version}</version>
+                        <version>${clover-maven-plugin-version}</version>
                         <configuration>
                             <includesAllSourceRoots>false</includesAllSourceRoots>
                             <excludes>
