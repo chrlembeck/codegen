@@ -75,7 +75,7 @@
                             <goal>antlr4</goal>
                         </goals>
                         <configuration>
-                            <encoding>UTF-8</encoding>
+                            <inputEncoding>UTF-8</inputEncoding>
                             <listener>false</listener>
                             <visitor>false</visitor>
                         </configuration>
