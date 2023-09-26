@@ -17,7 +17,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeModel;
-import org.apache.derby.jdbc.EmbeddedDataSource;
 import de.chrlembeck.codegen.model.InfoTreeNode;
 import de.chrlembeck.codegen.model.impl.DBRootTreeNode;
 import de.chrlembeck.codegen.model.impl.GenericDBModelReader;
