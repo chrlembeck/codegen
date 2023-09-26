@@ -7,7 +7,7 @@ module de.chrlembeck.codegen.generator {
     exports de.chrlembeck.codegen.generator.model;
     exports de.chrlembeck.codegen.grammar;
 
-    requires slf4j.api;
+    requires org.slf4j;
     requires org.antlr.antlr4.runtime;
     requires java.compiler;
     requires chrlembeck.util;

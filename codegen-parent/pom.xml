@@ -30,7 +30,7 @@
         <antlr.version>4.13.1</antlr.version>
         <antlr-maven-plugin-version>4.13.1</antlr-maven-plugin-version>
         <swingx-version>1.6.1</swingx-version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.20.0</log4j.version>
         <clover-maven-plugin-version>4.3.1</clover-maven-plugin-version>
         <junit-version>5.4.0</junit-version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
