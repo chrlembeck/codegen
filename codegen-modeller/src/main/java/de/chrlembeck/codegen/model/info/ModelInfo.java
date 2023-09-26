@@ -22,7 +22,7 @@ public class ModelInfo<C> {
             if (field.isSynthetic()) {
                 continue;
             }
-            final PropertyInfo info = new PropertyInfo<>(classRef, field);
+            final PropertyInfo<C, ?> info = new PropertyInfo<>(classRef, field);
             addPropertyInfo(info);
         }
     }
@@ -35,5 +35,4 @@ public class ModelInfo<C> {
         LOGGER.debug("addPropertyInfo(" + info + ")");
         propertyInfos.add(info);
     }
-
 }

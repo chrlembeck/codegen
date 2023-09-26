@@ -86,8 +86,9 @@
           <additionalparam>-inferdep</additionalparam>
           <additionalparam>-collapsible</additionalparam>
           <additionalparam>-hide java.*</additionalparam> -->
-                    <additionalparam>-compact</additionalparam>
-                    <additionalparam>-subpackages de.chrlembeck</additionalparam>
+
+<!--                    <additionalparam>-compact</additionalparam>
+                    <additionalparam>-subpackages de.chrlembeck</additionalparam> -->
 
                     <!--
                     <additionalparam>-collpackages</additionalparam>
@@ -120,8 +121,6 @@
             <groupId>de.chrlembeck.codegen</groupId>
             <artifactId>codegen-generator</artifactId>
         </dependency>
-        <!-- <dependency> <groupId>de.chrlembeck.codegen</groupId> <artifactId>codegen-modeller</artifactId> 
-            </dependency> -->
         <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>swingx</artifactId>

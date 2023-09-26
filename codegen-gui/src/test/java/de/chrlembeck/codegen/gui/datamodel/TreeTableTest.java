@@ -13,8 +13,6 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableNode;
 
-import de.chrlembeck.codegen.gui.datamodel.ModelTreeNodeUtil;
-
 public class TreeTableTest extends JFrame {
 
     private static final long serialVersionUID = -6241646671051893240L;
@@ -45,5 +43,4 @@ public class TreeTableTest extends JFrame {
         return Arrays.asList("Hallo Welt", Integer.valueOf(3), new float[] { 3.14f, 2.79f, -34f },
                 Arrays.asList("one", "two"), new Point(3, 4), new int[][] { { 1, 2 }, { 3, 4 } });
     }
-
 }

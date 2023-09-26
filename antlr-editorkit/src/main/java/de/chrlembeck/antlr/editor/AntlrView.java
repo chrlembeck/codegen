@@ -109,10 +109,10 @@ public class AntlrView extends PlainView {
      * @param yPos
      *            Vertikale Startposition zum Zeichnen des Textes.
      * @param requestedPaintStartIdx
-     *            Index des ersten zu Zeichnenden Buchstabens (inclusive) beginnend bei 0.
+     *            Index des ersten zu zeichnenden Buchstabens (inclusive) beginnend bei 0.
      * @param requestedPaintEndIdx
-     *            Index des letzten zu zeichnenden Buchstanens (exclusive) beginnend bei 0.
-     * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
+     *            Index des letzten zu zeichnenden Buchstabens (exclusive) beginnend bei 0.
+     * @return X-Koordinate für das nächste zu zeichnende Zeichen.
      */
     @Override
     protected int drawSelectedText(final Graphics gfraphics, final int xPos, final int yPos,
