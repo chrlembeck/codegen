@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.Serial;
 import java.net.MalformedURLException;
 import java.util.Map.Entry;
 
@@ -26,6 +27,7 @@ import javafx.scene.web.WebView;
 
 public class DebugDialog extends AbstractDialog {
 
+    @Serial
     private static final long serialVersionUID = -6820063175007906902L;
 
     private GuiDebugOutput debugOutput;
@@ -76,7 +78,7 @@ public class DebugDialog extends AbstractDialog {
         return mainPanel;
     }
 
-    public void channelChanged(final ItemEvent event) {
+    public final void channelChanged(final ItemEvent event) {
         @SuppressWarnings("unchecked")
         final ToStringWrapper<Entry<String, HTMLDebugGeneratorWriter>> item = (ToStringWrapper<Entry<String, HTMLDebugGeneratorWriter>>) event
                 .getItem();

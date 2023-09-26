@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>de.chrlembeck.codegen</groupId>
@@ -25,7 +25,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9</version>
+                        <version>3.6.0</version>
                         <executions>
                             <execution>
                                 <phase>pre-integration-test</phase>
@@ -34,34 +34,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <doclet>org.umlgraph.doclet.UmlGraph</doclet>
-                            <docletPath>${basedir}/doclets/UmlGraph.jar</docletPath>
-                            <additionalparam>-views</additionalparam>
-                            <reportOutputDirectory>${project.reporting.outputDirectory}/</reportOutputDirectory>
-                            <destDir>uml</destDir>
-                            <useStandardDocletOptions>no</useStandardDocletOptions>
-                        </configuration>
-                    </plugin>
-                    <!-- mvn graphviz:dot -Duml=true -X -->
-                    <plugin>
-                        <groupId>us.bryon</groupId>
-                        <artifactId>graphviz-maven-plugin</artifactId>
-                        <version>1.0</version>
-
-                        <executions>
-                            <execution>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>dot</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                        <configuration>
-                            <basedir>${project.reporting.outputDirectory}/uml</basedir>
-                            <destdir>${project.build.directory}/graphviz</destdir>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -70,66 +42,72 @@
     <build>
         <plugins>
 
-           <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <tags>
-            <tag>
-              <name>depend</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>hidden</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>opt</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>assoc</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>has</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>composed</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>view</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>match</name>
-              <placement>X</placement>
-            </tag>
-          </tags>
-          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-          <docletPath>${basedir}/doclets/UmlGraph.jar</docletPath><!-- 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>depend</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>hidden</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>opt</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>assoc</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>has</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>composed</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>view</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>match</name>
+                            <placement>X</placement>
+                        </tag>
+                    </tags>
+<!--
           <additionalparam>-inferrel</additionalparam>
           <additionalparam>-inferdep</additionalparam>
           <additionalparam>-collapsible</additionalparam>
           <additionalparam>-hide java.*</additionalparam> -->
-          <additionalparam>-compact</additionalparam>
-          <additionalparam>-subpackages de.chrlembeck</additionalparam>
+                    <additionalparam>-compact</additionalparam>
+                    <additionalparam>-subpackages de.chrlembeck</additionalparam>
 
-          <!-- 
-          <additionalparam>-collpackages</additionalparam>
-          <additionalparam>-qualify</additionalparam>
-          <additionalparam>-postfixpackage</additionalparam>
-          <additionalparam>-nodefontsize 9</additionalparam>
-          <additionalparam>-nodefontpackagesize 7</additionalparam>
-          <additionalparam>-link http://docs.oracle.com/javase/8/docs/jdk/api/javadoc/doclet/</additionalparam>
-          <additionalparam>-link http://download.oracle.com/javase/8/docs/api/</additionalparam> -->
-          <useStandardDocletOptions>true</useStandardDocletOptions>
-        </configuration>
-      </plugin>
-
+                    <!--
+                    <additionalparam>-collpackages</additionalparam>
+                    <additionalparam>-qualify</additionalparam>
+                    <additionalparam>-postfixpackage</additionalparam>
+                    <additionalparam>-nodefontsize 9</additionalparam>
+                    <additionalparam>-nodefontpackagesize 7</additionalparam>
+                    <additionalparam>-link http://docs.oracle.com/javase/8/docs/jdk/api/javadoc/doclet/</additionalparam>
+                    <additionalparam>-link http://download.oracle.com/javase/8/docs/api/</additionalparam> -->
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>hellofx/org.openjfx.App</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
 
     </build>
@@ -147,6 +125,26 @@
         <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>swingx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17.0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>19</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>19</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>

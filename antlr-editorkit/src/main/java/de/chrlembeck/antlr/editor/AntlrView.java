@@ -69,7 +69,7 @@ public class AntlrView extends PlainView {
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
     @Override
-    protected final int drawUnselectedText(final Graphics grfx, int xPos, final int yPos,
+    protected final float drawUnselectedText(final Graphics2D grfx, float xPos, final float yPos,
             final int requestedPaintStartIdx,
             final int requestedPaintEndIdx) {
         final Graphics2D graphics = (Graphics2D) grfx.create();
@@ -141,8 +141,8 @@ public class AntlrView extends PlainView {
      *            Für die Ausrichtung von Tab-Stops zu verwendender TabExpander.
      * @return X-Koordinate für das nächtste zu zeichnende Zeichen.
      */
-    protected int paintTokenSegment(final Graphics2D graphics, final AntlrDocument<?> document, final Token token,
-            final Segment segment, final int xPos, final int yPos,
+    protected float paintTokenSegment(final Graphics2D graphics, final AntlrDocument<?> document, final Token token,
+            final Segment segment, final float xPos, final float yPos,
             final TabExpander tabExpander) {
         final int startOffset = token.getStartIndex();
         final TokenStyle style = styleRepository.getStyle(token);
@@ -150,7 +150,7 @@ public class AntlrView extends PlainView {
         final FontMetrics fontMetrics = graphics.getFontMetrics();
         final int ascent = fontMetrics.getAscent();
         final int lineHeight = ascent + fontMetrics.getDescent();
-        final int textWidht = Utilities.getTabbedTextWidth(segment, fontMetrics, 0, tabExpander, startOffset);
+        final float textWidht = Utilities.getTabbedTextWidth(segment, fontMetrics, 0f, tabExpander, startOffset);
         final Rectangle2D border = new Rectangle2D.Float(xPos - 1, yPos - ascent + 1, textWidht + 2, lineHeight);
         if (document.hasError(token)) {
             graphics.setColor(Color.RED);
