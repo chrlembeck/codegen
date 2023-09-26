@@ -7,7 +7,7 @@ module de.chrlembeck.codegen.codegen_gui{
     requires slf4j.api;
     requires java.desktop;
     requires chrlembeck.util;
-    requires antlr4.runtime;
+    requires org.antlr.antlr4.runtime;
     requires swingx;
     requires java.prefs;
 }
