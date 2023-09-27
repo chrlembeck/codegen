@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.model;
 
 public interface Schema {
 
-    Iterable<Entity> getEntities();
+    Iterable<Table> getTables();
 
     String getSchemaName();
 
@@ -12,7 +12,7 @@ public interface Schema {
 
     void setPackageName(String newPackageName);
 
-    Entity createEntity();
-
     Catalog getCatalog();
+
+    void addTable(Table table);
 }

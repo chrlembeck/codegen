@@ -13,15 +13,10 @@ import java.util.TreeMap;
 
 import javax.sql.DataSource;
 
+import de.chrlembeck.codegen.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.chrlembeck.codegen.model.Attribute;
-import de.chrlembeck.codegen.model.Catalog;
-import de.chrlembeck.codegen.model.Entity;
-import de.chrlembeck.codegen.model.Model;
-import de.chrlembeck.codegen.model.PrimaryKey;
-import de.chrlembeck.codegen.model.Schema;
 import de.chrlembeck.util.console.ConsoleTable;
 
 public class GenericDBModelReader {
@@ -38,26 +33,26 @@ public class GenericDBModelReader {
         LOGGER.debug("reading model.");
         try (final Connection con = dataSource.getConnection()) {
             final DatabaseMetaData metaData = con.getMetaData();
-            final DBRootTreeNode model = new DBRootTreeNode();
+            final Model model = new ModelImpl();
             readCatalogs(model, metaData);
-            for (final Catalog catalog : model.catalogTreeNodes()) {
+            for (final Catalog catalog : model.getCatalogs()) {
                 LOGGER.info("reading catalog: '" + catalog.getCatalogName() + "'.");
                 readSchemas(catalog, metaData, schemaPattern);
                 for (final Schema schema : catalog.getSchemas()) {
                     LOGGER.info("reading schema: '" + schema.getSchemaName() + "'.");
                     readTables(schema, metaData);
-                    for (final Entity entity : schema.getEntities()) {
-                        LOGGER.info("reading table: '" + entity.getTableName() + "'.");
-                        readColumns(entity, metaData);
+                    for (final Table table : schema.getTables()) {
+                        LOGGER.info("reading table: '" + table.getTableName() + "'.");
+                        readColumns(table, metaData);
                         LOGGER.info("reading primary keys");
-                        readPrimaryKeys(entity, metaData);
+                        readPrimaryKeys(table, metaData);
                     }
                 }
             }
 
-            for (final Catalog catalog : model.catalogTreeNodes()) {
+            for (final Catalog catalog : model.getCatalogs()) {
                 for (final Schema schema : catalog.getSchemas()) {
-                    for (final Entity entity : schema.getEntities()) {
+                    for (final Table entity : schema.getTables()) {
                         LOGGER.info("reading references for: " + entity.getSchema().getSchemaName() + "."
                                 + entity.getTableName());
                         readReferences(model, entity, metaData);
@@ -69,7 +64,7 @@ public class GenericDBModelReader {
         }
     }
 
-    private void readReferences(final Model model, final Entity entity, final DatabaseMetaData metaData)
+    private void readReferences(final Model model, final Table entity, final DatabaseMetaData metaData)
             throws SQLException {
         try (ResultSet rs = metaData.getCrossReference(entity.getSchema().getCatalog().getCatalogName(),
                 entity.getSchema().getSchemaName(), entity.getTableName(), null, null,
@@ -79,8 +74,8 @@ public class GenericDBModelReader {
 
             String lastfkName = null;
             String fkName = null;
-            final List<Attribute> pkAttributes = new ArrayList<>();
-            final List<Attribute> fkAttributes = new ArrayList<>();
+            final List<Column> pkAttributes = new ArrayList<>();
+            final List<Column> fkAttributes = new ArrayList<>();
             while (rs.next()) {
                 final String pkCatalogName = rs.getString(1);
                 final String pkSchemaName = rs.getString(2);
@@ -96,8 +91,9 @@ public class GenericDBModelReader {
                     lastfkName = fkName;
                 }
                 if (!fkName.equals(lastfkName)) {
-                    entity.createReference(fkName, pkAttributes.toArray(new Attribute[pkAttributes.size()]),
-                            fkAttributes.toArray(new Attribute[fkAttributes.size()]));
+                    Reference reference = ReferenceImpl.createReference(fkName, pkAttributes.toArray(new Column[pkAttributes.size()]),
+                            fkAttributes.toArray(new Column[fkAttributes.size()]));
+                    entity.addReference(reference);
                     lastfkName = fkName;
                     pkAttributes.clear();
                     fkAttributes.clear();
@@ -107,90 +103,95 @@ public class GenericDBModelReader {
 
             }
             if (!pkAttributes.isEmpty()) {
-                entity.createReference(fkName, pkAttributes.toArray(new Attribute[pkAttributes.size()]),
-                        fkAttributes.toArray(new Attribute[fkAttributes.size()]));
+                Reference reference = ReferenceImpl.createReference(fkName, pkAttributes.toArray(new Column[pkAttributes.size()]),
+                        fkAttributes.toArray(new Column[fkAttributes.size()]));
+                entity.addReference(reference);
             }
         }
     }
 
-    protected void readColumns(final Entity tableTreeNode, final DatabaseMetaData metaData) throws SQLException {
-        try (ResultSet rs = metaData.getColumns(tableTreeNode.getSchema().getCatalog().getCatalogName(),
-                tableTreeNode.getSchema().getSchemaName(), tableTreeNode.getTableName(), null)) {
+    protected void readColumns(final Table table, final DatabaseMetaData metaData) throws SQLException {
+        try (ResultSet rs = metaData.getColumns(table.getSchema().getCatalog().getCatalogName(),
+                table.getSchema().getSchemaName(), table.getTableName(), null)) {
             while (rs.next()) {
-                final Attribute columnTreeNode = tableTreeNode.createAttribute();
-                columnTreeNode.setColumnName(rs.getString(4));
-                columnTreeNode.setDataType(rs.getInt(5));
-                columnTreeNode.setTypeName(rs.getString(6));
-                columnTreeNode.setColumnSize(rs.getInt(7));
-                columnTreeNode.setDecimalDigits(rs.getInt(9));
-                columnTreeNode.setNumPrecRadix(rs.getInt(10));
-                columnTreeNode.setNullable(rs.getInt(11));
-                columnTreeNode.setRemarks(rs.getString(12));
-                columnTreeNode.setColumnDef(rs.getString(13));
-                columnTreeNode.setCharOctetLength(rs.getInt(16));
-                columnTreeNode.setOrdinalPosition(rs.getInt(17));
-                columnTreeNode.setIsNullable(rs.getString(18));
-                columnTreeNode.setScopeCatalog(rs.getString(19));
-                columnTreeNode.setScopeSchema(rs.getString(20));
-                columnTreeNode.setScopeTable(rs.getString(21));
-                columnTreeNode.setSourceDataType(rs.getString(22));
-                columnTreeNode.setIsAutoincrement(rs.getString(23));
-                columnTreeNode.setIsGeneratedColumn(rs.getString(24));
+                Column column = new ColumnImpl();
+                column.setColumnName(rs.getString(4));
+                column.setDataType(rs.getInt(5));
+                column.setTypeName(rs.getString(6));
+                column.setColumnSize(rs.getInt(7));
+                column.setDecimalDigits(rs.getInt(9));
+                column.setNumPrecRadix(rs.getInt(10));
+                column.setNullable(rs.getInt(11));
+                column.setRemarks(rs.getString(12));
+                column.setColumnDef(rs.getString(13));
+                column.setCharOctetLength(rs.getInt(16));
+                column.setOrdinalPosition(rs.getInt(17));
+                column.setIsNullable(rs.getString(18));
+                column.setScopeCatalog(rs.getString(19));
+                column.setScopeSchema(rs.getString(20));
+                column.setScopeTable(rs.getString(21));
+                column.setSourceDataType(rs.getString(22));
+                column.setIsAutoincrement(rs.getString(23));
+                column.setIsGeneratedColumn(rs.getString(24));
+                table.addColumn(column);
             }
         }
     }
 
-    protected void readPrimaryKeys(final Entity entity, final DatabaseMetaData metaData) throws SQLException {
+    protected void readPrimaryKeys(final Table entity, final DatabaseMetaData metaData) throws SQLException {
         try (ResultSet rs = metaData.getPrimaryKeys(entity.getSchema().getCatalog().getCatalogName(),
                 entity.getSchema().getSchemaName(), entity.getTableName())) {
             if (rs.next()) {
-                final Map<Short, Attribute> keyMap = new TreeMap<>();
+                final Map<Short, Column> keyMap = new TreeMap<>();
                 final PrimaryKey key = new PrimaryKeyImpl();
                 key.setPrimaryKeyName(rs.getString(6));
                 do {
-                    final Attribute attribute = entity.getAttributeByColumnName(rs.getString(4));
+                    final Column attribute = entity.getColumnByName(rs.getString(4));
                     attribute.setPrimaryKeyColumn(Boolean.TRUE);
                     keyMap.put(rs.getShort(5), attribute);
                 } while (rs.next());
-                final List<Attribute> keys = new ArrayList<>(keyMap.values());
+                final List<Column> keys = new ArrayList<>(keyMap.values());
                 key.setKeys(keys);
                 entity.setPrimaryKey(key);
             }
         }
     }
 
-    protected void readTables(final Schema schemaTreeNode, final DatabaseMetaData metaData) throws SQLException {
-        try (ResultSet rs = metaData.getTables(schemaTreeNode.getCatalog().getCatalogName(),
-                schemaTreeNode.getSchemaName(), null, null)) {
+    protected void readTables(final Schema schema, final DatabaseMetaData metaData) throws SQLException {
+        try (ResultSet rs = metaData.getTables(schema.getCatalog().getCatalogName(),
+                schema.getSchemaName(), null, null)) {
             while (rs.next()) {
                 final String tableName = rs.getString(3);
                 final String tableType = rs.getString(4);
-                final Entity tableTreeNode = schemaTreeNode.createEntity();
-                tableTreeNode.setTableName(tableName);
-                tableTreeNode.setTableType(tableType);
+                final Table table = new TableImpl();
+                table.setTableName(tableName);
+                table.setTableType(tableType);
+                schema.addTable(table);
             }
         }
     }
 
-    protected void readCatalogs(final DBRootTreeNode parent, final DatabaseMetaData metaData)
+    protected void readCatalogs(final Model model, final DatabaseMetaData metaData)
             throws SQLException {
         try (ResultSet rs = metaData.getCatalogs()) {
             while (rs.next()) {
                 final String catalogName = rs.getString(1);
-                final CatalogTreeNode catalog = new CatalogTreeNode(catalogName);
-                parent.add(catalog);
+                final Catalog catalog = new CatalogImpl();
+                catalog.setCatalogName(catalogName);
+                model.addCatalog(catalog);
             }
         }
     }
 
-    protected void readSchemas(final Catalog catalogTreeNode, final DatabaseMetaData metaData,
+    protected void readSchemas(final Catalog catalog, final DatabaseMetaData metaData,
             final String schemaPattern)
             throws SQLException {
-        try (ResultSet rs = metaData.getSchemas(catalogTreeNode.getCatalogName(), schemaPattern)) {
+        try (ResultSet rs = metaData.getSchemas(catalog.getCatalogName(), schemaPattern)) {
             while (rs.next()) {
                 final String schemaName = rs.getString(1);
-                final Schema schemaTreeNode = catalogTreeNode.createSchema();
-                schemaTreeNode.setSchemaName(schemaName);
+                final Schema schema = new SchemaImpl();
+                schema.setSchemaName(schemaName);
+                catalog.addSchema(schema);
             }
         }
     }
@@ -218,15 +219,15 @@ public class GenericDBModelReader {
         return table;
     }
 
-    public static Attribute getAttributeByNames(final Model model, final String catalogName, final String schemaName,
+    public static Column getAttributeByNames(final Model model, final String catalogName, final String schemaName,
             final String tableName, final String attributeName) {
         for (final Catalog catalog : model.getCatalogs()) {
             if (Objects.equals(catalog.getCatalogName(), catalogName)) {
                 for (final Schema schema : catalog.getSchemas()) {
                     if (Objects.equals(schema.getSchemaName(), schemaName)) {
-                        for (final Entity entity : schema.getEntities()) {
+                        for (final Table entity : schema.getTables()) {
                             if (Objects.equals(entity.getTableName(), tableName)) {
-                                for (final Attribute attribute : entity.getAttributes()) {
+                                for (final Column attribute : entity.getColumns()) {
                                     if (Objects.equals(attribute.getColumnName(), attributeName)) {
                                         return attribute;
                                     }
@@ -239,5 +240,4 @@ public class GenericDBModelReader {
         }
         return null;
     }
-
 }

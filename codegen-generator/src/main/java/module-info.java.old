@@ -1,4 +1,4 @@
-module de.chrlembeck.codegen.generator {
+/*module de.chrlembeck.codegen.generator {
 
     exports de.chrlembeck.codegen.generator;
     exports de.chrlembeck.codegen.generator.lang;
@@ -12,4 +12,4 @@ module de.chrlembeck.codegen.generator {
     requires java.compiler;
     requires chrlembeck.util;
     requires java.desktop;
-}
+}*/

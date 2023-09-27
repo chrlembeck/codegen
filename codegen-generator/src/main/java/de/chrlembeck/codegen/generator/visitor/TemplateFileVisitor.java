@@ -17,6 +17,8 @@ import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateFileContext;
 import de.chrlembeck.codegen.grammar.CodeGenParser.TemplateStatementContext;
 import de.chrlembeck.codegen.grammar.CodeGenParserBaseVisitor;
 
+import static de.chrlembeck.codegen.grammar.CodeGenLexer.AnyChar;
+
 /**
  * Visitor für die Verarbeitung des Context-Baumes des ANTLR-Parsers. Dieser Visitor enthält die Konvertierung von
  * Kontext-Objekten zu einem TemplateFile der CodeGen-Grammatik.
@@ -62,8 +64,8 @@ public class TemplateFileVisitor extends CodeGenParserBaseVisitor<TemplateFile> 
                 statements.add(child.accept(templateStatementVisitor));
             } else if (child instanceof ImportStatementContext) {
                 statements.add(child.accept(impVisitor));
-            } else if (child instanceof TerminalNode) {
-                if (idx != ctx.getChildCount() - 1) {
+            } else if (child instanceof TerminalNode tn) {
+                if (idx != ctx.getChildCount() - 1 && !isWhitespace(tn)) {
                     throw new IllegalArgumentException("TerminalNode in the middle of an ParseTree.");
                 }
             } else {
@@ -73,5 +75,9 @@ public class TemplateFileVisitor extends CodeGenParserBaseVisitor<TemplateFile> 
         }
         final TemplateFile templateFile = new TemplateFile(resourceIdentifier, ctx, statements);
         return templateFile;
+    }
+
+    private static boolean isWhitespace(TerminalNode terminal) {
+        return terminal.getSymbol().getType() == AnyChar && terminal.getText().isBlank();
     }
 }

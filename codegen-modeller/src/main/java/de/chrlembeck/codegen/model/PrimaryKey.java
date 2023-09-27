@@ -6,9 +6,9 @@ public interface PrimaryKey {
 
     public String getPrimaryKeyName();
 
-    public List<Attribute> keys();
+    public List<Column> keys();
 
     public void setPrimaryKeyName(String primaryKeyName);
 
-    public void setKeys(List<Attribute> keys);
+    public void setKeys(List<Column> keys);
 }

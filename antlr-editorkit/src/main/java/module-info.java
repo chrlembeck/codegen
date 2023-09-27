@@ -1,4 +1,4 @@
-module de.chrlembeck.antlr.editor {
+module antlr.editorkit {
 
     exports de.chrlembeck.antlr.editor;
     exports de.chrlembeck.antlr.editor.action;
@@ -7,4 +7,5 @@ module de.chrlembeck.antlr.editor {
     requires org.slf4j;
     requires org.antlr.antlr4.runtime;
     requires chrlembeck.util;
+
 }

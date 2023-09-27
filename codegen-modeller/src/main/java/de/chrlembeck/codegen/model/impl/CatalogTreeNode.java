@@ -1,5 +1,6 @@
 package de.chrlembeck.codegen.model.impl;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,26 +9,21 @@ import javax.swing.tree.MutableTreeNode;
 
 import de.chrlembeck.codegen.model.Catalog;
 import de.chrlembeck.codegen.model.InfoTreeNode;
-import de.chrlembeck.codegen.model.Schema;
 
-public class CatalogTreeNode extends DefaultMutableTreeNode implements InfoTreeNode, Catalog {
+public class CatalogTreeNode extends DefaultMutableTreeNode implements InfoTreeNode {
 
+    @Serial
     private static final long serialVersionUID = -7250955422184293044L;
 
-    private String catalogName;
+    private Catalog catalog;
 
-    CatalogTreeNode() {
-        this(null);
-    }
-
-    CatalogTreeNode(final String catalogName) {
+    CatalogTreeNode(Catalog catalog) {
         setAllowsChildren(true);
-        this.catalogName = catalogName;
+        this.catalog = catalog;
     }
 
-    @Override
-    public String getCatalogName() {
-        return catalogName;
+    public Catalog getCatalog() {
+        return catalog;
     }
 
     @Override
@@ -40,7 +36,7 @@ public class CatalogTreeNode extends DefaultMutableTreeNode implements InfoTreeN
 
     @Override
     public String toString() {
-        return catalogName;
+        return getCatalog().getCatalogName();
     }
 
     @Override
@@ -59,26 +55,5 @@ public class CatalogTreeNode extends DefaultMutableTreeNode implements InfoTreeN
             schemaTreeNodes.add((SchemaTreeNode) getChildAt(i));
         }
         return schemaTreeNodes;
-    }
-
-    @Override
-    public Iterable<Schema> getSchemas() {
-        final List<Schema> schemas = new ArrayList<>();
-        for (final Schema schema : schemaTreeNodes()) {
-            schemas.add(schema);
-        }
-        return schemas;
-    }
-
-    @Override
-    public void setCatalogName(final String newCatalogName) {
-        this.catalogName = newCatalogName;
-    }
-
-    @Override
-    public Schema createSchema() {
-        final SchemaTreeNode schema = new SchemaTreeNode();
-        add(schema);
-        return schema;
     }
 }

@@ -88,7 +88,7 @@ public class ModelFactoryHelper {
         if (Modifier.isStatic(creatorMethod.getModifiers())) {
             modell = creatorMethod.invoke(null);
         } else {
-            modell = creatorMethod.invoke(creatorClass.newInstance());
+            modell = creatorMethod.invoke(creatorClass.getDeclaredConstructor().newInstance());
         }
         return modell;
 

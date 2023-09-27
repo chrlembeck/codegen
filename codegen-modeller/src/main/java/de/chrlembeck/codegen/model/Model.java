@@ -4,5 +4,5 @@ public interface Model {
 
     Iterable<Catalog> getCatalogs();
 
-    Catalog createCatalog();
+    void addCatalog(Catalog catalog);
 }

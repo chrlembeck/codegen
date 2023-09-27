@@ -6,27 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.chrlembeck.codegen.model.Attribute;
-import de.chrlembeck.codegen.model.Catalog;
-import de.chrlembeck.codegen.model.Entity;
-import de.chrlembeck.codegen.model.Model;
-import de.chrlembeck.codegen.model.Reference;
-import de.chrlembeck.codegen.model.ReferenceMapping;
-import de.chrlembeck.codegen.model.Schema;
+import de.chrlembeck.codegen.model.*;
 import de.chrlembeck.codegen.model.impl.DDLHelper;
 
 public class DiagramCreator {
 
-    private Map<Entity, String> tableNameMap = new HashMap<>();
+    private Map<Table, String> tableNameMap = new HashMap<>();
 
-    private Map<Attribute, String> columnNameMap = new HashMap<>();
+    private Map<Column, String> columnNameMap = new HashMap<>();
 
     public void createGraphvizDiagram(final Model model, final Writer writer) throws IOException {
         writer.append("digraph structs {\n");
         writer.append("  splines=\"spline\";\n\n");
         for (final Catalog catalog : model.getCatalogs()) {
             for (final Schema schema : catalog.getSchemas()) {
-                for (final Entity entity : schema.getEntities()) {
+                for (final Table entity : schema.getTables()) {
                     appendEntity(entity, writer);
                 }
             }
@@ -34,7 +28,7 @@ public class DiagramCreator {
 
         for (final Catalog catalog : model.getCatalogs()) {
             for (final Schema schema : catalog.getSchemas()) {
-                for (final Entity entity : schema.getEntities()) {
+                for (final Table entity : schema.getTables()) {
                     for (final Reference reference : entity.getReferences()) {
                         appendReference(reference, writer);
                     }
@@ -67,7 +61,7 @@ public class DiagramCreator {
 
     }
 
-    private void appendEntity(final Entity entity, final Writer writer) throws IOException {
+    private void appendEntity(final Table entity, final Writer writer) throws IOException {
         writer.append("\n  " + getNameForEntity(entity) + " [\n");
         writer.append("        shape=plaintext,\n");
         writer.append("        fontname=Calibri,\n");
@@ -75,9 +69,9 @@ public class DiagramCreator {
         writer.append("        label=< <TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"0\">\n");
         writer.append("                  <TR><TD BGCOLOR=\"#C0C0C0\" COLSPAN=\"2\">" + entity.getTableName()
                 + "</TD></TR>\n");
-        final int attributeCount = entity.getAttributeCount();
+        final int attributeCount = entity.getColumnCount();
         int attributeIdx = 0;
-        for (final Attribute attribute : entity.getAttributes()) {
+        for (final Column attribute : entity.getColumns()) {
             writer.append("                  <TR>");
 
             writer.append("<TD PORT=\"" + getPortName(attribute) + "\" ");
@@ -123,7 +117,7 @@ public class DiagramCreator {
         return sides;
     }
 
-    private String getPortName(final Attribute attribute) {
+    private String getPortName(final Column attribute) {
         String name = columnNameMap.get(attribute);
         if (name == null) {
             name = "col" + columnNameMap.size();
@@ -132,7 +126,7 @@ public class DiagramCreator {
         return name;
     }
 
-    public String getNameForEntity(final Entity entity) {
+    public String getNameForEntity(final Table entity) {
         String name = tableNameMap.get(entity);
         if (name == null) {
             name = "tab" + tableNameMap.size();

@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serial;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -30,6 +31,7 @@ public class LoadModelAction extends AbstractAction {
      * 
      * @see java.io.Serializable
      */
+    @Serial
     private static final long serialVersionUID = -7342896869343539882L;
 
     /**
@@ -40,7 +42,7 @@ public class LoadModelAction extends AbstractAction {
     /**
      * Referenz auf die Gui, die die Action verwenden möchte.
      */
-    private CodeGenGui codeGenGui;
+    private final CodeGenGui codeGenGui;
 
     /**
      * Erstellt eine neue Action mit den übergebenen Daten.
@@ -85,13 +87,13 @@ public class LoadModelAction extends AbstractAction {
             final Object newModel = ModelFactoryHelper.byDeserialization(fileIn, codeGenGui.getModelClassLoader());
             codeGenGui.setModel(file.getName(), newModel);
         } catch (final IOException ioe) {
-            LOGGER.info("IOException beim Laden eines Models via readObject(). " + file.getAbsolutePath(), ioe);
+            LOGGER.info("IOException beim Laden eines Modells via readObject(). " + file.getAbsolutePath(), ioe);
             JOptionPane.showMessageDialog(codeGenGui, "IO-Fehler beim Laden des Models.", "Fehler",
                     JOptionPane.ERROR_MESSAGE);
         } catch (final ClassNotFoundException cnfe) {
-            LOGGER.info("Modelklasse konnte beim Laden via readObject() nicht gefunden werden. "
+            LOGGER.info("Modellklasse konnte beim Laden via readObject() nicht gefunden werden. "
                     + file.getAbsolutePath(), cnfe);
-            JOptionPane.showMessageDialog(codeGenGui, "Fehler beim Deserialisieren des Models.", "Fehler",
+            JOptionPane.showMessageDialog(codeGenGui, "Fehler beim Deserialisieren des Modells.", "Fehler",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

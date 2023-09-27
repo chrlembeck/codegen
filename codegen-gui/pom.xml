@@ -115,11 +115,13 @@
     <dependencies>
         <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
-            <artifactId>antlr-editorkit</artifactId>
+            <artifactId>codegen-generator</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>de.chrlembeck.codegen</groupId>
-            <artifactId>codegen-generator</artifactId>
+            <artifactId>antlr-editorkit</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.swinglabs</groupId>

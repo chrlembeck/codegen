@@ -2,14 +2,14 @@ package de.chrlembeck.codegen.model.impl;
 
 import java.util.List;
 
-import de.chrlembeck.codegen.model.Attribute;
+import de.chrlembeck.codegen.model.Column;
 import de.chrlembeck.codegen.model.PrimaryKey;
 
 public class PrimaryKeyImpl implements PrimaryKey {
 
     private String primaryKeyName;
 
-    private List<Attribute> keys;
+    private List<Column> keys;
 
     PrimaryKeyImpl() {
     }
@@ -20,7 +20,7 @@ public class PrimaryKeyImpl implements PrimaryKey {
     }
 
     @Override
-    public List<Attribute> keys() {
+    public List<Column> keys() {
         return keys;
     }
 
@@ -30,7 +30,7 @@ public class PrimaryKeyImpl implements PrimaryKey {
     }
 
     @Override
-    public void setKeys(final List<Attribute> keys) {
+    public void setKeys(final List<Column> keys) {
         this.keys = keys;
     }
 

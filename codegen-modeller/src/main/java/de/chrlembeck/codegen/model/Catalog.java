@@ -6,7 +6,7 @@ public interface Catalog {
 
     void setCatalogName(String newCatalogName);
 
-    Schema createSchema();
-
     String getCatalogName();
+
+    void addSchema(Schema schema);
 }

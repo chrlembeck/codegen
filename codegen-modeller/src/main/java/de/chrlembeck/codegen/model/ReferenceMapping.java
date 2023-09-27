@@ -2,7 +2,7 @@ package de.chrlembeck.codegen.model;
 
 public interface ReferenceMapping {
 
-    Attribute getPrimaryKeyColumn();
+    Column getPrimaryKeyColumn();
 
-    Attribute getForeignKeyColumn();
+    Column getForeignKeyColumn();
 }

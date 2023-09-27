@@ -1,8 +1,8 @@
 package de.chrlembeck.codegen.model;
 
-public interface Attribute {
+public interface Column {
 
-    Entity getEntity();
+    Table getTable();
 
     String getColumnName();
 
@@ -72,9 +72,9 @@ public interface Attribute {
 
     int getNumPrecRadix();
 
-    public int getCharOctetLength();
+    int getCharOctetLength();
 
-    public int getNullable();
+    int getNullable();
 
-    public String getIsNullable();
+    String getIsNullable();
 }

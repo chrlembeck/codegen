@@ -1,5 +1,6 @@
 package de.chrlembeck.codegen.model.impl;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,35 +8,24 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 
 import de.chrlembeck.codegen.model.Catalog;
-import de.chrlembeck.codegen.model.Entity;
+import de.chrlembeck.codegen.model.Table;
 import de.chrlembeck.codegen.model.InfoTreeNode;
 import de.chrlembeck.codegen.model.Schema;
 
-public class SchemaTreeNode extends DefaultMutableTreeNode implements InfoTreeNode, Schema {
+public class SchemaTreeNode extends DefaultMutableTreeNode implements InfoTreeNode {
 
+    @Serial
     private static final long serialVersionUID = 2711660189768047534L;
 
-    private String schemaName;
+    private final Schema schema;
 
-    private String packageName;
-
-    public SchemaTreeNode() {
-        this(null);
-    }
-
-    SchemaTreeNode(final String schemaName) {
+    SchemaTreeNode(Schema schema) {
         setAllowsChildren(true);
-        this.schemaName = schemaName;
+        this.schema = schema;
     }
 
-    @Override
-    public String getPackageName() {
-        return packageName;
-    }
-
-    @Override
-    public void setPackageName(final String packageName) {
-        this.packageName = packageName;
+    public Schema getSchema() {
+        return schema;
     }
 
     @Override
@@ -57,12 +47,7 @@ public class SchemaTreeNode extends DefaultMutableTreeNode implements InfoTreeNo
 
     @Override
     public String toString() {
-        return schemaName;
-    }
-
-    @Override
-    public String getSchemaName() {
-        return schemaName;
+        return schema.getSchemaName();
     }
 
     @Override
@@ -76,31 +61,5 @@ public class SchemaTreeNode extends DefaultMutableTreeNode implements InfoTreeNo
             tableTreeNodes.add((TableTreeNode) getChildAt(i));
         }
         return tableTreeNodes;
-    }
-
-    @Override
-    public Iterable<Entity> getEntities() {
-        final List<Entity> entities = new ArrayList<>();
-        for (final Entity entity : tableTreeNodes()) {
-            entities.add(entity);
-        }
-        return entities;
-    }
-
-    @Override
-    public void setSchemaName(final String newSchemaName) {
-        this.schemaName = newSchemaName;
-    }
-
-    @Override
-    public Entity createEntity() {
-        final TableTreeNode entity = new TableTreeNode();
-        add(entity);
-        return entity;
-    }
-
-    @Override
-    public Catalog getCatalog() {
-        return getParent();
     }
 }

@@ -1,18 +1,18 @@
 package de.chrlembeck.codegen.model;
 
-public interface Entity {
+public interface Table {
 
     Schema getSchema();
 
     String getTableName();
 
+    String getTableType();
+
     String getJavaName();
 
     void setJavaName(String newJavaName);
 
-    Attribute createAttribute();
-
-    Iterable<Attribute> getAttributes();
+    Iterable<Column> getColumns();
 
     void setTableName(String tableName);
 
@@ -24,9 +24,11 @@ public interface Entity {
 
     Iterable<Reference> getReferences();
 
-    Attribute getAttributeByColumnName(String string);
+    Column getColumnByName(String string);
 
-    int getAttributeCount();
+    int getColumnCount();
 
-    Reference createReference(String foreignKeyName, Attribute[] attributes, Attribute[] foreignKeyAttributes);
+    void addReference(Reference reference);
+
+    void addColumn(Column column);
 }

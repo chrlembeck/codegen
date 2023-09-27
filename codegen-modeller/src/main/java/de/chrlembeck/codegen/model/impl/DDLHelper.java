@@ -2,11 +2,11 @@ package de.chrlembeck.codegen.model.impl;
 
 import java.sql.Types;
 
-import de.chrlembeck.codegen.model.Attribute;
+import de.chrlembeck.codegen.model.Column;
 
 public class DDLHelper {
 
-    public static String getTypeDef(final Attribute attribute) {
+    public static String getTypeDef(final Column attribute) {
         String type = attribute.getTypeName();
         final int dataType = attribute.getDataType();
         switch (dataType) {

@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface Reference {
 
-    Entity getPrimaryKeyTable();
+    Table getPrimaryKeyTable();
 
-    Entity getForeignKeyTable();
+    Table getForeignKeyTable();
 
     List<ReferenceMapping> getReferenceMappings();
 

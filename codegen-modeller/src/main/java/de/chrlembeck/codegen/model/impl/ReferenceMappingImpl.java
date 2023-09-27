@@ -2,27 +2,27 @@ package de.chrlembeck.codegen.model.impl;
 
 import java.util.Objects;
 
-import de.chrlembeck.codegen.model.Attribute;
+import de.chrlembeck.codegen.model.Column;
 import de.chrlembeck.codegen.model.ReferenceMapping;
 
 public class ReferenceMappingImpl implements ReferenceMapping {
 
-    private Attribute foreignKeyColumn;
+    private Column foreignKeyColumn;
 
-    private Attribute primaryKeyColumn;
+    private Column primaryKeyColumn;
 
-    ReferenceMappingImpl(final Attribute primaryKeyColumn, final Attribute foreignKeyColumn) {
+    ReferenceMappingImpl(final Column primaryKeyColumn, final Column foreignKeyColumn) {
         this.primaryKeyColumn = Objects.requireNonNull(primaryKeyColumn);
         this.foreignKeyColumn = Objects.requireNonNull(foreignKeyColumn);
     }
 
     @Override
-    public Attribute getPrimaryKeyColumn() {
+    public Column getPrimaryKeyColumn() {
         return primaryKeyColumn;
     }
 
     @Override
-    public Attribute getForeignKeyColumn() {
+    public Column getForeignKeyColumn() {
         return foreignKeyColumn;
     }
 }

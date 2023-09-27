@@ -25,7 +25,7 @@
         <maven-javadoc-plugin-version>3.6.0</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.3.0</maven-source-plugin-version>
         <maven-project-info-reports-plugin-version>3.4.5</maven-project-info-reports-plugin-version>
-        <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
+        <maven-jxr-plugin-version>3.3.0</maven-jxr-plugin-version>
         <maven-project-version>2.2.1</maven-project-version>
         <antlr.version>4.13.1</antlr.version>
         <antlr-maven-plugin-version>4.13.1</antlr-maven-plugin-version>
@@ -93,6 +93,10 @@
                     <printSummary>true</printSummary>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -144,7 +148,7 @@
                 <version>${maven-pmd-plugin-version}</version>
                 <configuration>
                     <linkXRef>true</linkXRef>
-                    <sourceEncoding>utf-8</sourceEncoding>
+                    <inputEncoding>utf-8</inputEncoding>
                     <minimumTokens>100</minimumTokens>
                     <targetJdk>1.8</targetJdk>
                     <excludes>

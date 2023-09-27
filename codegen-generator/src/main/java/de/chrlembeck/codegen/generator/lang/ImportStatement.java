@@ -34,7 +34,7 @@ public class ImportStatement extends AbstractTemplateMember<ImportStatementConte
      *            Innerhalb der Execute-Statements verwendbarer Bezeichner des Imports, der auf die zu referenzierende
      *            Template-Datei verweist.
      * @param uri
-     *            Ressource identifier, der den Alageort der referenzierten Template-Datei beschreibt.
+     *            Ressource identifier, der den Ablageort der referenzierten Template-Datei beschreibt.
      */
     public ImportStatement(final ImportStatementContext ctx, final String prefix, final String uri) {
         super(ctx);

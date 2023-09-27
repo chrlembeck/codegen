@@ -20,6 +20,7 @@ import javax.swing.tree.DefaultTreeModel;
 import de.chrlembeck.codegen.model.InfoTreeNode;
 import de.chrlembeck.codegen.model.impl.DBRootTreeNode;
 import de.chrlembeck.codegen.model.impl.GenericDBModelReader;
+import de.chrlembeck.codegen.model.impl.ModelImpl;
 
 public class DBGui extends JFrame {
 
@@ -34,8 +35,9 @@ public class DBGui extends JFrame {
     public DBGui() {
         super("DBGui");
         setLayout(new BorderLayout());
-        try {
-            final DBRootTreeNode model = (DBRootTreeNode) new GenericDBModelReader(getDataSource()).readModel(null);
+//        try {
+            final DBRootTreeNode model = new DBRootTreeNode(new ModelImpl());
+                    //(DBRootTreeNode) new GenericDBModelReader(getDataSource()).readModel(null);
             final JTree tree = new JTree(new DefaultTreeModel(model));
             final JScrollPane spTree = new JScrollPane(tree);
             taInfo = new JTextArea(2, 80);
@@ -50,9 +52,9 @@ public class DBGui extends JFrame {
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             pack();
             setVisible(true);
-        } catch (final SQLException sqle) {
-            sqle.printStackTrace();
-        }
+//        } catch (final SQLException sqle) {
+//            sqle.printStackTrace();
+//        }
     }
 
     public void treeSelectionChanged(final TreeSelectionEvent event) {
