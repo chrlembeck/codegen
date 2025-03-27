@@ -18,8 +18,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeModel;
 import de.chrlembeck.codegen.model.InfoTreeNode;
-import de.chrlembeck.codegen.model.impl.DBRootTreeNode;
-import de.chrlembeck.codegen.model.impl.GenericDBModelReader;
+import de.chrlembeck.codegen.model.tree.DBRootTreeNode;
 import de.chrlembeck.codegen.model.impl.ModelImpl;
 
 public class DBGui extends JFrame {

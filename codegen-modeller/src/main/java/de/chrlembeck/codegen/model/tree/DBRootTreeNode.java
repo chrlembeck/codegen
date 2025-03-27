@@ -1,4 +1,4 @@
-package de.chrlembeck.codegen.model.impl;
+package de.chrlembeck.codegen.model.tree;
 
 import java.io.Serial;
 import java.util.ArrayList;

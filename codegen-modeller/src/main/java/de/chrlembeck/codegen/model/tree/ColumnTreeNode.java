@@ -1,9 +1,8 @@
-package de.chrlembeck.codegen.model.impl;
+package de.chrlembeck.codegen.model.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.chrlembeck.codegen.model.Column;
-import de.chrlembeck.codegen.model.Table;
 import de.chrlembeck.codegen.model.InfoTreeNode;
 import java.io.Serial;
 

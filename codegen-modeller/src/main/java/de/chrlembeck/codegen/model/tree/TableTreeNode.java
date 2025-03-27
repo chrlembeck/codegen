@@ -1,19 +1,14 @@
-package de.chrlembeck.codegen.model.impl;
+package de.chrlembeck.codegen.model.tree;
 
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 
-import de.chrlembeck.codegen.model.Column;
 import de.chrlembeck.codegen.model.Table;
 import de.chrlembeck.codegen.model.InfoTreeNode;
-import de.chrlembeck.codegen.model.PrimaryKey;
-import de.chrlembeck.codegen.model.Reference;
-import de.chrlembeck.codegen.model.Schema;
 
 public class TableTreeNode extends DefaultMutableTreeNode implements InfoTreeNode {
 
