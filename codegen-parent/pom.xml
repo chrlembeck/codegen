@@ -33,7 +33,7 @@
         <log4j.version>2.20.0</log4j.version>
         <clover-maven-plugin-version>4.3.1</clover-maven-plugin-version>
         <junit-version>5.4.0</junit-version>
-        <derby.version>10.16.1.1</derby.version>
+        <derby.version>10.17.1.0</derby.version>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <pmd.rules.def>../build-properties/pmd-rules.xml</pmd.rules.def>
     </properties>
